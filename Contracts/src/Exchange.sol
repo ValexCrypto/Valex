@@ -8,7 +8,7 @@ import '../libs/SafeMathLib.sol';
 
 contract Exchange {
   using SafeMathLib for uint;
-
+  // TODO: figure out how gas refunds should work
   // fee parameters and such
   struct Parameters{
     //wei per eth
@@ -23,7 +23,6 @@ contract Exchange {
     // Size at which we should clean an order book
     uint cleanSize;
     // Proportion of fees that miners get
-    // We round up so that micro-orders don't get backlogged (add 1 on closure)
     uint[2] minerShare;
   }
 
@@ -176,6 +175,15 @@ contract Exchange {
   {
   }
 
+  // Move balance from open to closed
+  // Eliminate minerPayment from either balance
+  function clearBalance(uint volCleared, uint minerPayment)
+    private
+  {
+    this.balances.openBalance = this.balances.openBalance - volCleared;
+    this.balances.closedBalance = this.balances.closedBalance + (volCleared - minerPayment);
+  }
+
   function match(uint chapter, uint index1, uint index2)
     public
     payable
@@ -193,14 +201,11 @@ contract Exchange {
       volCleared = this.orderBook[chapter][index2].volume
     }
     // calculate the miner's payment
-    // rounds up, because of the + 1
-    // (otherwise micro-orders would get backlogged)
-    uint minerPayment = (((this.params.minerShare[0] * closureFeePerUnit * volCleared) /
-                          this.params.minerShare[1])
-                          + (this.params.gasFee * tx.gasprice) + 1);
-    //TODO: DEBUGGING: Update balances
+    uint minerPayment = ((this.params.minerShare[0] * closureFeePerUnit * volCleared) /
+                          this.params.minerShare[1]);
     msg.sender.transfer(minerPayment);
     uint[2] volumes = getVolumes(chapter, index1, index2, volCleared);
+    clearBalance(volCleared, minerPayment);
     messageTraders(chapter, index1, index2, volumes);
     clearTrade(chapter, index1, index2);
     return true;
