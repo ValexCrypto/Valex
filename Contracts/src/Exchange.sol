@@ -12,7 +12,7 @@ contract Exchange {
   // fee parameters and such
   struct Parameters{
     //wei per eth
-    uint depositPerUnit;
+    // closure fee paid up front, refunded - withdrawal fee if cancelled
     uint closureFeePerUnit;
     uint withdrawalFeePerUnit;
     // fixed gas fee (Everything should run in O(1) time)
@@ -29,7 +29,7 @@ contract Exchange {
 
   // stores active balances
   struct Balances{
-    // separate out the open balance (includes deposit, gas fees),
+    // separate out the open balance (includes unclosed fees, gas fees),
     // which will be distributed between miners, the exchange, and traders,
     // from closed balance, which belongs to the exchange
     uint openBalance;
@@ -197,7 +197,7 @@ contract Exchange {
     // (otherwise micro-orders would get backlogged)
     uint minerPayment = (((this.params.minerShare[0] * closureFeePerUnit * volCleared) /
                           this.params.minerShare[1])
-                          + this.params.gasFee * tx.gasprice + 1)
+                          + (this.params.gasFee * tx.gasprice) + 1);
     //TODO: DEBUGGING: Update balances
     msg.sender.transfer(minerPayment);
     uint[2] volumes = getVolumes(chapter, index1, index2, volCleared);
