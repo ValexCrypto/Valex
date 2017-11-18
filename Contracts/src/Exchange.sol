@@ -3,6 +3,9 @@ pragma solidity ^0.4.17;
 import './Swap.sol';
 import '../libs/SafeMathLib.sol';
 
+/// @title Exchange
+/// @Author khelmy
+
 contract Exchange {
   using SafeMathLib for uint;
 
@@ -38,6 +41,7 @@ contract Exchange {
     // false for buy ETH, true for sell ETH
     bool buyETH;
     uint volume;
+    // TODO: DEBUGGGING: represent as rational
     uint unitLimit;
   }
 
@@ -45,6 +49,13 @@ contract Exchange {
   struct AddressInfo{
     address ethAddress;
     string otherAddress;
+  }
+
+  event TradeInfo{
+    address ethAddress;
+    string otherAddress;
+    // ether / other
+    uint[2] volumes;
   }
 
   Parameters params;
@@ -106,11 +117,13 @@ contract Exchange {
 
     // Non-contradictory limits
     // TODO: DEBUGGING: verify that this is the correct equation
-    if (buyOrder.unitLimit *
+    // TODO: DEBUGGGING: adjust for unitlimit to be rational
+    if (buyOrder.unitLimit >
         sellOrder.unitLimit <= 1){
       return false;
     }
     // Volumes comparable
+    // TODO: DEBUGGING: doesn't work because they're in different units
     if (buyOrder.volume > sellOrder.volume){
       if (buyOrder.volume * margin[0] > sellOrder.volume * margin[1]){
         return false;
@@ -125,6 +138,7 @@ contract Exchange {
   }
 
   // Clears closed trade, reenters into order book if incomplete
+  // TODO: DEBUGGING: volumes are in different currencies, so this needs fixing
   function clearTrade(uint chapter, uint index1, uint index2)
     private
   {
@@ -150,13 +164,21 @@ contract Exchange {
   }
 
   // Placeholder: messages traders transaction details
-  // Calculates exchange rate for trade using limits (meet in middle)
-  function messageTraders(uint chapter, uint index1, uint index2)
+  function messageTraders(uint chapter, uint index1, uint index2, uint[2] volumes)
     private
-  {}
+  {
+  }
 
-  function makeMatch(uint chapter, uint index1, uint index2)
+  // Calculates "exchange rate" for trade using limits (meet in middle)
+  function getVolumes(uint chapter, uint index1, uint index2, uint volume)
+    private
+    returns(uint[2] volumes)
+  {
+  }
+
+  function match(uint chapter, uint index1, uint index2)
     public
+    payable
     returns(bool isValid)
   {
     require(msg.value >= this.params.gasFee * tx.gasprice);
@@ -172,11 +194,15 @@ contract Exchange {
     }
     // calculate the miner's payment
     // rounds up, because of the + 1
-    uint minerPayment = (((this.params.minerShare[0] * volCleared) / this.params.minerShare[1])
+    // (otherwise micro-orders would get backlogged)
+    uint minerPayment = (((this.params.minerShare[0] * closureFeePerUnit * volCleared) /
+                          this.params.minerShare[1])
                           + this.params.gasFee * tx.gasprice + 1)
+    //TODO: DEBUGGING: Update balances
     msg.sender.transfer(minerPayment);
+    uint[2] volumes = getVolumes(chapter, index1, index2, volCleared);
+    messageTraders(chapter, index1, index2, volumes);
     clearTrade(chapter, index1, index2);
-    messageTraders(chapter, index1, index2);
     return true;
   }
 
