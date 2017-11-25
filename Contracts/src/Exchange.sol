@@ -40,8 +40,8 @@ contract Exchange {
     // false for buy ETH, true for sell ETH
     bool buyETH;
     uint volume;
-    // TODO: DEBUGGGING: represent as rational
-    uint unitLimit;
+    // buy : sell ratio
+    uint[2] limit;
   }
 
   // stores address info on people placing orders (private information)
@@ -115,21 +115,27 @@ contract Exchange {
     Order sellOrder = this.orderbook[chapter][sellIndex];
 
     // Non-contradictory limits
-    // TODO: DEBUGGING: verify that this is the correct equation
-    // TODO: DEBUGGGING: adjust for unitlimit to be rational
-    if (buyOrder.unitLimit >
-        sellOrder.unitLimit <= 1){
+    // (non-negative trade surplus)
+    // TODO: DEBUGGING: verify that these are the correct equations
+    if (buyOrder.limit[0] * sellOrder.limit[1] <
+        buyOrder.limit[1] * sellOrder.limit[0]){
       return false;
     }
+
+    // Meet in middle rate
+    uint[2] mimRate;
+    mimRate[1] = buyOrder.limit[0] * sellOrder.limit[1] * 2;
+    mimRate[0] = (buyOrder.limit[1] * sellOrder.limit[0]) + (buyOrder.limit[0] * sellOrder.limit[1]);
+
     // Volumes comparable
-    // TODO: DEBUGGING: doesn't work because they're in different units
-    if (buyOrder.volume > sellOrder.volume){
-      if (buyOrder.volume * margin[0] > sellOrder.volume * margin[1]){
+    // TODO: DEBUGGING: verify that these are the correct equations
+    if (buyOrder.volume * mimRate[0] > sellOrder.volume * mimRate[1]){
+      if (buyOrder.volume * margin[0] * mimRate[0] > sellOrder.volume * margin[1] * mimRate[1]){
         return false;
       }
     }
-    if (sellOrder.volume > buyOrder.volume){
-      if (sellOrder.volume * margin[0] > buyOrder.volume * margin[1]){
+    if (sellOrder.volume * mimRate[1] > buyOrder.volume * mimRate[0] ){
+      if (sellOrder.volume * margin[0] * mimRate[0] > buyOrder.volume * margin[1] * mimRate[1] ){
         return false;
       }
     }
@@ -138,52 +144,48 @@ contract Exchange {
 
   // Clears closed trade, reenters into order book if incomplete
   // TODO: DEBUGGING: volumes are in different currencies, so this needs fixing
-  function clearTrade(uint chapter, uint index1, uint index2)
+  function clearTrade(uint chapter, uint index1, uint index2, uint[3] volumes)
     private
   {
-    if (this.orderBook[chapter][index1].volume < this.orderBook[chapter][index2].volume){
+    if (this.orderBook[chapter][index1].volume == volumes[0]){
       delete this.orderBook[chapter][index1].volume;
-      this.orderBook[chapter][index2].volume = (this.orderBook[chapter][index2].volume -
-                                                this.orderBook[chapter][index1].volume)
-      delete this.addressBook[chapter][index1].volume;
-    }
-    else if (this.orderBook[chapter][index1].volume > this.orderBook[chapter][index2].volume){
-      delete this.orderBook[chapter][index2].volume;
-      this.orderBook[chapter][index1].volume = (this.orderBook[chapter][index1].volume -
-                                                this.orderBook[chapter][index2].volume)
-      delete this.addressBook[chapter][index2].volume;
     }
     else{
-      delete this.orderBook[chapter][index1].volume;
+      this.orderBook[chapter][index1].volume = (this.orderBook[chapter][index1].volume -
+                                                volumes[0]);
+    }
+    if (this.orderBook[chapter][index2].volume == volumes[1]){
       delete this.orderBook[chapter][index2].volume;
-      delete this.addressBook[chapter][index1].volume;
-      delete this.addressBook[chapter][index2].volume;
+    }
+    else{
+      this.orderBook[chapter][index2].volume = (this.orderBook[chapter][index2].volume -
+                                                volumes[1]);
     }
     return;
   }
 
   // Placeholder: messages traders transaction details
-  function messageTraders(uint chapter, uint index1, uint index2, uint[2] volumes)
+  function messageTraders(uint chapter, uint index1, uint index2, uint[3] volumes)
     private
   {
   }
 
   // Calculates "exchange rate" for trade using limits (meet in middle)
+  // third element is which is the ETH volume
   function getVolumes(uint chapter, uint index1, uint index2, uint volume)
     private
-    returns(uint[2] volumes)
+    returns(uint[3] volumes)
   {
   }
 
   // Move balance from open to closed
   // Eliminate minerPayment from either balance
-  function clearBalance(uint volCleared, uint minerPayment)
+  function clearBalance(uint minerPayment)
     private
   {
-    this.balances.openBalance = this.balances.openBalance - volCleared;
-    this.balances.closedBalance = this.balances.closedBalance + (volCleared - minerPayment);
   }
 
+  // Miners suggest matches with this function
   function match(uint chapter, uint index1, uint index2)
     public
     payable
@@ -193,21 +195,14 @@ contract Exchange {
     if (! isValidMatch(chapter, index1, index2)){
       return false;
     }
-    uint volCleared;
-    if (this.orderBook[chapter][index1].volume < this.orderBook[chapter][index2].volume){
-      volCleared = this.orderBook[chapter][index1].volume
-    }
-    else{
-      volCleared = this.orderBook[chapter][index2].volume
-    }
+    uint[3] volumes = getVolumes(chapter, index1, index2);
     // calculate the miner's payment
-    uint minerPayment = ((this.params.minerShare[0] * closureFeePerUnit * volCleared) /
+    uint minerPayment = ((this.params.minerShare[0] * closureFeePerUnit * volumes[volumes[2]]) /
                           this.params.minerShare[1]);
     msg.sender.transfer(minerPayment);
-    uint[2] volumes = getVolumes(chapter, index1, index2, volCleared);
     clearBalance(volCleared, minerPayment);
     messageTraders(chapter, index1, index2, volumes);
-    clearTrade(chapter, index1, index2);
+    clearTrade(chapter, index1, index2, volumes);
     return true;
   }
 
