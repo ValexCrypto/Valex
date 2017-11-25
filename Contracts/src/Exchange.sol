@@ -53,8 +53,9 @@ contract Exchange {
   event TradeInfo{
     address ethAddress;
     string otherAddress;
-    // ether / other
-    uint[2] volumes;
+    // ether / other volumes
+    uint ethVol;
+    uint otherVol;
   }
 
   Parameters params;
@@ -100,6 +101,7 @@ contract Exchange {
       return false;
     }
     // which order is buying and selling ETH?
+    // buy-sell copy1
     uint buyIndex;
     uint sellIndex;
     if (this.orderBook[chapter][index1].buyETH){
@@ -143,7 +145,6 @@ contract Exchange {
   }
 
   // Clears closed trade, reenters into order book if incomplete
-  // TODO: DEBUGGING: volumes are in different currencies, so this needs fixing
   function clearTrade(uint chapter, uint index1, uint index2, uint[3] volumes)
     private
   {
@@ -164,10 +165,34 @@ contract Exchange {
     return;
   }
 
-  // Placeholder: messages traders transaction details
-  function messageTraders(uint chapter, uint index1, uint index2, uint[3] volumes)
+  // Adds trade to log, for traders to note
+  // http://solidity.readthedocs.io/en/latest/contracts.html?highlight=events#events
+  function alertTraders(uint chapter, uint index1, uint index2, uint[3] volumes)
     private
   {
+    address ethAddress;
+    string otherAddress;
+    uint ethVol;
+    uint otherVol;
+    if (volumes[3] == 0){
+      ethAddress = this.addressBook[chapter][index1].ethAddress;
+      otherAddress = this.addressBook[chapter][index2].ethAddress;
+      ethVol = 0;
+      otherVol = 1;
+    }
+    else{
+      ethAddress = this.addressBook[chapter][index2].ethAddress;
+      otherAddress = this.addressBook[chapter][index1].ethAddress;
+      ethVol = 1;
+      otherVol = 0;
+    }
+    TradeInfo(
+      ethAddress,
+      otherAddress,
+      ethVol,
+      otherVol
+      );
+    return;
   }
 
   // Calculates "exchange rate" for trade using limits (meet in middle)
@@ -176,6 +201,26 @@ contract Exchange {
     private
     returns(uint[3] volumes)
   {
+    // which order is buying and selling ETH?
+    // buy-sell copy1
+    // a little different from the other version
+    uint buyIndex;
+    uint sellIndex;
+    if (this.orderBook[chapter][index1].buyETH){
+      buyIndex = index1;
+      sellIndex = index2;
+      volumes[3] = 0;
+    }
+    else{
+      buyIndex = index2;
+      sellIndex = index1;
+      volumes[3] = 1;
+    }
+    // shorthand for buy and sell orders
+    Order buyOrder = this.orderBook[chapter][buyIndex];
+    Order sellOrder = this.orderbook[chapter][sellIndex];
+    // TODO: FINISH FUNCTION
+    return volumes;
   }
 
   // Move balance from open to closed
@@ -188,6 +233,7 @@ contract Exchange {
     this.balances.closedBalance = (this.balances.closedBalance -
                                   minerPayment +
                                   (closureFeePerUnit * volumes[volumes[2]]));
+    return;
   }
 
   // Miners suggest matches with this function
@@ -206,7 +252,7 @@ contract Exchange {
                           this.params.minerShare[1]);
     msg.sender.transfer(minerPayment);
     clearBalance(minerPayment, volumes);
-    messageTraders(chapter, index1, index2, volumes);
+    alertTraders(chapter, index1, index2, volumes);
     clearTrade(chapter, index1, index2, volumes);
     return true;
   }
