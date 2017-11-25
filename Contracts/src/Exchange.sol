@@ -171,8 +171,8 @@ contract Exchange {
   }
 
   // Calculates "exchange rate" for trade using limits (meet in middle)
-  // third element is which is the ETH volume
-  function getVolumes(uint chapter, uint index1, uint index2, uint volume)
+  // third element is which of first 2 is the ETH volume
+  function getVolumes(uint chapter, uint index1, uint index2)
     private
     returns(uint[3] volumes)
   {
@@ -180,9 +180,14 @@ contract Exchange {
 
   // Move balance from open to closed
   // Eliminate minerPayment from either balance
-  function clearBalance(uint minerPayment)
+  function clearBalance(uint minerPayment, uint[3] volumes)
     private
   {
+    this.balances.openBalance = (this.balances.openBalance -
+                                  (closureFeePerUnit * volumes[volumes[2]]));
+    this.balances.closedBalance = (this.balances.closedBalance -
+                                  minerPayment +
+                                  (closureFeePerUnit * volumes[volumes[2]]));
   }
 
   // Miners suggest matches with this function
@@ -200,7 +205,7 @@ contract Exchange {
     uint minerPayment = ((this.params.minerShare[0] * closureFeePerUnit * volumes[volumes[2]]) /
                           this.params.minerShare[1]);
     msg.sender.transfer(minerPayment);
-    clearBalance(volCleared, minerPayment);
+    clearBalance(minerPayment, volumes);
     messageTraders(chapter, index1, index2, volumes);
     clearTrade(chapter, index1, index2, volumes);
     return true;
