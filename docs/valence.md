@@ -1,13 +1,10 @@
 ---
 author:
-- |
-    Karim Helmy\
-    Draft
+Karim Helmy
 title: 'Valence: A Protocol for Trustless Decentralized Cryptocurrency Exchange'
 ---
 
-\maketitle
-Abstract {#abstract .unnumbered .unnumbered}
+Abstract
 ========
 
 Current systems for exchanging cryptocurrencies depend on a trusted
@@ -23,15 +20,10 @@ cryptocurrencies. The Valence protocol delineates a system that gives
 the advantages of a centralized exchange, namely providing liquidity and
 convenience, while eliminating counterparty risk.
 
-\tableofcontents
-\newpage
-\addcontentsline{toc}{section}{Introduction}
-Introduction {#introduction .unnumbered .unnumbered}
+Introduction
 ============
 
-\addcontentsline{toc}{subsection}{Centralized and
-                                        Decentralized Exchanges}
-Centralized and Decentralized Exchanges {#centralized-and-decentralized-exchanges .unnumbered .unnumbered}
+Centralized and Decentralized Exchanges
 ---------------------------------------
 
 The function of an exchange is to act as an intermediary for parties
@@ -66,13 +58,11 @@ cross-blockchain decentralized exchange. This paper outlines a stable
 and trustless decentralized cryptocurrency exchange leveraging atomic
 swaps as the primary transaction mechanism.
 
-\addcontentsline{toc}{subsection}{Atomic Swaps}
-Atomic Swaps {#atomic-swaps .unnumbered .unnumbered}
+
+Atomic Swaps
 ------------
 
-\addcontentsline{toc}{subsubsection}{Atomic Swaps: Concept
-        and Current Status}
-### Atomic Swaps: Concept and Current Status {#atomic-swaps-concept-and-current-status .unnumbered .unnumbered}
+### Atomic Swaps: Concept and Current Status
 
 The purpose of an atomic swap is to allow safe transactions between two
 parties who know of but do not necessarily trust one another. The first
@@ -83,8 +73,7 @@ There is already considerable financial infrastructure utilizing atomic
 swaps on the Ethereum blockchain.[^5] However, a cryptocurrency exchange
 that leverages this technology does not yet exist.
 
-\addcontentsline{toc}{subsubsection}{Atomic Swaps: How They Work}
-### Atomic Swaps: How They Work {#atomic-swaps-how-they-work .unnumbered .unnumbered}
+### Atomic Swaps: How They Work
 
 An atomic swap is a smart contract structured such that each party's
 ability to access the asset offered by their counterparty is dependent
@@ -100,8 +89,7 @@ specified window of time, his Ether is returned to him. In effect, the
 contract serves as an escrow who cannot defect from the agreed-upon
 terms.
 
-\addcontentsline{toc}{subsection}{Valence: General Architecture}
-Valence: General Architecture {#valence-general-architecture .unnumbered .unnumbered}
+Valence: General Architecture
 -----------------------------
 
 The Valence protocol uses atomic swaps to allow the trustless exchange
@@ -113,8 +101,7 @@ parties then trustlessly exchange their respective currencies with a
 smart contract provided by the exchange. A visualization of Valence's
 process is shown below.
 
-\addcontentsline{toc}{section}{Order Matching}
-Order Matching {#order-matching .unnumbered .unnumbered}
+Order Matching
 ==============
 
 Orders contain specifications on the currencies to be exchanged, volume,
@@ -143,8 +130,7 @@ This is because the matching problem used in the Valence protocol
 reduces to a subset-sum problem, which, like the factorization problem,
 is NP-complete.
 
-\addcontentsline{toc}{section}{Token}
-Token {#token .unnumbered .unnumbered}
+Token
 =====
 
 A key component of an implementation of the Valence protocol is an
@@ -166,13 +152,10 @@ which come from the exchange's profits from collecting trading fees.
 Dividends are distributed at random intervals to reduce transactional
 costs and lower volatility.
 
-\addcontentsline{toc}{section}{Examples}
-Examples {#examples .unnumbered .unnumbered}
+Examples
 ========
 
-\addcontentsline{toc}{subsection}
-        {Example 1: A Simple Transaction}
-Example 1: A Simple Transaction {#example-1-a-simple-transaction .unnumbered .unnumbered}
+Example 1: A Simple Transaction
 -------------------------------
 
 Alice wants to buy 14 Ether for at most 1 Bitcoin. Bob wants to buy 1
@@ -252,9 +235,7 @@ the exchange gives Mary a portion of the fees it receives from Alice and
 Bob. The exchange then creates an atomic swap contract for Alice and
 Bob, who trustlessly trade. Their entries in the order book are cleared.
 
-\addcontentsline{toc}{subsection}
-        {Example 2: A Transaction with a Remainder}
-Example 2: A Transaction with a Remainder {#example-2-a-transaction-with-a-remainder .unnumbered .unnumbered}
+Example 2: A Transaction with a Remainder
 -----------------------------------------
 
 After Alice and Bob's transaction is cleared, only Carol and Dave's
@@ -307,12 +288,11 @@ contains the remainder of Dave's order.
             \hline
         \end{tabular}
         }
-\addcontentsline{toc}{section}{Challenges and Resolutions}
-Challenges and Resolutions {#challenges-and-resolutions .unnumbered .unnumbered}
+
+Challenges and Resolutions
 ==========================
 
-\addcontentsline{toc}{subsection}{Latency and Scalability}
-Latency and Scalability {#latency-and-scalability .unnumbered .unnumbered}
+Latency and Scalability
 -----------------------
 
 A significant challenge faced by exchanges is maintaining low latency as
@@ -336,8 +316,7 @@ reason to match orders of a higher value than their assigned bracket,
 because they will be consistently be outpaced by competitors with more
 computing power.
 
-\addcontentsline{toc}{subsection}{Market Manipulation by Miners}
-Market Manipulation by Miners {#market-manipulation-by-miners .unnumbered .unnumbered}
+Market Manipulation by Miners
 -----------------------------
 
 Public order books have been criticized for enabling miners to front-run
@@ -350,8 +329,7 @@ Placing price limits on orders is always best practice, especially on an
 exchange with a public order book, but miners are in no way empowered to
 match orders that are not consensual for all parties involved.
 
-\addcontentsline{toc}{subsection}{Barriers to Entry}
-Barriers to Entry {#barriers-to-entry .unnumbered .unnumbered}
+Barriers to Entry
 -----------------
 
 Atomic swaps do not support fiat currencies. Because the Valence
@@ -377,8 +355,7 @@ protocol does not require traders or miners to register. there is also
 no minimum token balance to trade. This removes a significant entry
 barrier faced by centralized exchanges.
 
-\addcontentsline{toc}{subsection}{Competition}
-Competition {#competition .unnumbered .unnumbered}
+Competition
 -----------
 
 An implementation of this protocol would also compete with other planned
@@ -408,8 +385,7 @@ them among various exchanges, its relationship with Valence would
 actually be a mutualistic one, so the success of either would be
 beneficial to the other.
 
-\addcontentsline{toc}{section}{Conclusion}
-Conclusion {#conclusion .unnumbered .unnumbered}
+Conclusion
 ==========
 
 The Valence protocol outlines the creation of a decentralized
