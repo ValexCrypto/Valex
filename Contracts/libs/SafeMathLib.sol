@@ -1,6 +1,7 @@
-pragma solidity ^0.4.6;
+pragma solidity ^0.4.17;
 
-// from https://github.com/aragon/zeppelin-solidity/blob/master/contracts/SafeMathLib.sol
+// from:
+// https://github.com/aragon/zeppelin-solidity/blob/master/contracts/SafeMathLib.sol
 
 library SafeMathLib {
   function times(uint a, uint b) returns (uint) {
