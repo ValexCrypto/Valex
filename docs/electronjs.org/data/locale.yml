@@ -1,4 +1,4 @@
-tagline: Build cross platform desktop apps with JavaScript, HTML, and CSS
+tagline: Trade without trust.
 
 nav:
   docs: Docs
@@ -145,8 +145,8 @@ or: or
 
 pages:
   '/':
-    title: Electron | Build cross platform desktop apps with JavaScript, HTML, and CSS.
-    description: 'Build cross platform desktop apps with JavaScript, HTML, and CSS.'
+    title: Electron | Trade without trust.
+    description: 'Trade without trust.'
   '/apps':
     title: Electron Apps
     description: Apps Built on Electron
