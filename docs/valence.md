@@ -1,9 +1,9 @@
----
+<header>
 author:
 Karim Helmy
 title: 'Valence: A Protocol for Trustless Decentralized Cryptocurrency Exchange'
----
-
+</header>
+<main>
 Abstract
 ========
 
@@ -409,3 +409,4 @@ counterparty risk in its domain.
 [^7]: <https://kyber.network/#roadmap>
 
 [^8]: <https://kyber.network/assets/KyberNetworkWhitepaper.pdf>
+</main>
