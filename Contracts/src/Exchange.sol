@@ -254,12 +254,27 @@ contract Exchange {
   }
 
   // Miners suggest matches with this function
-  function match(uint chapter, uint index1, uint index2)
+  // Performs nonce verification (keccak256)
+  // Wrapper for isValidMatch, performs other required functions
+  function match(uint chapter, uint index1, uint index2,
+                  bytes32 nonce, uint hashVal)
     public
     payable
     returns(bool isValid)
   {
     require(msg.value >= this.params.gasFee * tx.gasprice);
+    // Validate that nonce is equivalent
+    // modulo so that cost is constant
+    // + 110 so that it's always 3 digits
+    // storing all values is impractical
+    // hashVal adds security if trade volume is small
+    if (nonce != keccak256(msg.sender,
+                          (hashVal + 110) % 1000,
+                          (chapter + 110) % 1000,
+                          (index1 + 110) % 1000,
+                          (index2 + 110) % 1000)){
+      return false;
+    }
     if (! isValidMatch(chapter, index1, index2)){
       return false;
     }
