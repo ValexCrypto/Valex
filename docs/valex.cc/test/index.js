@@ -17,7 +17,7 @@ async function get (route) {
   return $
 }
 
-describe('electronjs.org', () => {
+describe('valex.cc', () => {
   test('gzip enabled', async () => {
     const res = await supertest(app).get(`/`)
     res.headers['content-encoding'].should.equal('gzip')
@@ -28,7 +28,7 @@ describe('electronjs.org', () => {
       const $ = await get('/404-page-asdfgh')
       const path = '/404-page-asdfgh'
       $('.error-page .lead a').attr('href').should
-        .eq(`https://github.com/electron/electronjs.org/issues/new?title=404%20for%20${path}&body=The%20following%20route%20is%20returning%20a%20404%20HTTP%20status%20code%3A%20${path}`)
+        .eq(`https://github.com/electron/valex.cc/issues/new?title=404%20for%20${path}&body=The%20following%20route%20is%20returning%20a%20404%20HTTP%20status%20code%3A%20${path}`)
     })
   })
 
@@ -181,13 +181,13 @@ describe('electronjs.org', () => {
   test('/awesome', async () => {
     const res = await supertest(app).get('/awesome')
     res.statusCode.should.be.above(300).and.below(303)
-    res.headers.location.should.equal('/community')
+    res.headers.location.should.equal('/about')
   })
 
-  describe('/community', () => {
+  describe('/about', () => {
     test('display lists of content from awesome-electron', async () => {
-      const $ = await get('/community')
-      $('h1').text().should.eq('Electron Community')
+      const $ = await get('/about')
+      $('h1').text().should.eq('About Electron')
 
       const titles = $('h2').map((i, el) => $(el).text()).get()
       titles.should.include('Tools')
@@ -197,10 +197,10 @@ describe('electronjs.org', () => {
 
     test('includes localized content', async() => {
       const res = await supertest(app)
-        .get('/community')
+        .get('/about')
         .set('Cookie', ['language=vi-VN'])
       const $ = cheerio.load(res.text)
-      $('.subtron .container-narrow h1').text().should.eq(i18n.website['vi-VN'].community.title)
+      $('.subtron .container-narrow h1').text().should.eq(i18n.website['vi-VN'].about.title)
     })
   })
 
@@ -216,7 +216,7 @@ describe('electronjs.org', () => {
   test('/languages', async () => {
     const $ = await get('/languages')
     $('h1').text().should.eq('Languages')
-    $('body').text().should.include('global developer community')
+    $('body').text().should.include('global developer about')
   })
 
   test('redirects for date-style blog URLs', async () => {
@@ -235,19 +235,19 @@ describe('electronjs.org', () => {
     test('redirects /issues to the website repo, for convenience', async () => {
       const res = await supertest(app).get('/issues')
       res.statusCode.should.equal(301)
-      res.headers.location.should.equal('https://github.com/electron/electronjs.org/issues')
+      res.headers.location.should.equal('https://github.com/electron/valex.cc/issues')
     })
 
     test('redirects /issues/new to the website repo, for convenience', async () => {
       const res = await supertest(app).get('/issues')
       res.statusCode.should.equal(301)
-      res.headers.location.should.equal('https://github.com/electron/electronjs.org/issues')
+      res.headers.location.should.equal('https://github.com/electron/valex.cc/issues')
     })
 
     test('redirects /pulls to the website repo, for convenience', async () => {
       const res = await supertest(app).get('/pulls')
       res.statusCode.should.equal(301)
-      res.headers.location.should.equal('https://github.com/electron/electronjs.org/pulls')
+      res.headers.location.should.equal('https://github.com/electron/valex.cc/pulls')
     })
   })
 

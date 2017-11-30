@@ -1,4 +1,4 @@
-# Contributing to electronjs.org
+# Contributing to valex.cc
 
 :+1::tada: Thanks for taking the time to contribute! :tada::+1:
 
@@ -28,7 +28,7 @@ feel free to propose changes to this document in a pull request.
 
 ## Issues and Pull Requests
 
-* If you're not sure about adding something, [open an issue](https://github.com/electron/electronjs.org/issues/new) to discuss it.
+* If you're not sure about adding something, [open an issue](https://github.com/electron/valex.cc/issues/new) to discuss it.
 * Feel free to open a Pull Request early so that a discussion can be had as changes are developed.
 * Include screenshots and animated gifs of your changes whenever possible.
 
@@ -48,8 +48,8 @@ When pull request is closed or merged, the ephemeral app is destroyed.
 Follow these steps to copy this repository to your computer and build the site:
 
 ```bash
-git clone https://github.com/electron/electronjs.org
-cd electronjs.org
+git clone https://github.com/electron/valex.cc
+cd valex.cc
 npm install
 npm run dev
 ```
@@ -61,7 +61,7 @@ Read on for more info about the structure of the site.
 
 ## Editing Content
 
-The content on [electronjs.org] comes from a number of sources.
+The content on [valex.cc] comes from a number of sources.
 
 ### Documentation
 
@@ -76,7 +76,7 @@ documentation data's structure.
 
 ### Apps
 
-The website has a page at [electronjs.org/apps](https://electronjs.org/apps) that features applications built on Electron. If you want to add an app to the site, see the
+The website has a page at [valex.cc/apps](https://valex.cc/apps) that features applications built on Electron. If you want to add an app to the site, see the
 [electron-apps](https://github.com/electron/electron-apps#adding-your-app) repo.
 
 ### Blog
@@ -107,7 +107,7 @@ The [/data/locale.yml](/data/locale.yml) file contains English strings that
 are used throughout the site. This file is synced with Crowdin as part of 
 the [translation](#translations) pipeline. These strings are displayed on the 
 site in the visitor's target language if available, with a 
-[fallback to the English value](https://github.com/electron/electronjs.org/blob/ec9d8a55420d33a7a4145ae9c7b08da559de839d/lib/i18n.js#L10-L19) 
+[fallback to the English value](https://github.com/electron/valex.cc/blob/ec9d8a55420d33a7a4145ae9c7b08da559de839d/lib/i18n.js#L10-L19) 
 if no translation exists yet.
 
 To use localized strings in views, use the `localized` object, which is generated
@@ -293,12 +293,12 @@ file. To list all available commands, type `npm run`.
   - Sass middleware serves minified CSS and caches it
   - Browserify middleware serves minified JavaScript and caches it
 
-[electronjs.org]: https://electronjs.org
+[valex.cc]: https://valex.cc
 [electron/electron]: https://github.com/electron/electron
 [electron/electron-i18n]: https://github.com/electron/electron-i18n
 
 ## Need Help?
 
 If any of this information confusing, incorrect, or incomplete, feel free to 
-[open an issue](https://github.com/electron/electronjs.org/issues/new)
+[open an issue](https://github.com/electron/valex.cc/issues/new)
 for help.

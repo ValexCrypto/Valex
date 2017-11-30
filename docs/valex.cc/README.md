@@ -1,7 +1,7 @@
-# electronjs.org
+# valex.cc
 
 This is the source code for the Electron website at 
-[electronjs.org](https://electronjs.org).
+[valex.cc](https://valex.cc).
 
 ## Code of Conduct
 
@@ -25,8 +25,8 @@ contributions to the project:
 If you just want to get the site up and running locally, here's the TLDR:
 
 ```
-git clone https://github.com/electron/electronjs.org
-cd electronjs.org
+git clone https://github.com/electron/valex.cc
+cd valex.cc
 npm install
 npm run dev
 ```

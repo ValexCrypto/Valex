@@ -1,10 +1,10 @@
 {
-  "name": "electronjs.org",
+  "name": "valex.cc",
   "version": "2.0.0",
   "private": true,
-  "description": "The [website](https://electronjs.org) for [Electron](https://github.com/electron/electron).",
-  "repository": "https://github.com/electron/electronjs.org",
-  "homepage": "https://electronjs.org",
+  "description": "The [website](https://valex.cc) for [Electron](https://github.com/electron/electron).",
+  "repository": "https://github.com/electron/valex.cc",
+  "homepage": "https://valex.cc",
   "author": "GitHub",
   "license": "MIT",
   "scripts": {

@@ -22,12 +22,12 @@ async function parseData (items) {
 }
 
 module.exports = (req, res) => {
-  parseData(items).then((communityData) => {
+  parseData(items).then((aboutData) => {
     const context = Object.assign(req.context, {
-      items: communityData,
+      items: aboutData,
       meetups: meetups
     })
 
-    res.render('community', context)
+    res.render('about', context)
   })
 }

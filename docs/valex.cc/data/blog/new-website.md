@@ -4,7 +4,7 @@ author: zeke
 date: '2017-11-13'
 ---
 
-Electron has a new website at [electronjs.org]! We've replaced
+Electron has a new website at [valex.cc]! We've replaced
 our static Jekyll site with a Node.js webserver, giving us flexibility to
 internationalize the site and paving the way for more exciting new features.
 
@@ -16,7 +16,7 @@ developers. We're using a localization platform called [Crowdin] that integrates
 with GitHub, opening and updating pull requests automatically as content is translated into different languages.
 
 <figure>
-  <a href="https://electronjs.org/languages">
+  <a href="https://valex.cc/languages">
     <img src="https://user-images.githubusercontent.com/2289/32803530-a35ff774-c938-11e7-9b98-5c0cfb679d84.png" alt="Electron Nav in Simplified Chinese">
     <figcaption>Electron's Nav in Simplified Chinese</figcaption>
   </a>
@@ -29,10 +29,10 @@ translate Electron's docs into over 20 languages. We are seeing [daily
 contributions](https://github.com/electron/electron-i18n/pulls?utf8=%E2%9C%93&q=is%3Apr%20author%3Aglotbot%20) from people all over the world, with translations for
 languages like French, Vietnamese, Indonesian, and Chinese leading the way.
 
-To choose your language and view translation progress, visit [electronjs.org/languages](https://electronjs.org/languages)
+To choose your language and view translation progress, visit [valex.cc/languages](https://valex.cc/languages)
 
 <figure>
-  <a href="https://electronjs.org/languages">
+  <a href="https://valex.cc/languages">
     <img class="screenshot" src="https://user-images.githubusercontent.com/2289/32754734-e8e43c04-c886-11e7-9f34-f2da2bb4357b.png" alt="Current target languages on Crowdin">
     <figcaption>Translations in progress on Crowdin</figcaption>
   </a>
@@ -45,7 +45,7 @@ translating on [Crowdin], where you can sign in using your GitHub account.
 There are currently 21 languages enabled for the Electron project on Crowdin.
 Adding support for more languages is easy, so if you're interested in
 helping translate but you don't see your language listed,
-[let us know](https://github.com/electron/electronjs.org/issues/new) and
+[let us know](https://github.com/electron/valex.cc/issues/new) and
 we'll enable it.
 
 ## Raw Translated Docs
@@ -62,13 +62,13 @@ ls electron-i18n/content
 
 As of today, any Electron app can easily have its own page on the Electron
 site. For a few examples, check out
-[Etcher](https://electronjs.org/apps/etcher),
-[1Clipboard](https://electronjs.org/apps/1clipboard), or
-[GraphQL Playground](https://electronjs.org/apps/graphql-playground), pictured
+[Etcher](https://valex.cc/apps/etcher),
+[1Clipboard](https://valex.cc/apps/1clipboard), or
+[GraphQL Playground](https://valex.cc/apps/graphql-playground), pictured
 here on the Japanese version of the site:
 
 <figure>
-  <a href="https://electronjs.org/apps/graphql-playground">
+  <a href="https://valex.cc/apps/graphql-playground">
     <img class="screenshot" src="https://user-images.githubusercontent.com/2289/32871096-f5043292-ca33-11e7-8d03-a6a157aa183d.png" alt="GraphQL Playground">
   </a>
 </figure>
@@ -86,9 +86,9 @@ has a public repository. Using a color palette extracted from each app's icon,
 we can produce [bold and accessible colors](https://github.com/zeke/pick-a-good-color)
 to give each app page some visual distinction.  
 
-The [apps index page](https://electronjs.org/apps) now also has categories
-and a keyword filter to find interesting apps like [GraphQL GUIs](https://electronjs.org/apps?q=graphql)
-and [p2p tools](https://electronjs.org/apps?q=graphql).
+The [apps index page](https://valex.cc/apps) now also has categories
+and a keyword filter to find interesting apps like [GraphQL GUIs](https://valex.cc/apps?q=graphql)
+and [p2p tools](https://valex.cc/apps?q=graphql).
 
 If you've got an Electron app that you'd like featured on the site, open a
 pull request on the [electron/electron-apps] repository.
@@ -104,20 +104,20 @@ displaying the installation command (for macOS visitors) on every app page
 that has a cask:
 
 <figure>
-  <a href="https://electronjs.org/apps/dat">
+  <a href="https://valex.cc/apps/dat">
    <img class="screenshot" src="https://user-images.githubusercontent.com/2289/32871246-c5ef6f2a-ca34-11e7-8eb4-3a5b93b91007.png">
    <figcaption>Installation options tailored for your platform: macOS, Windows, Linux</figcaption>
   </a>
 </figure>
 
 To view all the apps that have homebrew cask names, visit
-[electronjs.org/apps?q=homebrew](https://electronjs.org/apps?q=homebrew). If
+[valex.cc/apps?q=homebrew](https://valex.cc/apps?q=homebrew). If
 you know of other apps with casks that we haven't indexed yet,
 [please add them!](https://github.com/electron/electron-apps/blob/master/contributing.md)
 
 ## 🌐 A New Domain
 
-We've moved the site from electron.atom.io to a new domain: [electronjs.org].
+We've moved the site from electron.atom.io to a new domain: [valex.cc].
 
 The Electron project was born inside [Atom], GitHub's open-source text editor
 built on web technologies. Electron was originally called `atom-shell`. Atom
@@ -155,8 +155,8 @@ If you've got [Node.js] (8 or higher) and
 site running locally:
 
 ```sh
-git clone https://github.com/electron/electronjs.org
-cd electronjs.org
+git clone https://github.com/electron/valex.cc
+cd valex.cc
 npm install
 npm run dev
 ```
@@ -185,7 +185,7 @@ Thank you!
 [Crowdin]: https://crowdin.com/project/electron
 [electron/electron-apps]: https://github.com/electron/electron-apps
 [electron/electron-i18n]: https://github.com/electron/electron-i18n#readme
-[electronjs.org]: https://electronjs.org
+[valex.cc]: https://valex.cc
 [GitHub Desktop]: https://desktop.github.com
 [Homebrew]: https://brew.sh
 [Jekyll]: https://jekyllrb.com
