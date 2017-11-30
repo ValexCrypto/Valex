@@ -11,7 +11,7 @@ nav:
   languages: Languages
 
 docs:
-  title: Electron Documentation
+  title: Valex Documentation
   description: See all of the <a href="/docs/all">docs on one page</a> or check out the <a href="/docs/faq">FAQ</a>.
   guides: Guides
   api_reference: API Reference
@@ -23,9 +23,9 @@ languages:
   current: current selection
 
 about:
-  title: About Electron
+  title: About Valex
   description:
-    Tools, boilerplates, videos, and more from Electron's
+    Tools, boilerplates, videos, and more from Valex's
     <a href="https://github.com/sindresorhus/awesome-electron">awesome</a>
     open-source contributors. Find or add
     <a href="/about#meetups">meetups</a> near you.
@@ -36,17 +36,17 @@ about:
   meetups: Meetups
   awesome_notice:
     This list is generated from
-    <a href="https://github.com/sindresorhus/awesome-electron">@sindresorhus's Awesome Electron</a> repository.
+    <a href="https://github.com/sindresorhus/awesome-electron">@sindresorhus's Awesome Valex</a> repository.
     <br> Something missing?
     <a href="https://github.com/sindresorhus/awesome-electron/blob/master/contributing.md">Make a pull request</a>.
   meetup_notice:
     To add a meetup, edit <code>data/meetups.json</code> and
-    <a href="https://github.com/electron/valex.cc/tree/master/data/meetups.yml">make a pull request</a>.
+    <a href="https://github.com/valex/valex.cc/tree/master/data/meetups.yml">make a pull request</a>.
 
-electron_is_easy:
+valex_is_easy:
   title: It's easier than you think
   description:
-    If you can build a website, you can build a desktop app. Electron is a
+    If you can build a website, you can build a desktop app. Valex is a
     framework for creating native applications with web technologies like
     JavaScript, HTML, and CSS. It takes care of the hard parts so you can
     focus on the core of your application.
@@ -55,19 +55,19 @@ electron_is_easy:
 web_technologies:
   title: Web Technologies
   description:
-    Electron uses Chromium and Node.js so you can build your app with HTML,
+    Valex uses Chromium and Node.js so you can build your app with HTML,
     CSS, and JavaScript.
 
 open_source:
   title: Open Source
   description:
-    Electron is an open source project maintained by GitHub and an active
+    Valex is an open source project maintained by GitHub and an active
     about of contributors.
 
 cross_platform:
   title: Cross Platform
   description:
-    Compatible with Mac, Windows, and Linux, Electron apps build and run on
+    Compatible with Mac, Windows, and Linux, Valex apps build and run on
     three platforms.
 
 benefits:
@@ -81,27 +81,27 @@ benefits:
 get_started:
   title: Get started
   description:
-    To get started with Electron, check out the resources below. Learn how
-    to wrap your web app with Electron, access all the APIs, and generate
+    To get started with Valex, check out the resources below. Learn how
+    to wrap your web app with Valex, access all the APIs, and generate
     installers.
 
 explore:
-  title: Explore the Electron APIs
+  title: Explore the Valex APIs
   description:
-    The <a href="https://github.com/electron/electron-api-demos">Electron API Demos app</a>
-    interactively demonstrates the most important features of the Electron API.
-    See what's possible with Electron with sample code and helpful tips for
+    The <a href="https://github.com/valex/valex-api-demos">Valex API Demos app</a>
+    interactively demonstrates the most important features of the Valex API.
+    See what's possible with Valex with sample code and helpful tips for
     building your app.
 
 download_from_github: Download from GitHub
-view_all_releases_on_github: <a href="https://github.com/electron/electron-api-demos/releases">View all releases</a> on GitHub
+view_all_releases_on_github: <a href="https://github.com/valex/valex-api-demos/releases">View all releases</a> on GitHub
 
 quick_start:
   title:
     "Spin up the
-    <a href='https://github.com/electron/electron-quick-start' target='_blank'>Quick Start</a>
-    app to see Electron in action:"
-  description: A minimal Electron app with helpful notations.
+    <a href='https://github.com/valex/valex-quick-start' target='_blank'>Quick Start</a>
+    app to see Valex in action:"
+  description: A minimal Valex app with helpful notations.
   clone: Clone the Quick Start repository
   go_into_repo: Go into the repository
   install_deps: Install the dependencies and run
@@ -109,7 +109,7 @@ quick_start:
 
 need_help:
   title: Need Help?
-  description: Ask questions in the <a href='https://discuss.atom.io/c/electron'>Discuss</a> forum or our <a href='http://atom-slack.herokuapp.com/'>Slack</a> channel. Follow <a href="https://twitter.com/electronjs">@electronjs</a> on Twitter for important announcements. Need to privately reach out? Email <a href="mailto:electron@github.com">electron@github.com</a>.
+  description: Ask questions in the <a href='https://discuss.atom.io/c/valex'>Discuss</a> forum or our <a href='http://atom-slack.herokuapp.com/'>Slack</a> channel. Follow <a href="https://twitter.com/valexjs">@valexjs</a> on Twitter for important announcements. Need to privately reach out? Email <a href="mailto:valex@github.com">valex@github.com</a>.
 
 headings:
   languages: Languages
@@ -129,11 +129,11 @@ footer:
   see_the_faq: See the frequently asked questions
 
 apps:
-  title: Apps built on Electron
+  title: Apps built on Valex
   description:
-    With Electron, creating a desktop application for your company or idea is
+    With Valex, creating a desktop application for your company or idea is
     easy. Initially developed for GitHub's
-    <a href='https://atom.io' target='_blank'>Atom editor</a>, Electron has
+    <a href='https://atom.io' target='_blank'>Atom editor</a>, Valex has
     since been used to create applications by companies like Microsoft,
     Facebook, Slack, and Docker.
   view_more: View more apps
@@ -145,46 +145,46 @@ or: or
 
 pages:
   '/':
-    title: Electron | Trade without trust.
+    title: Valex | Trade without trust.
     description: 'Trade without trust.'
   '/apps':
-    title: Electron Apps
-    description: Apps Built on Electron
+    title: Valex Apps
+    description: Apps Built on Valex
   '/docs':
     title: Documentation
-    description: Guides and API reference documentation for the latest Electron release
+    description: Guides and API reference documentation for the latest Valex release
   '/docs/all':
-    title: All the Electron Docs!
-    description: All of Electron's guides and API documentation on a single, searchable page.
+    title: All the Valex Docs!
+    description: All of Valex's guides and API documentation on a single, searchable page.
   '/docs/api':
     title: API
-    description: API reference documentation for the latest Electron release
+    description: API reference documentation for the latest Valex release
   '/docs/development':
     title: Development
-    description: Developing with Electron
+    description: Developing with Valex
   '/docs/tutorial':
     title: Tutorial
-    description: Guides and tutorials for the latest Electron release
+    description: Guides and tutorials for the latest Valex release
   '/blog':
-    title: Electron Blog
-    description: All the latest news from the Electron team and about.
+    title: Valex Blog
+    description: All the latest news from the Valex team and about.
   '/about':
     title: About
   '/releases':
     title: Releases
   '/contact':
     title: Contact
-    description: Get in touch with the Electron team on Twitter, Slack, GitHub, or via email.
+    description: Get in touch with the Valex team on Twitter, Slack, GitHub, or via email.
   '/languages':
     title: Languages
   '/userland':
     title: Userland
   '/devtron':
     title: Devtron
-    description: Devtron is an open source tool to help you inspect, monitor, and debug your Electron app. Built on top of the amazing Chrome Developer Tools.
+    description: Devtron is an open source tool to help you inspect, monitor, and debug your Valex app. Built on top of the amazing Chrome Developer Tools.
   '/spectron':
     title: Spectron
-    description: Spectron is an open source framework for easily writing integrations tests for your Electron app. Built on top of ChromeDriver and WebDriverIO.
+    description: Spectron is an open source framework for easily writing integrations tests for your Valex app. Built on top of ChromeDriver and WebDriverIO.
 
 _404:
   page_not_found: Page not found.

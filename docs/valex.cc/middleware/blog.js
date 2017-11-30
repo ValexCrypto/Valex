@@ -47,6 +47,6 @@ module.exports = function blogHandler (req, res, next) {
 
   res.render('posts/show', Object.assign(context, {
     layout: 'post',
-    page: {title: `${context.post.title} | Electron Blog`}
+    page: {title: `${context.post.title} | Valex Blog`}
   }))
 }

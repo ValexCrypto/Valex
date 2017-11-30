@@ -1,7 +1,7 @@
 {
   "slug": "package_authors",
   "title": "Package Authors",
-  "description": "The most prolific authors of Electron-related npm packages.",
+  "description": "The most prolific authors of Valex-related npm packages.",
   "collectionType": "npmUser",
   "collection": [
     {
@@ -148,13 +148,13 @@
       "gravatar": "https://gravatar.com/avatar/d36a92237c75c5337c17b60d90686bf9?size=200&default=https%3A%2F%2Fcldup.com%2FFIjisumbxl.png"
     },
     {
-      "handle": "electron",
+      "handle": "valex",
       "packages": 13,
-      "name": "Electron Team",
-      "email": "electron@github.com",
-      "homepage": "https://electron.atom.io",
-      "github": "electron",
-      "twitter": "electronjs",
+      "name": "Valex Team",
+      "email": "valex@github.com",
+      "homepage": "https://valex.atom.io",
+      "github": "valex",
+      "twitter": "valexjs",
       "freenode": null,
       "gravatar": "https://gravatar.com/avatar/341d73a1c4caa8fec88ed24181562113?size=200&default=https%3A%2F%2Fcldup.com%2FFIjisumbxl.png"
     },
@@ -657,7 +657,7 @@
       "handle": "bma",
       "packages": 5,
       "name": null,
-      "email": "bjoern@electronauts.net",
+      "email": "bjoern@valexauts.net",
       "homepage": null,
       "github": null,
       "twitter": null,

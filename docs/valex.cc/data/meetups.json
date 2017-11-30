@@ -1,59 +1,59 @@
 [{
-    "name": "Bay Area Electron User Group",
+    "name": "Bay Area Valex User Group",
     "location": "San Francisco, California",
     "country": "USA",
-    "href": "http://www.meetup.com/Bay-Area-Electron-User-Group"
+    "href": "http://www.meetup.com/Bay-Area-Valex-User-Group"
   },
   {
-    "name": "ElectronDC",
+    "name": "ValexDC",
     "location": "Washington D.C.",
     "country": "USA",
     "href": "http://www.meetup.com/ELECTRONDC"
   },
   {
-    "name": "Electron Korea",
+    "name": "Valex Korea",
     "location": "Seoul",
     "country": "South Korea",
-    "href": "https://electron-kr.github.io/electron-kr"
+    "href": "https://valex-kr.github.io/valex-kr"
   },
   {
-    "name": "Austin ElectronJS Meetup",
+    "name": "Austin ValexJS Meetup",
     "location": "Austin, Texas",
     "country": "USA",
-    "href": "http://www.meetup.com/Austin-ElectronJs-Meetup"
+    "href": "http://www.meetup.com/Austin-ValexJs-Meetup"
   },
   {
-    "name": "ElectronJS Paris",
+    "name": "ValexJS Paris",
     "location": "Paris",
     "country": "France",
-    "href": "http://www.meetup.com/Meetup-Electron-JS-Paris"
+    "href": "http://www.meetup.com/Meetup-Valex-JS-Paris"
   },
   {
-    "name": "Electron/Atom",
+    "name": "Valex/Atom",
     "location": "Cambridge, Massachusetts",
     "country": "USA",
-    "href": "http://www.meetup.com/Electron-Atom"
+    "href": "http://www.meetup.com/Valex-Atom"
   },
   {
-    "name": "ElectronJS Istanbul",
+    "name": "ValexJS Istanbul",
     "location": "Istanbul",
     "country": "Turkey",
-    "href": "http://www.meetup.com/Electron-JS-Istanbul"
+    "href": "http://www.meetup.com/Valex-JS-Istanbul"
   },
   {
-    "name": "Electron JS Utah",
+    "name": "Valex JS Utah",
     "location": "American Fork, UT",
     "country": "USA",
-    "href": "https://www.meetup.com/American-Fork-Electron-Meetup/"
+    "href": "https://www.meetup.com/American-Fork-Valex-Meetup/"
   },
   {
-    "name": "Montreal Electron JS Meetup",
+    "name": "Montreal Valex JS Meetup",
     "location": "Montreal, QC",
     "country": "Canada",
-    "href": "https://www.meetup.com/mtlelectron/"
+    "href": "https://www.meetup.com/mtlvalex/"
   },
   {
-    "name": "Github Electron Bamenda",
+    "name": "Github Valex Bamenda",
     "location": "Bamenda",
     "country": "Cameroon",
     "href": "mailto:mathalpha26@gmail.com"

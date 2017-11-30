@@ -1,11 +1,11 @@
 # valex.cc
 
-This is the source code for the Electron website at 
+This is the source code for the Valex website at 
 [valex.cc](https://valex.cc).
 
 ## Code of Conduct
 
-Electron is an open source project with a global contributor community.
+Valex is an open source project with a global contributor community.
 We want everyone to feel safe in our community, and we welcome participation
 from people of all backgrounds, regardless of experience level, age, gender 
 indentity, race, religion, or nationality.
@@ -18,14 +18,14 @@ Writing code is great, but there are many other ways to make meaningful
 contributions to the project:
 
 - [Translate docs and website content](https://github.com/electron/electron-i18n)
-- [Improve Electron tutorials](https://github.com/electron/electron/tree/master/docs)
-- [Improve Electron API docs](https://github.com/electron/electron/tree/master/docs/api)
-- [Add Electron apps to the site](https://github.com/electron/electron-apps#adding-your-app)
+- [Improve Valex tutorials](https://github.com/valex/valex/tree/master/docs)
+- [Improve Valex API docs](https://github.com/valex/valex/tree/master/docs/api)
+- [Add Valex apps to the site](https://github.com/valex/electron-apps#adding-your-app)
 
 If you just want to get the site up and running locally, here's the TLDR:
 
 ```
-git clone https://github.com/electron/valex.cc
+git clone https://github.com/valex/valex.cc
 cd valex.cc
 npm install
 npm run dev

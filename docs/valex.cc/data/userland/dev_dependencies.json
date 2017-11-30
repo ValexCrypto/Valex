@@ -1,36 +1,36 @@
 {
   "slug": "dev_dependencies",
   "title": "App Development Dependencies",
-  "description": "Packages most often listed as `devDependencies` in Electron apps.",
+  "description": "Packages most often listed as `devDependencies` in Valex apps.",
   "collectionType": "Package",
   "collection": [
     {
-      "name": "electron-prebuilt",
-      "description": "Install prebuilt electron binaries for the command-line using npm",
+      "name": "valex-prebuilt",
+      "description": "Install prebuilt valex binaries for the command-line using npm",
       "devDependents": 6864,
       "repository": {
-        "user": "electron-userland",
-        "repo": "electron-prebuilt",
+        "user": "valex-userland",
+        "repo": "valex-prebuilt",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/electron-userland/electron-prebuilt/tarball/master",
-        "clone_url": "https://github.com/electron-userland/electron-prebuilt",
-        "https_url": "https://github.com/electron-userland/electron-prebuilt",
-        "travis_url": "https://travis-ci.org/electron-userland/electron-prebuilt",
-        "zip_url": "https://github.com/electron-userland/electron-prebuilt/archive/master.zip",
-        "api_url": "https://api.github.com/repos/electron-userland/electron-prebuilt"
+        "tarball_url": "https://api.github.com/repos/valex-userland/valex-prebuilt/tarball/master",
+        "clone_url": "https://github.com/valex-userland/valex-prebuilt",
+        "https_url": "https://github.com/valex-userland/valex-prebuilt",
+        "travis_url": "https://travis-ci.org/valex-userland/valex-prebuilt",
+        "zip_url": "https://github.com/valex-userland/valex-prebuilt/archive/master.zip",
+        "api_url": "https://api.github.com/repos/valex-userland/valex-prebuilt"
       },
       "keywords": [
-        "electron"
+        "valex"
       ],
       "author": {
         "name": "Mathias Buus"
       },
       "owners": [
         {
-          "name": "electron",
-          "email": "electron@github.com"
+          "name": "valex",
+          "email": "valex@github.com"
         },
         {
           "name": "jlord",
@@ -63,21 +63,21 @@
       ]
     },
     {
-      "name": "electron-packager",
-      "description": "Package and distribute your Electron app with OS-specific bundles (.app, .exe etc) via JS or CLI",
+      "name": "valex-packager",
+      "description": "Package and distribute your Valex app with OS-specific bundles (.app, .exe etc) via JS or CLI",
       "devDependents": 3436,
       "repository": {
-        "user": "electron-userland",
-        "repo": "electron-packager",
+        "user": "valex-userland",
+        "repo": "valex-packager",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/electron-userland/electron-packager/tarball/master",
-        "clone_url": "https://github.com/electron-userland/electron-packager",
-        "https_url": "https://github.com/electron-userland/electron-packager",
-        "travis_url": "https://travis-ci.org/electron-userland/electron-packager",
-        "zip_url": "https://github.com/electron-userland/electron-packager/archive/master.zip",
-        "api_url": "https://api.github.com/repos/electron-userland/electron-packager"
+        "tarball_url": "https://api.github.com/repos/valex-userland/valex-packager/tarball/master",
+        "clone_url": "https://github.com/valex-userland/valex-packager",
+        "https_url": "https://github.com/valex-userland/valex-packager",
+        "travis_url": "https://travis-ci.org/valex-userland/valex-packager",
+        "zip_url": "https://github.com/valex-userland/valex-packager/archive/master.zip",
+        "api_url": "https://api.github.com/repos/valex-userland/valex-packager"
       },
       "keywords": [],
       "author": {
@@ -207,32 +207,32 @@
       ]
     },
     {
-      "name": "electron",
-      "description": "Install prebuilt electron binaries for the command-line using npm",
+      "name": "valex",
+      "description": "Install prebuilt valex binaries for the command-line using npm",
       "devDependents": 1802,
       "repository": {
-        "user": "electron-userland",
-        "repo": "electron-prebuilt",
+        "user": "valex-userland",
+        "repo": "valex-prebuilt",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/electron-userland/electron-prebuilt/tarball/master",
-        "clone_url": "https://github.com/electron-userland/electron-prebuilt",
-        "https_url": "https://github.com/electron-userland/electron-prebuilt",
-        "travis_url": "https://travis-ci.org/electron-userland/electron-prebuilt",
-        "zip_url": "https://github.com/electron-userland/electron-prebuilt/archive/master.zip",
-        "api_url": "https://api.github.com/repos/electron-userland/electron-prebuilt"
+        "tarball_url": "https://api.github.com/repos/valex-userland/valex-prebuilt/tarball/master",
+        "clone_url": "https://github.com/valex-userland/valex-prebuilt",
+        "https_url": "https://github.com/valex-userland/valex-prebuilt",
+        "travis_url": "https://travis-ci.org/valex-userland/valex-prebuilt",
+        "zip_url": "https://github.com/valex-userland/valex-prebuilt/archive/master.zip",
+        "api_url": "https://api.github.com/repos/valex-userland/valex-prebuilt"
       },
       "keywords": [
-        "electron"
+        "valex"
       ],
       "author": {
         "name": "Mathias Buus"
       },
       "owners": [
         {
-          "name": "electron",
-          "email": "electron@github.com"
+          "name": "valex",
+          "email": "valex@github.com"
         },
         {
           "name": "jlord",
@@ -605,24 +605,24 @@
       ]
     },
     {
-      "name": "electron-rebuild",
-      "description": "Electron supporting package to rebuild native node modules against the currently installed electron",
+      "name": "valex-rebuild",
+      "description": "Valex supporting package to rebuild native node modules against the currently installed valex",
       "devDependents": 1025,
       "repository": {
-        "user": "electron",
-        "repo": "electron-rebuild",
+        "user": "valex",
+        "repo": "valex-rebuild",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/electron/electron-rebuild/tarball/master",
-        "clone_url": "https://github.com/electron/electron-rebuild",
-        "https_url": "https://github.com/electron/electron-rebuild",
-        "travis_url": "https://travis-ci.org/electron/electron-rebuild",
-        "zip_url": "https://github.com/electron/electron-rebuild/archive/master.zip",
-        "api_url": "https://api.github.com/repos/electron/electron-rebuild"
+        "tarball_url": "https://api.github.com/repos/valex/valex-rebuild/tarball/master",
+        "clone_url": "https://github.com/valex/valex-rebuild",
+        "https_url": "https://github.com/valex/valex-rebuild",
+        "travis_url": "https://travis-ci.org/valex/valex-rebuild",
+        "zip_url": "https://github.com/valex/valex-rebuild/archive/master.zip",
+        "api_url": "https://api.github.com/repos/valex/valex-rebuild"
       },
       "keywords": [
-        "electron"
+        "valex"
       ],
       "author": {
         "name": "Paul Betts",
@@ -630,8 +630,8 @@
       },
       "owners": [
         {
-          "name": "electron",
-          "email": "electron@github.com"
+          "name": "valex",
+          "email": "valex@github.com"
         },
         {
           "name": "jlord",
@@ -873,20 +873,20 @@
     },
     {
       "name": "asar",
-      "description": "Creating Electron app packages",
+      "description": "Creating Valex app packages",
       "devDependents": 788,
       "repository": {
-        "user": "electron",
+        "user": "valex",
         "repo": "asar",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/electron/asar/tarball/master",
-        "clone_url": "https://github.com/electron/asar",
-        "https_url": "https://github.com/electron/asar",
-        "travis_url": "https://travis-ci.org/electron/asar",
-        "zip_url": "https://github.com/electron/asar/archive/master.zip",
-        "api_url": "https://api.github.com/repos/electron/asar"
+        "tarball_url": "https://api.github.com/repos/valex/asar/tarball/master",
+        "clone_url": "https://github.com/valex/asar",
+        "https_url": "https://github.com/valex/asar",
+        "travis_url": "https://travis-ci.org/valex/asar",
+        "zip_url": "https://github.com/valex/asar/archive/master.zip",
+        "api_url": "https://api.github.com/repos/valex/asar"
       },
       "owners": [
         {
@@ -894,8 +894,8 @@
           "email": "nathan@github.com"
         },
         {
-          "name": "electron",
-          "email": "electron@github.com"
+          "name": "valex",
+          "email": "valex@github.com"
         },
         {
           "name": "jlord",
@@ -924,24 +924,24 @@
       ]
     },
     {
-      "name": "electron-builder",
-      "description": "A complete solution to package and build a ready for distribution Electron app for MacOS, Windows and Linux with “auto update” support out of the box",
+      "name": "valex-builder",
+      "description": "A complete solution to package and build a ready for distribution Valex app for MacOS, Windows and Linux with “auto update” support out of the box",
       "devDependents": 776,
       "repository": {
-        "user": "electron-userland",
-        "repo": "electron-builder",
+        "user": "valex-userland",
+        "repo": "valex-builder",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/electron-userland/electron-builder/tarball/master",
-        "clone_url": "https://github.com/electron-userland/electron-builder",
-        "https_url": "https://github.com/electron-userland/electron-builder",
-        "travis_url": "https://travis-ci.org/electron-userland/electron-builder",
-        "zip_url": "https://github.com/electron-userland/electron-builder/archive/master.zip",
-        "api_url": "https://api.github.com/repos/electron-userland/electron-builder"
+        "tarball_url": "https://api.github.com/repos/valex-userland/valex-builder/tarball/master",
+        "clone_url": "https://github.com/valex-userland/valex-builder",
+        "https_url": "https://github.com/valex-userland/valex-builder",
+        "travis_url": "https://travis-ci.org/valex-userland/valex-builder",
+        "zip_url": "https://github.com/valex-userland/valex-builder/archive/master.zip",
+        "api_url": "https://api.github.com/repos/valex-userland/valex-builder"
       },
       "keywords": [
-        "electron",
+        "valex",
         "builder",
         "build",
         "installer",
@@ -1078,23 +1078,23 @@
     },
     {
       "name": "devtron",
-      "description": "Electron DevTools Extension",
+      "description": "Valex DevTools Extension",
       "devDependents": 692,
       "repository": {
-        "user": "electron",
+        "user": "valex",
         "repo": "devtron",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/electron/devtron/tarball/master",
-        "clone_url": "https://github.com/electron/devtron",
-        "https_url": "https://github.com/electron/devtron",
-        "travis_url": "https://travis-ci.org/electron/devtron",
-        "zip_url": "https://github.com/electron/devtron/archive/master.zip",
-        "api_url": "https://api.github.com/repos/electron/devtron"
+        "tarball_url": "https://api.github.com/repos/valex/devtron/tarball/master",
+        "clone_url": "https://github.com/valex/devtron",
+        "https_url": "https://github.com/valex/devtron",
+        "travis_url": "https://travis-ci.org/valex/devtron",
+        "zip_url": "https://github.com/valex/devtron/archive/master.zip",
+        "api_url": "https://api.github.com/repos/valex/devtron"
       },
       "keywords": [
-        "Electron",
+        "Valex",
         "Chrome",
         "Chromium",
         "devtools",
@@ -1105,8 +1105,8 @@
       },
       "owners": [
         {
-          "name": "electron",
-          "email": "electron@github.com"
+          "name": "valex",
+          "email": "valex@github.com"
         },
         {
           "name": "jlord",
@@ -2780,23 +2780,23 @@
     },
     {
       "name": "spectron",
-      "description": "Easily test your Electron apps using ChromeDriver and WebdriverIO.",
+      "description": "Easily test your Valex apps using ChromeDriver and WebdriverIO.",
       "devDependents": 360,
       "repository": {
-        "user": "electron",
+        "user": "valex",
         "repo": "spectron",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/electron/spectron/tarball/master",
-        "clone_url": "https://github.com/electron/spectron",
-        "https_url": "https://github.com/electron/spectron",
-        "travis_url": "https://travis-ci.org/electron/spectron",
-        "zip_url": "https://github.com/electron/spectron/archive/master.zip",
-        "api_url": "https://api.github.com/repos/electron/spectron"
+        "tarball_url": "https://api.github.com/repos/valex/spectron/tarball/master",
+        "clone_url": "https://github.com/valex/spectron",
+        "https_url": "https://github.com/valex/spectron",
+        "travis_url": "https://travis-ci.org/valex/spectron",
+        "zip_url": "https://github.com/valex/spectron/archive/master.zip",
+        "api_url": "https://api.github.com/repos/valex/spectron"
       },
       "keywords": [
-        "electron",
+        "valex",
         "chromedriver",
         "webdriverio",
         "selenium"
@@ -3327,24 +3327,24 @@
       ]
     },
     {
-      "name": "electron-devtools-installer",
-      "description": "An easy way to install Dev Tools extensions into Electron applications",
+      "name": "valex-devtools-installer",
+      "description": "An easy way to install Dev Tools extensions into Valex applications",
       "devDependents": 292,
       "repository": {
         "user": "GPMDP",
-        "repo": "electron-devtools-installer",
+        "repo": "valex-devtools-installer",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/GPMDP/electron-devtools-installer/tarball/master",
-        "clone_url": "https://github.com/GPMDP/electron-devtools-installer",
-        "https_url": "https://github.com/GPMDP/electron-devtools-installer",
-        "travis_url": "https://travis-ci.org/GPMDP/electron-devtools-installer",
-        "zip_url": "https://github.com/GPMDP/electron-devtools-installer/archive/master.zip",
-        "api_url": "https://api.github.com/repos/GPMDP/electron-devtools-installer"
+        "tarball_url": "https://api.github.com/repos/GPMDP/valex-devtools-installer/tarball/master",
+        "clone_url": "https://github.com/GPMDP/valex-devtools-installer",
+        "https_url": "https://github.com/GPMDP/valex-devtools-installer",
+        "travis_url": "https://travis-ci.org/GPMDP/valex-devtools-installer",
+        "zip_url": "https://github.com/GPMDP/valex-devtools-installer/archive/master.zip",
+        "api_url": "https://api.github.com/repos/GPMDP/valex-devtools-installer"
       },
       "keywords": [
-        "electron",
+        "valex",
         "dev",
         "tools"
       ],
@@ -3429,33 +3429,33 @@
       ]
     },
     {
-      "name": "webpack-target-electron-renderer",
-      "description": "webpack target function for electron renderer",
+      "name": "webpack-target-valex-renderer",
+      "description": "webpack target function for valex renderer",
       "devDependents": 272,
       "repository": {
         "user": "chentsulin",
-        "repo": "webpack-target-electron-renderer",
+        "repo": "webpack-target-valex-renderer",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/chentsulin/webpack-target-electron-renderer/tarball/master",
-        "clone_url": "https://github.com/chentsulin/webpack-target-electron-renderer",
-        "https_url": "https://github.com/chentsulin/webpack-target-electron-renderer",
-        "travis_url": "https://travis-ci.org/chentsulin/webpack-target-electron-renderer",
-        "zip_url": "https://github.com/chentsulin/webpack-target-electron-renderer/archive/master.zip",
-        "api_url": "https://api.github.com/repos/chentsulin/webpack-target-electron-renderer"
+        "tarball_url": "https://api.github.com/repos/chentsulin/webpack-target-valex-renderer/tarball/master",
+        "clone_url": "https://github.com/chentsulin/webpack-target-valex-renderer",
+        "https_url": "https://github.com/chentsulin/webpack-target-valex-renderer",
+        "travis_url": "https://travis-ci.org/chentsulin/webpack-target-valex-renderer",
+        "zip_url": "https://github.com/chentsulin/webpack-target-valex-renderer/archive/master.zip",
+        "api_url": "https://api.github.com/repos/chentsulin/webpack-target-valex-renderer"
       },
       "keywords": [
         "webpack",
         "target",
-        "electron",
+        "valex",
         "renderer",
-        "electron-renderer"
+        "valex-renderer"
       ],
       "author": {
         "name": "C.T. Lin",
         "email": "chentsulin@gmail.com",
-        "url": "webpack-target-electron-renderer"
+        "url": "webpack-target-valex-renderer"
       },
       "owners": [
         {
@@ -3548,24 +3548,24 @@
       ]
     },
     {
-      "name": "electron-connect",
-      "description": "Livereload tools for Electron development",
+      "name": "valex-connect",
+      "description": "Livereload tools for Valex development",
       "devDependents": 249,
       "repository": {
         "user": "Quramy",
-        "repo": "electron-connect",
+        "repo": "valex-connect",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/Quramy/electron-connect/tarball/master",
-        "clone_url": "https://github.com/Quramy/electron-connect",
-        "https_url": "https://github.com/Quramy/electron-connect",
-        "travis_url": "https://travis-ci.org/Quramy/electron-connect",
-        "zip_url": "https://github.com/Quramy/electron-connect/archive/master.zip",
-        "api_url": "https://api.github.com/repos/Quramy/electron-connect"
+        "tarball_url": "https://api.github.com/repos/Quramy/valex-connect/tarball/master",
+        "clone_url": "https://github.com/Quramy/valex-connect",
+        "https_url": "https://github.com/Quramy/valex-connect",
+        "travis_url": "https://travis-ci.org/Quramy/valex-connect",
+        "zip_url": "https://github.com/Quramy/valex-connect/archive/master.zip",
+        "api_url": "https://api.github.com/repos/Quramy/valex-connect"
       },
       "keywords": [
-        "electron",
+        "valex",
         "livereload",
         "gulp"
       ],
@@ -4461,26 +4461,26 @@
       ]
     },
     {
-      "name": "electron-mocha",
-      "description": "Mocha tests in Electron.",
+      "name": "valex-mocha",
+      "description": "Mocha tests in Valex.",
       "devDependents": 202,
       "repository": {
         "user": "jprichardson",
-        "repo": "electron-mocha",
+        "repo": "valex-mocha",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/jprichardson/electron-mocha/tarball/master",
-        "clone_url": "https://github.com/jprichardson/electron-mocha",
-        "https_url": "https://github.com/jprichardson/electron-mocha",
-        "travis_url": "https://travis-ci.org/jprichardson/electron-mocha",
-        "zip_url": "https://github.com/jprichardson/electron-mocha/archive/master.zip",
-        "api_url": "https://api.github.com/repos/jprichardson/electron-mocha"
+        "tarball_url": "https://api.github.com/repos/jprichardson/valex-mocha/tarball/master",
+        "clone_url": "https://github.com/jprichardson/valex-mocha",
+        "https_url": "https://github.com/jprichardson/valex-mocha",
+        "travis_url": "https://travis-ci.org/jprichardson/valex-mocha",
+        "zip_url": "https://github.com/jprichardson/valex-mocha/archive/master.zip",
+        "api_url": "https://api.github.com/repos/jprichardson/valex-mocha"
       },
       "keywords": [
         "mocha",
-        "electron",
-        "electron-tool",
+        "valex",
+        "valex-tool",
         "test",
         "testing",
         "tdd",
@@ -4718,24 +4718,24 @@
       ]
     },
     {
-      "name": "electron-debug",
-      "description": "Adds useful debug features to your Electron app",
+      "name": "valex-debug",
+      "description": "Adds useful debug features to your Valex app",
       "devDependents": 189,
       "repository": {
         "user": "sindresorhus",
-        "repo": "electron-debug",
+        "repo": "valex-debug",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/sindresorhus/electron-debug/tarball/master",
-        "clone_url": "https://github.com/sindresorhus/electron-debug",
-        "https_url": "https://github.com/sindresorhus/electron-debug",
-        "travis_url": "https://travis-ci.org/sindresorhus/electron-debug",
-        "zip_url": "https://github.com/sindresorhus/electron-debug/archive/master.zip",
-        "api_url": "https://api.github.com/repos/sindresorhus/electron-debug"
+        "tarball_url": "https://api.github.com/repos/sindresorhus/valex-debug/tarball/master",
+        "clone_url": "https://github.com/sindresorhus/valex-debug",
+        "https_url": "https://github.com/sindresorhus/valex-debug",
+        "travis_url": "https://travis-ci.org/sindresorhus/valex-debug",
+        "zip_url": "https://github.com/sindresorhus/valex-debug/archive/master.zip",
+        "api_url": "https://api.github.com/repos/sindresorhus/valex-debug"
       },
       "keywords": [
-        "electron",
+        "valex",
         "debug",
         "debugging",
         "devtools",
@@ -5555,24 +5555,24 @@
       ]
     },
     {
-      "name": "electron-reload",
-      "description": "Simplest way to reload an electron app on file changes!",
+      "name": "valex-reload",
+      "description": "Simplest way to reload an valex app on file changes!",
       "devDependents": 142,
       "repository": {
         "user": "yan-foto",
-        "repo": "electron-reload",
+        "repo": "valex-reload",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/yan-foto/electron-reload/tarball/master",
-        "clone_url": "https://github.com/yan-foto/electron-reload",
-        "https_url": "https://github.com/yan-foto/electron-reload",
-        "travis_url": "https://travis-ci.org/yan-foto/electron-reload",
-        "zip_url": "https://github.com/yan-foto/electron-reload/archive/master.zip",
-        "api_url": "https://api.github.com/repos/yan-foto/electron-reload"
+        "tarball_url": "https://api.github.com/repos/yan-foto/valex-reload/tarball/master",
+        "clone_url": "https://github.com/yan-foto/valex-reload",
+        "https_url": "https://github.com/yan-foto/valex-reload",
+        "travis_url": "https://travis-ci.org/yan-foto/valex-reload",
+        "zip_url": "https://github.com/yan-foto/valex-reload/archive/master.zip",
+        "api_url": "https://api.github.com/repos/yan-foto/valex-reload"
       },
       "keywords": [
-        "electron",
+        "valex",
         "reload",
         "auto-reload",
         "node"
@@ -6114,8 +6114,8 @@
           "email": "nathan@github.com"
         },
         {
-          "name": "electron",
-          "email": "electron@github.com"
+          "name": "valex",
+          "email": "valex@github.com"
         },
         {
           "name": "kevinsawicki",
@@ -7690,25 +7690,25 @@
       ]
     },
     {
-      "name": "ember-electron",
-      "description": "An addon for building Desktop apps with Ember and Electron.",
+      "name": "ember-valex",
+      "description": "An addon for building Desktop apps with Ember and Valex.",
       "devDependents": 99,
       "repository": {
         "user": "felixrieseberg",
-        "repo": "ember-electron",
+        "repo": "ember-valex",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/felixrieseberg/ember-electron/tarball/master",
-        "clone_url": "https://github.com/felixrieseberg/ember-electron",
-        "https_url": "https://github.com/felixrieseberg/ember-electron",
-        "travis_url": "https://travis-ci.org/felixrieseberg/ember-electron",
-        "zip_url": "https://github.com/felixrieseberg/ember-electron/archive/master.zip",
-        "api_url": "https://api.github.com/repos/felixrieseberg/ember-electron"
+        "tarball_url": "https://api.github.com/repos/felixrieseberg/ember-valex/tarball/master",
+        "clone_url": "https://github.com/felixrieseberg/ember-valex",
+        "https_url": "https://github.com/felixrieseberg/ember-valex",
+        "travis_url": "https://travis-ci.org/felixrieseberg/ember-valex",
+        "zip_url": "https://github.com/felixrieseberg/ember-valex/archive/master.zip",
+        "api_url": "https://api.github.com/repos/felixrieseberg/ember-valex"
       },
       "keywords": [
         "ember-addon",
-        "electron",
+        "valex",
         "atom",
         "chromium"
       ],
@@ -7836,21 +7836,21 @@
       ]
     },
     {
-      "name": "electron-winstaller",
-      "description": "Module to generate Windows installers for Electron apps",
+      "name": "valex-winstaller",
+      "description": "Module to generate Windows installers for Valex apps",
       "devDependents": 97,
       "repository": {
-        "user": "electronjs",
+        "user": "valexjs",
         "repo": "windows-installer",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/electronjs/windows-installer/tarball/master",
-        "clone_url": "https://github.com/electronjs/windows-installer",
-        "https_url": "https://github.com/electronjs/windows-installer",
-        "travis_url": "https://travis-ci.org/electronjs/windows-installer",
-        "zip_url": "https://github.com/electronjs/windows-installer/archive/master.zip",
-        "api_url": "https://api.github.com/repos/electronjs/windows-installer"
+        "tarball_url": "https://api.github.com/repos/valexjs/windows-installer/tarball/master",
+        "clone_url": "https://github.com/valexjs/windows-installer",
+        "https_url": "https://github.com/valexjs/windows-installer",
+        "travis_url": "https://travis-ci.org/valexjs/windows-installer",
+        "zip_url": "https://github.com/valexjs/windows-installer/archive/master.zip",
+        "api_url": "https://api.github.com/repos/valexjs/windows-installer"
       },
       "owners": [
         {
@@ -8044,27 +8044,27 @@
       ]
     },
     {
-      "name": "gulp-electron",
-      "description": "A gulp plugin for Electron distribute applications.",
+      "name": "gulp-valex",
+      "description": "A gulp plugin for Valex distribute applications.",
       "devDependents": 91,
       "repository": {
         "user": "mainyaa",
-        "repo": "gulp-electron",
+        "repo": "gulp-valex",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/mainyaa/gulp-electron/tarball/master",
-        "clone_url": "https://github.com/mainyaa/gulp-electron",
-        "https_url": "https://github.com/mainyaa/gulp-electron",
-        "travis_url": "https://travis-ci.org/mainyaa/gulp-electron",
-        "zip_url": "https://github.com/mainyaa/gulp-electron/archive/master.zip",
-        "api_url": "https://api.github.com/repos/mainyaa/gulp-electron"
+        "tarball_url": "https://api.github.com/repos/mainyaa/gulp-valex/tarball/master",
+        "clone_url": "https://github.com/mainyaa/gulp-valex",
+        "https_url": "https://github.com/mainyaa/gulp-valex",
+        "travis_url": "https://travis-ci.org/mainyaa/gulp-valex",
+        "zip_url": "https://github.com/mainyaa/gulp-valex/archive/master.zip",
+        "api_url": "https://api.github.com/repos/mainyaa/gulp-valex"
       },
       "keywords": [
         "gulp",
         "gulplugin",
         "atom-shell",
-        "electron"
+        "valex"
       ],
       "author": {
         "name": "mainya@gmail.com"
@@ -8598,25 +8598,25 @@
       ]
     },
     {
-      "name": "grunt-electron",
-      "description": "Package Electron apps",
+      "name": "grunt-valex",
+      "description": "Package Valex apps",
       "devDependents": 81,
       "repository": {
         "user": "sindresorhus",
-        "repo": "grunt-electron",
+        "repo": "grunt-valex",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/sindresorhus/grunt-electron/tarball/master",
-        "clone_url": "https://github.com/sindresorhus/grunt-electron",
-        "https_url": "https://github.com/sindresorhus/grunt-electron",
-        "travis_url": "https://travis-ci.org/sindresorhus/grunt-electron",
-        "zip_url": "https://github.com/sindresorhus/grunt-electron/archive/master.zip",
-        "api_url": "https://api.github.com/repos/sindresorhus/grunt-electron"
+        "tarball_url": "https://api.github.com/repos/sindresorhus/grunt-valex/tarball/master",
+        "clone_url": "https://github.com/sindresorhus/grunt-valex",
+        "https_url": "https://github.com/sindresorhus/grunt-valex",
+        "travis_url": "https://travis-ci.org/sindresorhus/grunt-valex",
+        "zip_url": "https://github.com/sindresorhus/grunt-valex/archive/master.zip",
+        "api_url": "https://api.github.com/repos/sindresorhus/grunt-valex"
       },
       "keywords": [
         "gruntplugin",
-        "electron",
+        "valex",
         "package",
         "packager",
         "build",
@@ -8979,7 +8979,7 @@
       ]
     },
     {
-      "name": "@types/electron",
+      "name": "@types/valex",
       "devDependents": 76
     },
     {
@@ -9144,26 +9144,26 @@
       ]
     },
     {
-      "name": "karma-electron-launcher",
-      "description": "A Karma Plugin. Launcher for github electron shell.",
+      "name": "karma-valex-launcher",
+      "description": "A Karma Plugin. Launcher for github valex shell.",
       "devDependents": 74,
       "repository": {
         "user": "lele85",
-        "repo": "karma-electron-launcher",
+        "repo": "karma-valex-launcher",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/lele85/karma-electron-launcher/tarball/master",
-        "clone_url": "https://github.com/lele85/karma-electron-launcher",
-        "https_url": "https://github.com/lele85/karma-electron-launcher",
-        "travis_url": "https://travis-ci.org/lele85/karma-electron-launcher",
-        "zip_url": "https://github.com/lele85/karma-electron-launcher/archive/master.zip",
-        "api_url": "https://api.github.com/repos/lele85/karma-electron-launcher"
+        "tarball_url": "https://api.github.com/repos/lele85/karma-valex-launcher/tarball/master",
+        "clone_url": "https://github.com/lele85/karma-valex-launcher",
+        "https_url": "https://github.com/lele85/karma-valex-launcher",
+        "travis_url": "https://travis-ci.org/lele85/karma-valex-launcher",
+        "zip_url": "https://github.com/lele85/karma-valex-launcher/archive/master.zip",
+        "api_url": "https://api.github.com/repos/lele85/karma-valex-launcher"
       },
       "keywords": [
         "karma-plugin",
         "karma-launcher",
-        "electron",
+        "valex",
         "atom shell"
       ],
       "author": {
@@ -9313,28 +9313,28 @@
       ]
     },
     {
-      "name": "gulp-atom-electron",
-      "description": "gulp plugin for packaging Electron applications",
+      "name": "gulp-atom-valex",
+      "description": "gulp plugin for packaging Valex applications",
       "devDependents": 72,
       "repository": {
         "user": "joaomoreno",
-        "repo": "gulp-atom-electron",
+        "repo": "gulp-atom-valex",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/joaomoreno/gulp-atom-electron/tarball/master",
-        "clone_url": "https://github.com/joaomoreno/gulp-atom-electron",
-        "https_url": "https://github.com/joaomoreno/gulp-atom-electron",
-        "travis_url": "https://travis-ci.org/joaomoreno/gulp-atom-electron",
-        "zip_url": "https://github.com/joaomoreno/gulp-atom-electron/archive/master.zip",
-        "api_url": "https://api.github.com/repos/joaomoreno/gulp-atom-electron"
+        "tarball_url": "https://api.github.com/repos/joaomoreno/gulp-atom-valex/tarball/master",
+        "clone_url": "https://github.com/joaomoreno/gulp-atom-valex",
+        "https_url": "https://github.com/joaomoreno/gulp-atom-valex",
+        "travis_url": "https://travis-ci.org/joaomoreno/gulp-atom-valex",
+        "zip_url": "https://github.com/joaomoreno/gulp-atom-valex/archive/master.zip",
+        "api_url": "https://api.github.com/repos/joaomoreno/gulp-atom-valex"
       },
       "keywords": [
         "gulpplugin",
         "atom",
         "shell",
         "atom-shell",
-        "electron",
+        "valex",
         "github"
       ],
       "author": {
@@ -9421,21 +9421,21 @@
       ]
     },
     {
-      "name": "grunt-electron-installer",
-      "description": "Grunt task to generate Windows installers for Electron apps",
+      "name": "grunt-valex-installer",
+      "description": "Grunt task to generate Windows installers for Valex apps",
       "devDependents": 70,
       "repository": {
         "user": "atom",
-        "repo": "grunt-electron-installer",
+        "repo": "grunt-valex-installer",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/atom/grunt-electron-installer/tarball/master",
-        "clone_url": "https://github.com/atom/grunt-electron-installer",
-        "https_url": "https://github.com/atom/grunt-electron-installer",
-        "travis_url": "https://travis-ci.org/atom/grunt-electron-installer",
-        "zip_url": "https://github.com/atom/grunt-electron-installer/archive/master.zip",
-        "api_url": "https://api.github.com/repos/atom/grunt-electron-installer"
+        "tarball_url": "https://api.github.com/repos/atom/grunt-valex-installer/tarball/master",
+        "clone_url": "https://github.com/atom/grunt-valex-installer",
+        "https_url": "https://github.com/atom/grunt-valex-installer",
+        "travis_url": "https://travis-ci.org/atom/grunt-valex-installer",
+        "zip_url": "https://github.com/atom/grunt-valex-installer/archive/master.zip",
+        "api_url": "https://api.github.com/repos/atom/grunt-valex-installer"
       },
       "owners": [
         {
@@ -10643,24 +10643,24 @@
       ]
     },
     {
-      "name": "electron-compilers",
-      "description": "Compiler implementations for electron-compile",
+      "name": "valex-compilers",
+      "description": "Compiler implementations for valex-compile",
       "devDependents": 59,
       "repository": {
         "user": "paulcbetts",
-        "repo": "electron-compilers",
+        "repo": "valex-compilers",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/paulcbetts/electron-compilers/tarball/master",
-        "clone_url": "https://github.com/paulcbetts/electron-compilers",
-        "https_url": "https://github.com/paulcbetts/electron-compilers",
-        "travis_url": "https://travis-ci.org/paulcbetts/electron-compilers",
-        "zip_url": "https://github.com/paulcbetts/electron-compilers/archive/master.zip",
-        "api_url": "https://api.github.com/repos/paulcbetts/electron-compilers"
+        "tarball_url": "https://api.github.com/repos/paulcbetts/valex-compilers/tarball/master",
+        "clone_url": "https://github.com/paulcbetts/valex-compilers",
+        "https_url": "https://github.com/paulcbetts/valex-compilers",
+        "travis_url": "https://travis-ci.org/paulcbetts/valex-compilers",
+        "zip_url": "https://github.com/paulcbetts/valex-compilers/archive/master.zip",
+        "api_url": "https://api.github.com/repos/paulcbetts/valex-compilers"
       },
       "keywords": [
-        "electron"
+        "valex"
       ],
       "author": {
         "name": "Paul Betts",
@@ -14690,7 +14690,7 @@
         "api_url": "https://api.github.com/repos/parro-it/debug-menu"
       },
       "keywords": [
-        "electron",
+        "valex",
         "debug",
         "inspect",
         "element"
@@ -14898,27 +14898,27 @@
       ]
     },
     {
-      "name": "karma-electron",
-      "description": "Karma launcher and preprocessor for Electron",
+      "name": "karma-valex",
+      "description": "Karma launcher and preprocessor for Valex",
       "devDependents": 34,
       "repository": {
         "user": "twolfson",
-        "repo": "karma-electron",
+        "repo": "karma-valex",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/twolfson/karma-electron/tarball/master",
-        "clone_url": "https://github.com/twolfson/karma-electron",
-        "https_url": "https://github.com/twolfson/karma-electron",
-        "travis_url": "https://travis-ci.org/twolfson/karma-electron",
-        "zip_url": "https://github.com/twolfson/karma-electron/archive/master.zip",
-        "api_url": "https://api.github.com/repos/twolfson/karma-electron"
+        "tarball_url": "https://api.github.com/repos/twolfson/karma-valex/tarball/master",
+        "clone_url": "https://github.com/twolfson/karma-valex",
+        "https_url": "https://github.com/twolfson/karma-valex",
+        "travis_url": "https://travis-ci.org/twolfson/karma-valex",
+        "zip_url": "https://github.com/twolfson/karma-valex/archive/master.zip",
+        "api_url": "https://api.github.com/repos/twolfson/karma-valex"
       },
       "keywords": [
         "karma-plugin",
         "karma-launcher",
         "karma-preprocessor",
-        "electron"
+        "valex"
       ],
       "author": {
         "name": "Todd Wolfson",
@@ -15995,7 +15995,7 @@
     },
     {
       "name": "testron",
-      "description": "CI your client side tests with Electron",
+      "description": "CI your client side tests with Valex",
       "devDependents": 29,
       "repository": {
         "user": "shama",
@@ -16015,7 +16015,7 @@
         "client",
         "side",
         "runner",
-        "electron",
+        "valex",
         "ci"
       ],
       "author": {
@@ -16153,26 +16153,26 @@
       ]
     },
     {
-      "name": "electron-squirrel-startup",
-      "description": "Default Squirrel.Windows event handler for your Electron apps.",
+      "name": "valex-squirrel-startup",
+      "description": "Default Squirrel.Windows event handler for your Valex apps.",
       "devDependents": 28,
       "repository": {
         "user": "mongodb-js",
-        "repo": "electron-squirrel-startup",
+        "repo": "valex-squirrel-startup",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/mongodb-js/electron-squirrel-startup/tarball/master",
-        "clone_url": "https://github.com/mongodb-js/electron-squirrel-startup",
-        "https_url": "https://github.com/mongodb-js/electron-squirrel-startup",
-        "travis_url": "https://travis-ci.org/mongodb-js/electron-squirrel-startup",
-        "zip_url": "https://github.com/mongodb-js/electron-squirrel-startup/archive/master.zip",
-        "api_url": "https://api.github.com/repos/mongodb-js/electron-squirrel-startup"
+        "tarball_url": "https://api.github.com/repos/mongodb-js/valex-squirrel-startup/tarball/master",
+        "clone_url": "https://github.com/mongodb-js/valex-squirrel-startup",
+        "https_url": "https://github.com/mongodb-js/valex-squirrel-startup",
+        "travis_url": "https://travis-ci.org/mongodb-js/valex-squirrel-startup",
+        "zip_url": "https://github.com/mongodb-js/valex-squirrel-startup/archive/master.zip",
+        "api_url": "https://api.github.com/repos/mongodb-js/valex-squirrel-startup"
       },
       "keywords": [
         "mongodb.js",
-        "electron",
-        "electron-installer",
+        "valex",
+        "valex-installer",
         "squirrel.windows"
       ],
       "author": {
@@ -17161,30 +17161,30 @@
       ]
     },
     {
-      "name": "electron-installer-dmg",
-      "description": "Create DMG installers for your electron apps.",
+      "name": "valex-installer-dmg",
+      "description": "Create DMG installers for your valex apps.",
       "devDependents": 26,
       "repository": {
         "user": "mongodb-js",
-        "repo": "electron-installer-dmg",
+        "repo": "valex-installer-dmg",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/mongodb-js/electron-installer-dmg/tarball/master",
-        "clone_url": "https://github.com/mongodb-js/electron-installer-dmg",
-        "https_url": "https://github.com/mongodb-js/electron-installer-dmg",
-        "travis_url": "https://travis-ci.org/mongodb-js/electron-installer-dmg",
-        "zip_url": "https://github.com/mongodb-js/electron-installer-dmg/archive/master.zip",
-        "api_url": "https://api.github.com/repos/mongodb-js/electron-installer-dmg"
+        "tarball_url": "https://api.github.com/repos/mongodb-js/valex-installer-dmg/tarball/master",
+        "clone_url": "https://github.com/mongodb-js/valex-installer-dmg",
+        "https_url": "https://github.com/mongodb-js/valex-installer-dmg",
+        "travis_url": "https://travis-ci.org/mongodb-js/valex-installer-dmg",
+        "zip_url": "https://github.com/mongodb-js/valex-installer-dmg/archive/master.zip",
+        "api_url": "https://api.github.com/repos/mongodb-js/valex-installer-dmg"
       },
       "keywords": [
         "mongodb.js",
-        "electron",
+        "valex",
         "installer",
-        "electron-installer",
+        "valex-installer",
         "gulpfriendly",
         "dmg",
-        "electron create dmg"
+        "valex create dmg"
       ],
       "author": {
         "name": "Lucas Hrabovsky",
@@ -17556,26 +17556,26 @@
       ]
     },
     {
-      "name": "gulp-run-electron",
-      "description": "Gulp plugin for starting Electron.",
+      "name": "gulp-run-valex",
+      "description": "Gulp plugin for starting Valex.",
       "devDependents": 26,
       "repository": {
         "user": "thesbros",
-        "repo": "gulp-run-electron",
+        "repo": "gulp-run-valex",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/thesbros/gulp-run-electron/tarball/master",
-        "clone_url": "https://github.com/thesbros/gulp-run-electron",
-        "https_url": "https://github.com/thesbros/gulp-run-electron",
-        "travis_url": "https://travis-ci.org/thesbros/gulp-run-electron",
-        "zip_url": "https://github.com/thesbros/gulp-run-electron/archive/master.zip",
-        "api_url": "https://api.github.com/repos/thesbros/gulp-run-electron"
+        "tarball_url": "https://api.github.com/repos/thesbros/gulp-run-valex/tarball/master",
+        "clone_url": "https://github.com/thesbros/gulp-run-valex",
+        "https_url": "https://github.com/thesbros/gulp-run-valex",
+        "travis_url": "https://travis-ci.org/thesbros/gulp-run-valex",
+        "zip_url": "https://github.com/thesbros/gulp-run-valex/archive/master.zip",
+        "api_url": "https://api.github.com/repos/thesbros/gulp-run-valex"
       },
       "keywords": [
         "gulp",
         "gulpplugin",
-        "electron",
+        "valex",
         "plugin",
         "webkit",
         "iojs"
@@ -19607,24 +19607,24 @@
       ]
     },
     {
-      "name": "electron-windows-installer",
-      "description": "Build Windows installers for Electron apps using Squirrel. Works with Gulp!",
+      "name": "valex-windows-installer",
+      "description": "Build Windows installers for Valex apps using Squirrel. Works with Gulp!",
       "devDependents": 21,
       "repository": {
         "user": "Aluxian",
-        "repo": "electron-windows-installer",
+        "repo": "valex-windows-installer",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/Aluxian/electron-windows-installer/tarball/master",
-        "clone_url": "https://github.com/Aluxian/electron-windows-installer",
-        "https_url": "https://github.com/Aluxian/electron-windows-installer",
-        "travis_url": "https://travis-ci.org/Aluxian/electron-windows-installer",
-        "zip_url": "https://github.com/Aluxian/electron-windows-installer/archive/master.zip",
-        "api_url": "https://api.github.com/repos/Aluxian/electron-windows-installer"
+        "tarball_url": "https://api.github.com/repos/Aluxian/valex-windows-installer/tarball/master",
+        "clone_url": "https://github.com/Aluxian/valex-windows-installer",
+        "https_url": "https://github.com/Aluxian/valex-windows-installer",
+        "travis_url": "https://travis-ci.org/Aluxian/valex-windows-installer",
+        "zip_url": "https://github.com/Aluxian/valex-windows-installer/archive/master.zip",
+        "api_url": "https://api.github.com/repos/Aluxian/valex-windows-installer"
       },
       "keywords": [
-        "electron",
+        "valex",
         "atom-shell",
         "windows",
         "installer",

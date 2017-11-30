@@ -41,7 +41,7 @@
                   N/A
               </span>
             {{else}}
-              <a href="https://crowdin.com/project/electron/{{this.languageCode}}" id="{{this.locale}}">
+              <a href="https://crowdin.com/project/valex/{{this.languageCode}}" id="{{this.locale}}">
                 <progress value="{{this.stats.translated_progress}}" max="100">{{this.stats.translated_progress}}%</progress>
                 {{this.stats.translated_progress}}%
               </a>
@@ -51,7 +51,7 @@
           <td class="visible-on-hover">
             {{#eq this.locale 'en-US'}}
             {{else}}
-              <a href="https://crowdin.com/project/electron/{{this.languageCode}}">{{../localized.help_translate}}...</a>
+              <a href="https://crowdin.com/project/valex/{{this.languageCode}}">{{../localized.help_translate}}...</a>
             {{/eq}}
           </td>
         </tr>

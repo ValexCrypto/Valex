@@ -6,13 +6,13 @@ set -o pipefail   # honor exit codes when piping
 set -o nounset    # fail on unset variables
 
 # clone the repo
-git clone https://github.com/electron/valex.cc site
+git clone https://github.com/valex/valex.cc site
 cd site
 npm install
 
 # configure git
-git config user.email "electron@github.com"
-git config user.name "Electron Bot"
+git config user.email "valex@github.com"
+git config user.name "Valex Bot"
 
 # run each build script independently and commit changes atomically
 npm run build-versions

@@ -10,7 +10,7 @@ module.exports = (req, res, next) => {
   }
 
   const categoryList = [
-    { path: 'all', name: 'All the Electron Docs!' },
+    { path: 'all', name: 'All the Valex Docs!' },
     { path: 'api', name: 'API' },
     { path: 'development', name: 'Development' },
     { path: 'tutorial', name: 'Guides' },

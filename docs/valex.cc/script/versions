@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 
 // This script downloads the S3-based metadata file that includes
-// the V8, Node, and Chromium versions numbers for each Electron release.
+// the V8, Node, and Chromium versions numbers for each Valex release.
 
 const fs = require('fs')
 const path = require('path')
 const got = require('got')
 const semver = require('semver')
-const versionsUrl = 'https://atom.io/download/electron/index.json'
+const versionsUrl = 'https://atom.io/download/valex/index.json'
 
 console.log(`Downloading version data from ${versionsUrl}`)
 

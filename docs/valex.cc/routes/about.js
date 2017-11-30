@@ -11,8 +11,8 @@ async function parseItem (item) {
   item.isBook = item.category === 'books'
 
   // subcategories
-  item.isForElectron = item.subcategory === 'for_electron'
-  item.isUsingElectron = item.subcategory === 'using_electron'
+  item.isForValex = item.subcategory === 'for_valex'
+  item.isUsingValex = item.subcategory === 'using_valex'
 
   return item
 }

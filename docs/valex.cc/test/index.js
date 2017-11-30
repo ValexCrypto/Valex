@@ -28,7 +28,7 @@ describe('valex.cc', () => {
       const $ = await get('/404-page-asdfgh')
       const path = '/404-page-asdfgh'
       $('.error-page .lead a').attr('href').should
-        .eq(`https://github.com/electron/valex.cc/issues/new?title=404%20for%20${path}&body=The%20following%20route%20is%20returning%20a%20404%20HTTP%20status%20code%3A%20${path}`)
+        .eq(`https://github.com/valex/valex.cc/issues/new?title=404%20for%20${path}&body=The%20following%20route%20is%20returning%20a%20404%20HTTP%20status%20code%3A%20${path}`)
     })
   })
 
@@ -38,13 +38,13 @@ describe('valex.cc', () => {
       $('header').should.have.class('site-header')
       $('p.jumbotron-lead').should.contain('Build cross platform desktop apps')
       $('.featured-app').length.should.equal(24)
-      $('head > title').text().should.match(/^Electron/)
+      $('head > title').text().should.match(/^Valex/)
 
       // versions
-      $('#electron-versions').text().should.match(/Electron: \d+\.\d+\.\d+/)
-      $('#electron-versions').text().should.match(/Node: \d+\.\d+\.\d+/)
-      $('#electron-versions').text().should.match(/Chromium: \d+\.\d+\.\d+\.\d+/)
-      $('#electron-versions').text().should.match(/V8: \d+\.\d+\.\d+\.\d+/)
+      $('#valex-versions').text().should.match(/Valex: \d+\.\d+\.\d+/)
+      $('#valex-versions').text().should.match(/Node: \d+\.\d+\.\d+/)
+      $('#valex-versions').text().should.match(/Chromium: \d+\.\d+\.\d+\.\d+/)
+      $('#valex-versions').text().should.match(/V8: \d+\.\d+\.\d+\.\d+/)
 
       // Footer
     })
@@ -59,8 +59,8 @@ describe('valex.cc', () => {
 
     test('index has custom title and description meta tags', async () => {
       const $ = await get('/apps')
-      $('head > title').text().should.eq('Electron Apps | Electron')
-      $('meta[property="og:description"]').attr('content').should.eq('Apps Built on Electron')
+      $('head > title').text().should.eq('Valex Apps | Valex')
+      $('meta[property="og:description"]').attr('content').should.eq('Apps Built on Valex')
     })
 
     test('apps are sorted by date, descending', async () => {
@@ -92,7 +92,7 @@ describe('valex.cc', () => {
     test('index', async () => {
       const $ = await get('/docs')
       $('header').should.have.class('site-header')
-      $('a[href="/docs/tutorial/about"]').should.have.text('About Electron')
+      $('a[href="/docs/tutorial/about"]').should.have.text('About Valex')
       $('a[href="/docs/api/auto-updater"]').should.have.text('autoUpdater')
     })
 
@@ -110,13 +110,13 @@ describe('valex.cc', () => {
 
     test('uses page title and description', async () => {
       const $ = await get('/docs/api/browser-window')
-      $('head > title').text().should.eq('BrowserWindow | Electron')
+      $('head > title').text().should.eq('BrowserWindow | Valex')
       $('meta[property="og:description"]').attr('content').should.eq('Create and control browser windows.')
     })
 
     test('docs/all', async () => {
       const $ = await get('/docs/all')
-      $('head > title').text().should.eq('All the Electron Docs! | Electron')
+      $('head > title').text().should.eq('All the Valex Docs! | Valex')
       const titles = $('h1')
         .map((i, el) => $(el).text())
         .get()
@@ -153,9 +153,9 @@ describe('valex.cc', () => {
       $('h2').length.should.be.above(35)
 
       const titles = $('h2 a').map((i, el) => $(el).text().trim()).get()
-      titles.should.include('Electron 1.7.9')
-      titles.should.include('Electron 1.6.7')
-      titles.should.include('Electron 0.37.8')
+      titles.should.include('Valex 1.7.9')
+      titles.should.include('Valex 1.6.7')
+      titles.should.include('Valex 0.37.8')
     })
   })
 
@@ -187,7 +187,7 @@ describe('valex.cc', () => {
   describe('/about', () => {
     test('display lists of content from awesome-electron', async () => {
       const $ = await get('/about')
-      $('h1').text().should.eq('About Electron')
+      $('h1').text().should.eq('About Valex')
 
       const titles = $('h2').map((i, el) => $(el).text()).get()
       titles.should.include('Tools')
@@ -207,9 +207,9 @@ describe('valex.cc', () => {
   describe('devtron and spectron', async () => {
     test('Test existed landing pages', async () => {
       let $ = await get('/devtron')
-      $('.jumbotron-lead .jumbotron-lead-muted').text().should.eq('An Electron DevTools Extension')
+      $('.jumbotron-lead .jumbotron-lead-muted').text().should.eq('An Valex DevTools Extension')
       $ = await get('/spectron')
-      $('.jumbotron-lead .jumbotron-lead-muted').text().should.eq('An Electron Testing Framework')
+      $('.jumbotron-lead .jumbotron-lead-muted').text().should.eq('An Valex Testing Framework')
     })
   })
 
@@ -235,19 +235,19 @@ describe('valex.cc', () => {
     test('redirects /issues to the website repo, for convenience', async () => {
       const res = await supertest(app).get('/issues')
       res.statusCode.should.equal(301)
-      res.headers.location.should.equal('https://github.com/electron/valex.cc/issues')
+      res.headers.location.should.equal('https://github.com/valex/valex.cc/issues')
     })
 
     test('redirects /issues/new to the website repo, for convenience', async () => {
       const res = await supertest(app).get('/issues')
       res.statusCode.should.equal(301)
-      res.headers.location.should.equal('https://github.com/electron/valex.cc/issues')
+      res.headers.location.should.equal('https://github.com/valex/valex.cc/issues')
     })
 
     test('redirects /pulls to the website repo, for convenience', async () => {
       const res = await supertest(app).get('/pulls')
       res.statusCode.should.equal(301)
-      res.headers.location.should.equal('https://github.com/electron/valex.cc/pulls')
+      res.headers.location.should.equal('https://github.com/valex/valex.cc/pulls')
     })
   })
 
@@ -255,7 +255,7 @@ describe('valex.cc', () => {
     test('hits the CROWDIN API', async () => {
       process.env.CROWDIN_KEY = '123'
       const mock = nock('https://api.crowdin.com')
-        .get('/api/project/electron/status?key=123&json=true')
+        .get('/api/project/valex/status?key=123&json=true')
         .once()
         .reply(200, {stats: 'mocked'})
 

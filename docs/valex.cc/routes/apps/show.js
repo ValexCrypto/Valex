@@ -14,7 +14,7 @@ module.exports = (req, res, next) => {
   const context = Object.assign(req.context, {
     app: app,
     page: {
-      title: `${app.name} | Apps | Electron`,
+      title: `${app.name} | Apps | Valex`,
       url: req.url,
       description: app.description
     }

@@ -33,7 +33,7 @@ module.exports = (req, res, next) => {
     items: report.collection,
     blacklist: blacklist,
     page: {
-      title: `${report.title} | Electron`
+      title: `${report.title} | Valex`
     }
   })
 

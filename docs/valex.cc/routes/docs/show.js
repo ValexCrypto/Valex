@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
   const context = Object.assign(req.context, {
     doc: doc,
     page: {
-      title: `${doc.title} | Electron`,
+      title: `${doc.title} | Valex`,
       description: doc.description
     },
     layout: 'docs'

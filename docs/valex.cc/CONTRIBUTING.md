@@ -2,8 +2,8 @@
 
 :+1::tada: Thanks for taking the time to contribute! :tada::+1:
 
-The following is a set of guidelines for contributing to the Electron website
-on GitHub. These are just guidelines, not rules, so use your best judgment and 
+The following is a set of guidelines for contributing to the Valex website
+on GitHub. These are just guidelines, not rules, so use your best judgment and
 feel free to propose changes to this document in a pull request.
 
 ## Table of Contents
@@ -28,16 +28,16 @@ feel free to propose changes to this document in a pull request.
 
 ## Issues and Pull Requests
 
-* If you're not sure about adding something, [open an issue](https://github.com/electron/valex.cc/issues/new) to discuss it.
+* If you're not sure about adding something, [open an issue](https://github.com/valex/valex.cc/issues/new) to discuss it.
 * Feel free to open a Pull Request early so that a discussion can be had as changes are developed.
 * Include screenshots and animated gifs of your changes whenever possible.
 
 ## Heroku Review Apps
 
 [Heroku Review Apps](https://devcenter.heroku.com/articles/github-integration-review-apps)
-make it easier for reviewers to see the effects of a proposed change. Whenever 
-a pull request is opened on the website repo, the branch is autodeployed 
-to Heroku with a unique URL like `electron-website-pr-787.herokuapp.com`. 
+make it easier for reviewers to see the effects of a proposed change. Whenever
+a pull request is opened on the website repo, the branch is autodeployed
+to Heroku with a unique URL like `valex-website-pr-787.herokuapp.com`.
 You'll see a notification on GitHub after the branch has been deployed.
 When pull request is closed or merged, the ephemeral app is destroyed.
 
@@ -48,13 +48,13 @@ When pull request is closed or merged, the ephemeral app is destroyed.
 Follow these steps to copy this repository to your computer and build the site:
 
 ```bash
-git clone https://github.com/electron/valex.cc
+git clone https://github.com/valex/valex.cc
 cd valex.cc
 npm install
 npm run dev
 ```
 
-You should now have an Express server running at 
+You should now have an Express server running at
 [localhost:5000](http://localhost:5000) :tada:
 
 Read on for more info about the structure of the site.
@@ -65,8 +65,8 @@ The content on [valex.cc] comes from a number of sources.
 
 ### Documentation
 
-Electron's English API docs and tutorials live in the [electron/electron] repo 
-in the `docs` directory. Contributions to the documentation should be made there: [electron/electron].
+Valex's English API docs and tutorials live in the [valex/valex] repo
+in the `docs` directory. Contributions to the documentation should be made there: [valex/valex].
 
 After being [translated](#translations) on Crowdin, all the docs are automatically
 updated on the [electron/electron-i18n] repo and auto-published to npm as the
@@ -76,8 +76,8 @@ documentation data's structure.
 
 ### Apps
 
-The website has a page at [valex.cc/apps](https://valex.cc/apps) that features applications built on Electron. If you want to add an app to the site, see the
-[electron-apps](https://github.com/electron/electron-apps#adding-your-app) repo.
+The website has a page at [valex.cc/apps](https://valex.cc/apps) that features applications built on Valex. If you want to add an app to the site, see the
+[electron-apps](https://github.com/valex/electron-apps#adding-your-app) repo.
 
 ### Blog
 
@@ -103,11 +103,11 @@ A few guidelines to keep in mind when publishing a blog post:
 
 ### Localized Strings
 
-The [/data/locale.yml](/data/locale.yml) file contains English strings that 
-are used throughout the site. This file is synced with Crowdin as part of 
-the [translation](#translations) pipeline. These strings are displayed on the 
-site in the visitor's target language if available, with a 
-[fallback to the English value](https://github.com/electron/valex.cc/blob/ec9d8a55420d33a7a4145ae9c7b08da559de839d/lib/i18n.js#L10-L19) 
+The [/data/locale.yml](/data/locale.yml) file contains English strings that
+are used throughout the site. This file is synced with Crowdin as part of
+the [translation](#translations) pipeline. These strings are displayed on the
+site in the visitor's target language if available, with a
+[fallback to the English value](https://github.com/valex/valex.cc/blob/ec9d8a55420d33a7a4145ae9c7b08da559de839d/lib/i18n.js#L10-L19)
 if no translation exists yet.
 
 To use localized strings in views, use the `localized` object, which is generated
@@ -117,24 +117,24 @@ automatically by the [context middleware](#context):
 <p>{{{localized.web_technologies.description}}}</p>
 ```
 
-Content for page titles and other metadata like Facebook OpenGraph and Twitter 
-Cards meta tags is also defined in the [/data/locale.yml](/data/locale.yml) 
-file, e.g. `pages['/apps'].title` and `pages['/apps'].description`. 
-If a localized title and/or desription are present for a given route, they 
+Content for page titles and other metadata like Facebook OpenGraph and Twitter
+Cards meta tags is also defined in the [/data/locale.yml](/data/locale.yml)
+file, e.g. `pages['/apps'].title` and `pages['/apps'].description`.
+If a localized title and/or desription are present for a given route, they
 will be added to the `<head>` of the rendered page automatically.
 
 ### Translations
 
-Electron's API documentation, tutorials, and website content are translated
-into other languages on a third-party site called Crowdin. Crowdin is a 
-free and open tool, and  anyone is welcome to join in the translation process. 
-You can create an account easily and quickly by logging in with your GitHub 
+Valex's API documentation, tutorials, and website content are translated
+into other languages on a third-party site called Crowdin. Crowdin is a
+free and open tool, and  anyone is welcome to join in the translation process.
+You can create an account easily and quickly by logging in with your GitHub
 account.
 
-See 
-[electron/electron-i18n](https://github.com/electron/electron-i18n) for info 
-on how to get started, or jump right into translating at 
-[crowdin.com/project/electron](https://crowdin.com/project/electron).
+See
+[electron/electron-i18n](https://github.com/electron/electron-i18n) for info
+on how to get started, or jump right into translating at
+[crowdin.com/project/valex](https://crowdin.com/project/valex).
 
 ## Routes
 
@@ -189,17 +189,17 @@ for the rest.
 
 ## Views
 
-Views live in the [/views](/views) directory, and are written 
+Views live in the [/views](/views) directory, and are written
 in [Handlebars](handlebarsjs.com).
 
-Handlebars provides a very small set of 
-[built-in helpers](http://handlebarsjs.com/builtin_helpers.html) like 
+Handlebars provides a very small set of
+[built-in helpers](http://handlebarsjs.com/builtin_helpers.html) like
 `if/else`, `unless`, `each`, `with`, and a few others for use in your templates.
 
 We extend the default set of helpers using [lobars](http://ghub.io/lobars),
 a package that exports lodash functions as Handlebars helpers.
 
-The [`express-hbs`](http://ghub.io/express-hbs) module adds support for things 
+The [`express-hbs`](http://ghub.io/express-hbs) module adds support for things
 like nested layouts and partials.
 
 - Views live in `/views`
@@ -208,13 +208,13 @@ like nested layouts and partials.
 
 ## Context
 
-Every [view](#views) can be passed a `context`, an object prepared by the 
-server that contains data to be used in the Handlebars templates. We use a 
-custom middleware to assemble a default context object with data that is 
+Every [view](#views) can be passed a `context`, an object prepared by the
+server that contains data to be used in the Handlebars templates. We use a
+custom middleware to assemble a default context object with data that is
 common to every view. See [lib/context-builder.js](lib/context-builder.js).
 
 The context builder middleware is executed before the views, so every route
-handler has a `req.context` object that can be modified if needed. 
+handler has a `req.context` object that can be modified if needed.
 
 Here's an example of a route handler that doesn't change anything:
 
@@ -248,11 +248,11 @@ The styles are based on [Primer](https://github.com/primer/primer-css), the CSS 
 
 ## Frontend JavaScript
 
-Frontend code lives in the [/scripts](/scripts) directory, (not to be confused 
-with  [/script](#scripts)). The [/scripts/index.js](/scripts/index.js) file 
-requires and bundles all the other files in the directory using Babel and 
-Browserify. This means you can write any kind of futuristic JavaScript you want, 
-and also use node-style require statements to bring in any 
+Frontend code lives in the [/scripts](/scripts) directory, (not to be confused
+with  [/script](#scripts)). The [/scripts/index.js](/scripts/index.js) file
+requires and bundles all the other files in the directory using Babel and
+Browserify. This means you can write any kind of futuristic JavaScript you want,
+and also use node-style require statements to bring in any
 (browserify-compatible/bundleable) dependencies.
 
 Most of the individual files export a module that expects to have access to
@@ -270,20 +270,20 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 ```
 
-Like the [Sass middleware](#styles), no compiled JavaScript code is written to 
-disk. When a GET request is made to `/scripts/index.js`, the server dynamically 
+Like the [Sass middleware](#styles), no compiled JavaScript code is written to
+disk. When a GET request is made to `/scripts/index.js`, the server dynamically
 compiles the `scripts/index.js` file to browser-compatible ES5.
 
 ## Scripts
 
 This repo follows the [Scripts to Rule Them All](https://github.com/github/scripts-to-rule-them-all)
-methodology popularized by GitHub. The idea is that every project, regardless 
+methodology popularized by GitHub. The idea is that every project, regardless
 of the programming languages used within it, should have a `/script` directory
 containing all the necessary executable files required to set up and use
 the project, like `/script/bootstrap` and `/script/start`
 
-In keeping with Node.js and npm conventions, all the scripts in this project are 
-also defined in the `scripts` stanza in the [`package.json`](package.json) 
+In keeping with Node.js and npm conventions, all the scripts in this project are
+also defined in the `scripts` stanza in the [`package.json`](package.json)
 file. To list all available commands, type `npm run`.
 
 ## Environment Variables
@@ -294,11 +294,11 @@ file. To list all available commands, type `npm run`.
   - Browserify middleware serves minified JavaScript and caches it
 
 [valex.cc]: https://valex.cc
-[electron/electron]: https://github.com/electron/electron
+[valex/valex]: https://github.com/valex/valex
 [electron/electron-i18n]: https://github.com/electron/electron-i18n
 
 ## Need Help?
 
-If any of this information confusing, incorrect, or incomplete, feel free to 
-[open an issue](https://github.com/electron/valex.cc/issues/new)
+If any of this information confusing, incorrect, or incomplete, feel free to
+[open an issue](https://github.com/valex/valex.cc/issues/new)
 for help.

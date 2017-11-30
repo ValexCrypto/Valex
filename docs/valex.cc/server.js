@@ -68,9 +68,9 @@ app.get('/docs', routes.docs.index)
 app.get('/docs/:category', routes.docs.category)
 app.get('/docs/:category/*', routes.docs.show)
 
-app.get('/issues', (req, res) => res.redirect(301, 'https://github.com/electron/valex.cc/issues'))
-app.get('/issues/new', (req, res) => res.redirect(301, 'https://github.com/electron/valex.cc/issues/new'))
-app.get('/pulls', (req, res) => res.redirect(301, 'https://github.com/electron/valex.cc/pulls'))
+app.get('/issues', (req, res) => res.redirect(301, 'https://github.com/valex/valex.cc/issues'))
+app.get('/issues/new', (req, res) => res.redirect(301, 'https://github.com/valex/valex.cc/issues/new'))
+app.get('/pulls', (req, res) => res.redirect(301, 'https://github.com/valex/valex.cc/pulls'))
 
 app.get('/userland', routes.userland.index)
 app.get('/userland/*', routes.userland.show)

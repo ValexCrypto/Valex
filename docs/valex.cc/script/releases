@@ -12,12 +12,12 @@ github.authenticate({
   token: 'da809a6077bb1b0aa7c5623f7b2d5f1fec2faae4'
 })
 
-console.log('Fetching electron/electron releases from the GitHub API')
+console.log('Fetching valex/valex releases from the GitHub API')
 
 async function getReleases () {
   const res = await github.repos.getReleases({
-    owner: 'electron',
-    repo: 'electron',
+    owner: 'valex',
+    repo: 'valex',
     per_page: 100
   })
 
@@ -37,7 +37,7 @@ async function processRelease(release) {
   // turn PR references like #123 into hyperlinks
   .replace(
     / #(\d+)$/gm,
-    ' <a href="https://github.com/electron/electron/pull/$1">#$1</a>'
+    ' <a href="https://github.com/valex/valex/pull/$1">#$1</a>'
   )
 
   // adjust heading levels (h2 becomes h3, etc)

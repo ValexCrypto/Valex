@@ -1,6 +1,6 @@
 const i18n = require('../lib/i18n')
 const vendoredVersions = require('../data/versions.json')
-  .find(version => version.version === i18n.electronLatestStableVersion)
+  .find(version => version.version === i18n.valexLatestStableVersion)
 const {getLanguageNativeName} = require('locale-code')
 
 // Supply all route handlers with a baseline `req.context` object
@@ -13,8 +13,8 @@ module.exports = function contextBuilder (req, res, next) {
   page.path = req.path
 
   req.context = {
-    electronLatestStableVersion: i18n.electronLatestStableVersion,
-    electronLatestStableTag: i18n.electronLatestStableTag,
+    valexLatestStableVersion: i18n.valexLatestStableVersion,
+    valexLatestStableTag: i18n.valexLatestStableTag,
     vendoredVersions: vendoredVersions,
     currentLocale: req.language,
     currentLocaleNativeName: getLanguageNativeName(req.language),
@@ -26,7 +26,7 @@ module.exports = function contextBuilder (req, res, next) {
 
   if (req.path !== '/' && req.context.page && !req.context.page.titled) {
     req.context.page.titled = true
-    req.context.page.title = `${req.context.page.title} | Electron`
+    req.context.page.title = `${req.context.page.title} | Valex`
   }
 
   if (req.path.startsWith('/docs')) {

@@ -5,7 +5,7 @@ $octicons-font-path: "../bower_components/octicons/octicons/";
 // Variables
 @import "../bower_components/primer-css/scss/variables";
 @import "../bower_components/basecoat/scss/variables"; // Basecoat override
-@import "variables"; // Electron override
+@import "variables"; // Valex override
 
 
 // Global requirements
@@ -60,7 +60,7 @@ $octicons-font-path: "../bower_components/octicons/octicons/";
 @import "../bower_components/primer-css/scss/utilities/utilities";
 @import "../bower_components/basecoat/scss/utility"; // Basecoat override
 
-// Electron -----------------------------------
+// Valex -----------------------------------
 
 @import "base";
 @import "hljs/github"; // Syntax highlighting

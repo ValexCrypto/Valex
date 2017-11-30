@@ -10,8 +10,8 @@
 
 // Headers ------------------------------
 
-// Electron version
-.electron-versions {
+// Valex version
+.valex-versions {
   display: inline-block;
   margin: 0 auto;
   color: $main-color-subtle;
@@ -22,7 +22,7 @@
   }
 }
 
-.electron-versions span {
+.valex-versions span {
   display: inline-block;
   line-height: 1;
   padding: 0.6em 0.8em;
@@ -35,11 +35,11 @@
   }
 }
 
-.electron-versions strong {
+.valex-versions strong {
   color: $main-color-strong;
 }
 
-.electron-versions-main {
+.valex-versions-main {
   border-radius: 3px;
   color: $main-color;
   border: 1px solid $border-color;

@@ -6,12 +6,12 @@ module.exports = function updateDemoAppDownloadLink () {
 
   if (!platform) return
 
-  const releaseServer = 'https://electron-api-demos.githubapp.com/updates/'
+  const releaseServer = 'https://valex-api-demos.githubapp.com/updates/'
   let assetName
 
-  if (platform === 'darwin') assetName = 'electron-api-demos-mac.zip'
-  if (platform === 'win32') assetName = 'ElectronAPIDemosSetup.exe'
-  if (platform === 'linux') assetName = 'electron-api-demos-linux.zip'
+  if (platform === 'darwin') assetName = 'valex-api-demos-mac.zip'
+  if (platform === 'win32') assetName = 'ValexAPIDemosSetup.exe'
+  if (platform === 'linux') assetName = 'valex-api-demos-linux.zip'
 
   document.querySelector('#download-latest-release')
     .setAttribute('href', releaseServer + assetName)

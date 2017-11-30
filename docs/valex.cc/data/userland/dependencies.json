@@ -1,7 +1,7 @@
 {
   "slug": "dependencies",
   "title": "App Dependencies",
-  "description": "Packages most often listed as `dependencies` in Electron apps.",
+  "description": "Packages most often listed as `dependencies` in Valex apps.",
   "collectionType": "Package",
   "collection": [
     {
@@ -111,32 +111,32 @@
       ]
     },
     {
-      "name": "electron-prebuilt",
-      "description": "Install prebuilt electron binaries for the command-line using npm",
+      "name": "valex-prebuilt",
+      "description": "Install prebuilt valex binaries for the command-line using npm",
       "dependents": 1461,
       "repository": {
-        "user": "electron-userland",
-        "repo": "electron-prebuilt",
+        "user": "valex-userland",
+        "repo": "valex-prebuilt",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/electron-userland/electron-prebuilt/tarball/master",
-        "clone_url": "https://github.com/electron-userland/electron-prebuilt",
-        "https_url": "https://github.com/electron-userland/electron-prebuilt",
-        "travis_url": "https://travis-ci.org/electron-userland/electron-prebuilt",
-        "zip_url": "https://github.com/electron-userland/electron-prebuilt/archive/master.zip",
-        "api_url": "https://api.github.com/repos/electron-userland/electron-prebuilt"
+        "tarball_url": "https://api.github.com/repos/valex-userland/valex-prebuilt/tarball/master",
+        "clone_url": "https://github.com/valex-userland/valex-prebuilt",
+        "https_url": "https://github.com/valex-userland/valex-prebuilt",
+        "travis_url": "https://travis-ci.org/valex-userland/valex-prebuilt",
+        "zip_url": "https://github.com/valex-userland/valex-prebuilt/archive/master.zip",
+        "api_url": "https://api.github.com/repos/valex-userland/valex-prebuilt"
       },
       "keywords": [
-        "electron"
+        "valex"
       ],
       "author": {
         "name": "Mathias Buus"
       },
       "owners": [
         {
-          "name": "electron",
-          "email": "electron@github.com"
+          "name": "valex",
+          "email": "valex@github.com"
         },
         {
           "name": "jlord",
@@ -298,24 +298,24 @@
       ]
     },
     {
-      "name": "electron-debug",
-      "description": "Adds useful debug features to your Electron app",
+      "name": "valex-debug",
+      "description": "Adds useful debug features to your Valex app",
       "dependents": 854,
       "repository": {
         "user": "sindresorhus",
-        "repo": "electron-debug",
+        "repo": "valex-debug",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/sindresorhus/electron-debug/tarball/master",
-        "clone_url": "https://github.com/sindresorhus/electron-debug",
-        "https_url": "https://github.com/sindresorhus/electron-debug",
-        "travis_url": "https://travis-ci.org/sindresorhus/electron-debug",
-        "zip_url": "https://github.com/sindresorhus/electron-debug/archive/master.zip",
-        "api_url": "https://api.github.com/repos/sindresorhus/electron-debug"
+        "tarball_url": "https://api.github.com/repos/sindresorhus/valex-debug/tarball/master",
+        "clone_url": "https://github.com/sindresorhus/valex-debug",
+        "https_url": "https://github.com/sindresorhus/valex-debug",
+        "travis_url": "https://travis-ci.org/sindresorhus/valex-debug",
+        "zip_url": "https://github.com/sindresorhus/valex-debug/archive/master.zip",
+        "api_url": "https://api.github.com/repos/sindresorhus/valex-debug"
       },
       "keywords": [
-        "electron",
+        "valex",
         "debug",
         "debugging",
         "devtools",
@@ -380,32 +380,32 @@
       ]
     },
     {
-      "name": "electron",
-      "description": "Install prebuilt electron binaries for the command-line using npm",
+      "name": "valex",
+      "description": "Install prebuilt valex binaries for the command-line using npm",
       "dependents": 740,
       "repository": {
-        "user": "electron-userland",
-        "repo": "electron-prebuilt",
+        "user": "valex-userland",
+        "repo": "valex-prebuilt",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/electron-userland/electron-prebuilt/tarball/master",
-        "clone_url": "https://github.com/electron-userland/electron-prebuilt",
-        "https_url": "https://github.com/electron-userland/electron-prebuilt",
-        "travis_url": "https://travis-ci.org/electron-userland/electron-prebuilt",
-        "zip_url": "https://github.com/electron-userland/electron-prebuilt/archive/master.zip",
-        "api_url": "https://api.github.com/repos/electron-userland/electron-prebuilt"
+        "tarball_url": "https://api.github.com/repos/valex-userland/valex-prebuilt/tarball/master",
+        "clone_url": "https://github.com/valex-userland/valex-prebuilt",
+        "https_url": "https://github.com/valex-userland/valex-prebuilt",
+        "travis_url": "https://travis-ci.org/valex-userland/valex-prebuilt",
+        "zip_url": "https://github.com/valex-userland/valex-prebuilt/archive/master.zip",
+        "api_url": "https://api.github.com/repos/valex-userland/valex-prebuilt"
       },
       "keywords": [
-        "electron"
+        "valex"
       ],
       "author": {
         "name": "Mathias Buus"
       },
       "owners": [
         {
-          "name": "electron",
-          "email": "electron@github.com"
+          "name": "valex",
+          "email": "valex@github.com"
         },
         {
           "name": "jlord",
@@ -1043,7 +1043,7 @@
     },
     {
       "name": "menubar",
-      "description": "high level way to create menubar desktop applications with electron",
+      "description": "high level way to create menubar desktop applications with valex",
       "dependents": 288,
       "repository": {
         "user": "maxogden",
@@ -1059,7 +1059,7 @@
         "api_url": "https://api.github.com/repos/maxogden/menubar"
       },
       "keywords": [
-        "electron",
+        "valex",
         "atom",
         "shell",
         "menubar",
@@ -1538,21 +1538,21 @@
       ]
     },
     {
-      "name": "electron-packager",
-      "description": "Package and distribute your Electron app with OS-specific bundles (.app, .exe etc) via JS or CLI",
+      "name": "valex-packager",
+      "description": "Package and distribute your Valex app with OS-specific bundles (.app, .exe etc) via JS or CLI",
       "dependents": 223,
       "repository": {
-        "user": "electron-userland",
-        "repo": "electron-packager",
+        "user": "valex-userland",
+        "repo": "valex-packager",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/electron-userland/electron-packager/tarball/master",
-        "clone_url": "https://github.com/electron-userland/electron-packager",
-        "https_url": "https://github.com/electron-userland/electron-packager",
-        "travis_url": "https://travis-ci.org/electron-userland/electron-packager",
-        "zip_url": "https://github.com/electron-userland/electron-packager/archive/master.zip",
-        "api_url": "https://api.github.com/repos/electron-userland/electron-packager"
+        "tarball_url": "https://api.github.com/repos/valex-userland/valex-packager/tarball/master",
+        "clone_url": "https://github.com/valex-userland/valex-packager",
+        "https_url": "https://github.com/valex-userland/valex-packager",
+        "travis_url": "https://travis-ci.org/valex-userland/valex-packager",
+        "zip_url": "https://github.com/valex-userland/valex-packager/archive/master.zip",
+        "api_url": "https://api.github.com/repos/valex-userland/valex-packager"
       },
       "keywords": [],
       "author": {
@@ -1788,24 +1788,24 @@
       ]
     },
     {
-      "name": "electron-json-storage",
-      "description": "Easily write and read user settings in Electron apps",
+      "name": "valex-json-storage",
+      "description": "Easily write and read user settings in Valex apps",
       "dependents": 202,
       "repository": {
         "user": "jviotti",
-        "repo": "electron-json-storage",
+        "repo": "valex-json-storage",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/jviotti/electron-json-storage/tarball/master",
-        "clone_url": "https://github.com/jviotti/electron-json-storage",
-        "https_url": "https://github.com/jviotti/electron-json-storage",
-        "travis_url": "https://travis-ci.org/jviotti/electron-json-storage",
-        "zip_url": "https://github.com/jviotti/electron-json-storage/archive/master.zip",
-        "api_url": "https://api.github.com/repos/jviotti/electron-json-storage"
+        "tarball_url": "https://api.github.com/repos/jviotti/valex-json-storage/tarball/master",
+        "clone_url": "https://github.com/jviotti/valex-json-storage",
+        "https_url": "https://github.com/jviotti/valex-json-storage",
+        "travis_url": "https://travis-ci.org/jviotti/valex-json-storage",
+        "zip_url": "https://github.com/jviotti/valex-json-storage/archive/master.zip",
+        "api_url": "https://api.github.com/repos/jviotti/valex-json-storage"
       },
       "keywords": [
-        "electron",
+        "valex",
         "json",
         "storage",
         "user",
@@ -2393,24 +2393,24 @@
       ]
     },
     {
-      "name": "electron-reload",
-      "description": "Simplest way to reload an electron app on file changes!",
+      "name": "valex-reload",
+      "description": "Simplest way to reload an valex app on file changes!",
       "dependents": 139,
       "repository": {
         "user": "yan-foto",
-        "repo": "electron-reload",
+        "repo": "valex-reload",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/yan-foto/electron-reload/tarball/master",
-        "clone_url": "https://github.com/yan-foto/electron-reload",
-        "https_url": "https://github.com/yan-foto/electron-reload",
-        "travis_url": "https://travis-ci.org/yan-foto/electron-reload",
-        "zip_url": "https://github.com/yan-foto/electron-reload/archive/master.zip",
-        "api_url": "https://api.github.com/repos/yan-foto/electron-reload"
+        "tarball_url": "https://api.github.com/repos/yan-foto/valex-reload/tarball/master",
+        "clone_url": "https://github.com/yan-foto/valex-reload",
+        "https_url": "https://github.com/yan-foto/valex-reload",
+        "travis_url": "https://travis-ci.org/yan-foto/valex-reload",
+        "zip_url": "https://github.com/yan-foto/valex-reload/archive/master.zip",
+        "api_url": "https://api.github.com/repos/yan-foto/valex-reload"
       },
       "keywords": [
-        "electron",
+        "valex",
         "reload",
         "auto-reload",
         "node"
@@ -4060,24 +4060,24 @@
       ]
     },
     {
-      "name": "electron-window-state",
-      "description": "Simple module that helps to save and restore size and position of Electron windows.",
+      "name": "valex-window-state",
+      "description": "Simple module that helps to save and restore size and position of Valex windows.",
       "dependents": 79,
       "repository": {
         "user": "mawie81",
-        "repo": "electron-window-state",
+        "repo": "valex-window-state",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/mawie81/electron-window-state/tarball/master",
-        "clone_url": "https://github.com/mawie81/electron-window-state",
-        "https_url": "https://github.com/mawie81/electron-window-state",
-        "travis_url": "https://travis-ci.org/mawie81/electron-window-state",
-        "zip_url": "https://github.com/mawie81/electron-window-state/archive/master.zip",
-        "api_url": "https://api.github.com/repos/mawie81/electron-window-state"
+        "tarball_url": "https://api.github.com/repos/mawie81/valex-window-state/tarball/master",
+        "clone_url": "https://github.com/mawie81/valex-window-state",
+        "https_url": "https://github.com/mawie81/valex-window-state",
+        "travis_url": "https://travis-ci.org/mawie81/valex-window-state",
+        "zip_url": "https://github.com/mawie81/valex-window-state/archive/master.zip",
+        "api_url": "https://api.github.com/repos/mawie81/valex-window-state"
       },
       "keywords": [
-        "electron"
+        "valex"
       ],
       "author": {
         "name": "Marcel Wiehle"
@@ -4142,24 +4142,24 @@
       ]
     },
     {
-      "name": "electron-config",
-      "description": "Simple config handling for your Electron app or module",
+      "name": "valex-config",
+      "description": "Simple config handling for your Valex app or module",
       "dependents": 78,
       "repository": {
         "user": "sindresorhus",
-        "repo": "electron-config",
+        "repo": "valex-config",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/sindresorhus/electron-config/tarball/master",
-        "clone_url": "https://github.com/sindresorhus/electron-config",
-        "https_url": "https://github.com/sindresorhus/electron-config",
-        "travis_url": "https://travis-ci.org/sindresorhus/electron-config",
-        "zip_url": "https://github.com/sindresorhus/electron-config/archive/master.zip",
-        "api_url": "https://api.github.com/repos/sindresorhus/electron-config"
+        "tarball_url": "https://api.github.com/repos/sindresorhus/valex-config/tarball/master",
+        "clone_url": "https://github.com/sindresorhus/valex-config",
+        "https_url": "https://github.com/sindresorhus/valex-config",
+        "travis_url": "https://travis-ci.org/sindresorhus/valex-config",
+        "zip_url": "https://github.com/sindresorhus/valex-config/archive/master.zip",
+        "api_url": "https://api.github.com/repos/sindresorhus/valex-config"
       },
       "keywords": [
-        "electron",
+        "valex",
         "app",
         "config",
         "store",
@@ -4927,24 +4927,24 @@
       ]
     },
     {
-      "name": "electron-rebuild",
-      "description": "Electron supporting package to rebuild native node modules against the currently installed electron",
+      "name": "valex-rebuild",
+      "description": "Valex supporting package to rebuild native node modules against the currently installed valex",
       "dependents": 66,
       "repository": {
-        "user": "electron",
-        "repo": "electron-rebuild",
+        "user": "valex",
+        "repo": "valex-rebuild",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/electron/electron-rebuild/tarball/master",
-        "clone_url": "https://github.com/electron/electron-rebuild",
-        "https_url": "https://github.com/electron/electron-rebuild",
-        "travis_url": "https://travis-ci.org/electron/electron-rebuild",
-        "zip_url": "https://github.com/electron/electron-rebuild/archive/master.zip",
-        "api_url": "https://api.github.com/repos/electron/electron-rebuild"
+        "tarball_url": "https://api.github.com/repos/valex/valex-rebuild/tarball/master",
+        "clone_url": "https://github.com/valex/valex-rebuild",
+        "https_url": "https://github.com/valex/valex-rebuild",
+        "travis_url": "https://travis-ci.org/valex/valex-rebuild",
+        "zip_url": "https://github.com/valex/valex-rebuild/archive/master.zip",
+        "api_url": "https://api.github.com/repos/valex/valex-rebuild"
       },
       "keywords": [
-        "electron"
+        "valex"
       ],
       "author": {
         "name": "Paul Betts",
@@ -4952,8 +4952,8 @@
       },
       "owners": [
         {
-          "name": "electron",
-          "email": "electron@github.com"
+          "name": "valex",
+          "email": "valex@github.com"
         },
         {
           "name": "jlord",
@@ -5457,24 +5457,24 @@
       ]
     },
     {
-      "name": "electron-compile",
-      "description": "Electron supporting package to compile JS and CSS in Electron applications",
+      "name": "valex-compile",
+      "description": "Valex supporting package to compile JS and CSS in Valex applications",
       "dependents": 60,
       "repository": {
         "user": "paulcbetts",
-        "repo": "electron-compile",
+        "repo": "valex-compile",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/paulcbetts/electron-compile/tarball/master",
-        "clone_url": "https://github.com/paulcbetts/electron-compile",
-        "https_url": "https://github.com/paulcbetts/electron-compile",
-        "travis_url": "https://travis-ci.org/paulcbetts/electron-compile",
-        "zip_url": "https://github.com/paulcbetts/electron-compile/archive/master.zip",
-        "api_url": "https://api.github.com/repos/paulcbetts/electron-compile"
+        "tarball_url": "https://api.github.com/repos/paulcbetts/valex-compile/tarball/master",
+        "clone_url": "https://github.com/paulcbetts/valex-compile",
+        "https_url": "https://github.com/paulcbetts/valex-compile",
+        "travis_url": "https://travis-ci.org/paulcbetts/valex-compile",
+        "zip_url": "https://github.com/paulcbetts/valex-compile/archive/master.zip",
+        "api_url": "https://api.github.com/repos/paulcbetts/valex-compile"
       },
       "keywords": [
-        "electron"
+        "valex"
       ],
       "author": {
         "name": "Paul Betts",
@@ -5568,26 +5568,26 @@
       ]
     },
     {
-      "name": "electron-squirrel-startup",
-      "description": "Default Squirrel.Windows event handler for your Electron apps.",
+      "name": "valex-squirrel-startup",
+      "description": "Default Squirrel.Windows event handler for your Valex apps.",
       "dependents": 58,
       "repository": {
         "user": "mongodb-js",
-        "repo": "electron-squirrel-startup",
+        "repo": "valex-squirrel-startup",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/mongodb-js/electron-squirrel-startup/tarball/master",
-        "clone_url": "https://github.com/mongodb-js/electron-squirrel-startup",
-        "https_url": "https://github.com/mongodb-js/electron-squirrel-startup",
-        "travis_url": "https://travis-ci.org/mongodb-js/electron-squirrel-startup",
-        "zip_url": "https://github.com/mongodb-js/electron-squirrel-startup/archive/master.zip",
-        "api_url": "https://api.github.com/repos/mongodb-js/electron-squirrel-startup"
+        "tarball_url": "https://api.github.com/repos/mongodb-js/valex-squirrel-startup/tarball/master",
+        "clone_url": "https://github.com/mongodb-js/valex-squirrel-startup",
+        "https_url": "https://github.com/mongodb-js/valex-squirrel-startup",
+        "travis_url": "https://travis-ci.org/mongodb-js/valex-squirrel-startup",
+        "zip_url": "https://github.com/mongodb-js/valex-squirrel-startup/archive/master.zip",
+        "api_url": "https://api.github.com/repos/mongodb-js/valex-squirrel-startup"
       },
       "keywords": [
         "mongodb.js",
-        "electron",
-        "electron-installer",
+        "valex",
+        "valex-installer",
         "squirrel.windows"
       ],
       "author": {
@@ -5679,24 +5679,24 @@
       ]
     },
     {
-      "name": "electron-builder",
-      "description": "A complete solution to package and build a ready for distribution Electron app for MacOS, Windows and Linux with “auto update” support out of the box",
+      "name": "valex-builder",
+      "description": "A complete solution to package and build a ready for distribution Valex app for MacOS, Windows and Linux with “auto update” support out of the box",
       "dependents": 57,
       "repository": {
-        "user": "electron-userland",
-        "repo": "electron-builder",
+        "user": "valex-userland",
+        "repo": "valex-builder",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/electron-userland/electron-builder/tarball/master",
-        "clone_url": "https://github.com/electron-userland/electron-builder",
-        "https_url": "https://github.com/electron-userland/electron-builder",
-        "travis_url": "https://travis-ci.org/electron-userland/electron-builder",
-        "zip_url": "https://github.com/electron-userland/electron-builder/archive/master.zip",
-        "api_url": "https://api.github.com/repos/electron-userland/electron-builder"
+        "tarball_url": "https://api.github.com/repos/valex-userland/valex-builder/tarball/master",
+        "clone_url": "https://github.com/valex-userland/valex-builder",
+        "https_url": "https://github.com/valex-userland/valex-builder",
+        "travis_url": "https://travis-ci.org/valex-userland/valex-builder",
+        "zip_url": "https://github.com/valex-userland/valex-builder/archive/master.zip",
+        "api_url": "https://api.github.com/repos/valex-userland/valex-builder"
       },
       "keywords": [
-        "electron",
+        "valex",
         "builder",
         "build",
         "installer",
@@ -5786,7 +5786,7 @@
         "login",
         "launch",
         "node-webkit",
-        "electron",
+        "valex",
         "boot",
         "login-items"
       ],
@@ -7380,24 +7380,24 @@
       ]
     },
     {
-      "name": "electron-settings",
-      "description": "A simple persistent user settings manager for Electron.",
+      "name": "valex-settings",
+      "description": "A simple persistent user settings manager for Valex.",
       "dependents": 43,
       "repository": {
         "user": "nathanbuchar",
-        "repo": "electron-settings",
+        "repo": "valex-settings",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/nathanbuchar/electron-settings/tarball/master",
-        "clone_url": "https://github.com/nathanbuchar/electron-settings",
-        "https_url": "https://github.com/nathanbuchar/electron-settings",
-        "travis_url": "https://travis-ci.org/nathanbuchar/electron-settings",
-        "zip_url": "https://github.com/nathanbuchar/electron-settings/archive/master.zip",
-        "api_url": "https://api.github.com/repos/nathanbuchar/electron-settings"
+        "tarball_url": "https://api.github.com/repos/nathanbuchar/valex-settings/tarball/master",
+        "clone_url": "https://github.com/nathanbuchar/valex-settings",
+        "https_url": "https://github.com/nathanbuchar/valex-settings",
+        "travis_url": "https://travis-ci.org/nathanbuchar/valex-settings",
+        "zip_url": "https://github.com/nathanbuchar/valex-settings/archive/master.zip",
+        "api_url": "https://api.github.com/repos/nathanbuchar/valex-settings"
       },
       "keywords": [
-        "electron",
+        "valex",
         "app",
         "user",
         "data",
@@ -7554,21 +7554,21 @@
       ]
     },
     {
-      "name": "electron-gh-releases",
-      "description": "Electron auto-update by releasing on Github.",
+      "name": "valex-gh-releases",
+      "description": "Valex auto-update by releasing on Github.",
       "dependents": 41,
       "repository": {
         "user": "jenslind",
-        "repo": "electron-gh-releases",
+        "repo": "valex-gh-releases",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/jenslind/electron-gh-releases/tarball/master",
-        "clone_url": "https://github.com/jenslind/electron-gh-releases",
-        "https_url": "https://github.com/jenslind/electron-gh-releases",
-        "travis_url": "https://travis-ci.org/jenslind/electron-gh-releases",
-        "zip_url": "https://github.com/jenslind/electron-gh-releases/archive/master.zip",
-        "api_url": "https://api.github.com/repos/jenslind/electron-gh-releases"
+        "tarball_url": "https://api.github.com/repos/jenslind/valex-gh-releases/tarball/master",
+        "clone_url": "https://github.com/jenslind/valex-gh-releases",
+        "https_url": "https://github.com/jenslind/valex-gh-releases",
+        "travis_url": "https://travis-ci.org/jenslind/valex-gh-releases",
+        "zip_url": "https://github.com/jenslind/valex-gh-releases/archive/master.zip",
+        "api_url": "https://api.github.com/repos/jenslind/valex-gh-releases"
       },
       "author": {
         "name": "Jens Lind",
@@ -7841,24 +7841,24 @@
       ]
     },
     {
-      "name": "electron-localshortcut",
+      "name": "valex-localshortcut",
       "description": "register/unregister a keyboard shortcut locally to a BrowserWindow instance, without using a Menu",
       "dependents": 40,
       "repository": {
         "user": "parro-it",
-        "repo": "electron-localshortcut",
+        "repo": "valex-localshortcut",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/parro-it/electron-localshortcut/tarball/master",
-        "clone_url": "https://github.com/parro-it/electron-localshortcut",
-        "https_url": "https://github.com/parro-it/electron-localshortcut",
-        "travis_url": "https://travis-ci.org/parro-it/electron-localshortcut",
-        "zip_url": "https://github.com/parro-it/electron-localshortcut/archive/master.zip",
-        "api_url": "https://api.github.com/repos/parro-it/electron-localshortcut"
+        "tarball_url": "https://api.github.com/repos/parro-it/valex-localshortcut/tarball/master",
+        "clone_url": "https://github.com/parro-it/valex-localshortcut",
+        "https_url": "https://github.com/parro-it/valex-localshortcut",
+        "travis_url": "https://travis-ci.org/parro-it/valex-localshortcut",
+        "zip_url": "https://github.com/parro-it/valex-localshortcut/archive/master.zip",
+        "api_url": "https://api.github.com/repos/parro-it/valex-localshortcut"
       },
       "keywords": [
-        "electron",
+        "valex",
         "shortcuts",
         "browser-window"
       ],
@@ -8325,20 +8325,20 @@
     },
     {
       "name": "asar",
-      "description": "Creating Electron app packages",
+      "description": "Creating Valex app packages",
       "dependents": 36,
       "repository": {
-        "user": "electron",
+        "user": "valex",
         "repo": "asar",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/electron/asar/tarball/master",
-        "clone_url": "https://github.com/electron/asar",
-        "https_url": "https://github.com/electron/asar",
-        "travis_url": "https://travis-ci.org/electron/asar",
-        "zip_url": "https://github.com/electron/asar/archive/master.zip",
-        "api_url": "https://api.github.com/repos/electron/asar"
+        "tarball_url": "https://api.github.com/repos/valex/asar/tarball/master",
+        "clone_url": "https://github.com/valex/asar",
+        "https_url": "https://github.com/valex/asar",
+        "travis_url": "https://travis-ci.org/valex/asar",
+        "zip_url": "https://github.com/valex/asar/archive/master.zip",
+        "api_url": "https://api.github.com/repos/valex/asar"
       },
       "owners": [
         {
@@ -8346,8 +8346,8 @@
           "email": "nathan@github.com"
         },
         {
-          "name": "electron",
-          "email": "electron@github.com"
+          "name": "valex",
+          "email": "valex@github.com"
         },
         {
           "name": "jlord",
@@ -8655,24 +8655,24 @@
       ]
     },
     {
-      "name": "electron-is-dev",
-      "description": "Check if Electron is running in development",
+      "name": "valex-is-dev",
+      "description": "Check if Valex is running in development",
       "dependents": 35,
       "repository": {
         "user": "sindresorhus",
-        "repo": "electron-is-dev",
+        "repo": "valex-is-dev",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/sindresorhus/electron-is-dev/tarball/master",
-        "clone_url": "https://github.com/sindresorhus/electron-is-dev",
-        "https_url": "https://github.com/sindresorhus/electron-is-dev",
-        "travis_url": "https://travis-ci.org/sindresorhus/electron-is-dev",
-        "zip_url": "https://github.com/sindresorhus/electron-is-dev/archive/master.zip",
-        "api_url": "https://api.github.com/repos/sindresorhus/electron-is-dev"
+        "tarball_url": "https://api.github.com/repos/sindresorhus/valex-is-dev/tarball/master",
+        "clone_url": "https://github.com/sindresorhus/valex-is-dev",
+        "https_url": "https://github.com/sindresorhus/valex-is-dev",
+        "travis_url": "https://travis-ci.org/sindresorhus/valex-is-dev",
+        "zip_url": "https://github.com/sindresorhus/valex-is-dev/archive/master.zip",
+        "api_url": "https://api.github.com/repos/sindresorhus/valex-is-dev"
       },
       "keywords": [
-        "electron",
+        "valex",
         "dev",
         "development",
         "mode",
@@ -8793,24 +8793,24 @@
       ]
     },
     {
-      "name": "electron-connect",
-      "description": "Livereload tools for Electron development",
+      "name": "valex-connect",
+      "description": "Livereload tools for Valex development",
       "dependents": 35,
       "repository": {
         "user": "Quramy",
-        "repo": "electron-connect",
+        "repo": "valex-connect",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/Quramy/electron-connect/tarball/master",
-        "clone_url": "https://github.com/Quramy/electron-connect",
-        "https_url": "https://github.com/Quramy/electron-connect",
-        "travis_url": "https://travis-ci.org/Quramy/electron-connect",
-        "zip_url": "https://github.com/Quramy/electron-connect/archive/master.zip",
-        "api_url": "https://api.github.com/repos/Quramy/electron-connect"
+        "tarball_url": "https://api.github.com/repos/Quramy/valex-connect/tarball/master",
+        "clone_url": "https://github.com/Quramy/valex-connect",
+        "https_url": "https://github.com/Quramy/valex-connect",
+        "travis_url": "https://travis-ci.org/Quramy/valex-connect",
+        "zip_url": "https://github.com/Quramy/valex-connect/archive/master.zip",
+        "api_url": "https://api.github.com/repos/Quramy/valex-connect"
       },
       "keywords": [
-        "electron",
+        "valex",
         "livereload",
         "gulp"
       ],
@@ -9088,21 +9088,21 @@
       ]
     },
     {
-      "name": "electron-positioner",
-      "description": "> Helps positioning your electron windows.",
+      "name": "valex-positioner",
+      "description": "> Helps positioning your valex windows.",
       "dependents": 34,
       "repository": {
         "user": "jenslind",
-        "repo": "electron-positioner",
+        "repo": "valex-positioner",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/jenslind/electron-positioner/tarball/master",
-        "clone_url": "https://github.com/jenslind/electron-positioner",
-        "https_url": "https://github.com/jenslind/electron-positioner",
-        "travis_url": "https://travis-ci.org/jenslind/electron-positioner",
-        "zip_url": "https://github.com/jenslind/electron-positioner/archive/master.zip",
-        "api_url": "https://api.github.com/repos/jenslind/electron-positioner"
+        "tarball_url": "https://api.github.com/repos/jenslind/valex-positioner/tarball/master",
+        "clone_url": "https://github.com/jenslind/valex-positioner",
+        "https_url": "https://github.com/jenslind/valex-positioner",
+        "travis_url": "https://travis-ci.org/jenslind/valex-positioner",
+        "zip_url": "https://github.com/jenslind/valex-positioner/archive/master.zip",
+        "api_url": "https://api.github.com/repos/jenslind/valex-positioner"
       },
       "author": {
         "name": "Jens Lind",
@@ -9247,25 +9247,25 @@
       ]
     },
     {
-      "name": "is-electron-renderer",
-      "description": "Check if code is running in Electron renderer process.",
+      "name": "is-valex-renderer",
+      "description": "Check if code is running in Valex renderer process.",
       "dependents": 33,
       "repository": {
         "user": "jprichardson",
-        "repo": "is-electron-renderer",
+        "repo": "is-valex-renderer",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/jprichardson/is-electron-renderer/tarball/master",
-        "clone_url": "https://github.com/jprichardson/is-electron-renderer",
-        "https_url": "https://github.com/jprichardson/is-electron-renderer",
-        "travis_url": "https://travis-ci.org/jprichardson/is-electron-renderer",
-        "zip_url": "https://github.com/jprichardson/is-electron-renderer/archive/master.zip",
-        "api_url": "https://api.github.com/repos/jprichardson/is-electron-renderer"
+        "tarball_url": "https://api.github.com/repos/jprichardson/is-valex-renderer/tarball/master",
+        "clone_url": "https://github.com/jprichardson/is-valex-renderer",
+        "https_url": "https://github.com/jprichardson/is-valex-renderer",
+        "travis_url": "https://travis-ci.org/jprichardson/is-valex-renderer",
+        "zip_url": "https://github.com/jprichardson/is-valex-renderer/archive/master.zip",
+        "api_url": "https://api.github.com/repos/jprichardson/is-valex-renderer"
       },
       "keywords": [
-        "electron",
-        "electron-component",
+        "valex",
+        "valex-component",
         "atom",
         "renderer",
         "process"
@@ -9591,24 +9591,24 @@
       ]
     },
     {
-      "name": "electron-context-menu",
-      "description": "Context menu for your Electron app",
+      "name": "valex-context-menu",
+      "description": "Context menu for your Valex app",
       "dependents": 32,
       "repository": {
         "user": "sindresorhus",
-        "repo": "electron-context-menu",
+        "repo": "valex-context-menu",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/sindresorhus/electron-context-menu/tarball/master",
-        "clone_url": "https://github.com/sindresorhus/electron-context-menu",
-        "https_url": "https://github.com/sindresorhus/electron-context-menu",
-        "travis_url": "https://travis-ci.org/sindresorhus/electron-context-menu",
-        "zip_url": "https://github.com/sindresorhus/electron-context-menu/archive/master.zip",
-        "api_url": "https://api.github.com/repos/sindresorhus/electron-context-menu"
+        "tarball_url": "https://api.github.com/repos/sindresorhus/valex-context-menu/tarball/master",
+        "clone_url": "https://github.com/sindresorhus/valex-context-menu",
+        "https_url": "https://github.com/sindresorhus/valex-context-menu",
+        "travis_url": "https://travis-ci.org/sindresorhus/valex-context-menu",
+        "zip_url": "https://github.com/sindresorhus/valex-context-menu/archive/master.zip",
+        "api_url": "https://api.github.com/repos/sindresorhus/valex-context-menu"
       },
       "keywords": [
-        "electron",
+        "valex",
         "app",
         "context",
         "right-click",
@@ -9818,24 +9818,24 @@
       ]
     },
     {
-      "name": "electron-dl",
-      "description": "Simplified file downloads for your Electron app",
+      "name": "valex-dl",
+      "description": "Simplified file downloads for your Valex app",
       "dependents": 31,
       "repository": {
         "user": "sindresorhus",
-        "repo": "electron-dl",
+        "repo": "valex-dl",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/sindresorhus/electron-dl/tarball/master",
-        "clone_url": "https://github.com/sindresorhus/electron-dl",
-        "https_url": "https://github.com/sindresorhus/electron-dl",
-        "travis_url": "https://travis-ci.org/sindresorhus/electron-dl",
-        "zip_url": "https://github.com/sindresorhus/electron-dl/archive/master.zip",
-        "api_url": "https://api.github.com/repos/sindresorhus/electron-dl"
+        "tarball_url": "https://api.github.com/repos/sindresorhus/valex-dl/tarball/master",
+        "clone_url": "https://github.com/sindresorhus/valex-dl",
+        "https_url": "https://github.com/sindresorhus/valex-dl",
+        "travis_url": "https://travis-ci.org/sindresorhus/valex-dl",
+        "zip_url": "https://github.com/sindresorhus/valex-dl/archive/master.zip",
+        "api_url": "https://api.github.com/repos/sindresorhus/valex-dl"
       },
       "keywords": [
-        "electron",
+        "valex",
         "app",
         "file",
         "download",
@@ -10531,29 +10531,29 @@
       ]
     },
     {
-      "name": "electron-window",
-      "description": "Convenience methods for Electron windows.",
+      "name": "valex-window",
+      "description": "Convenience methods for Valex windows.",
       "dependents": 29,
       "repository": {
         "user": "jprichardson",
-        "repo": "electron-window",
+        "repo": "valex-window",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/jprichardson/electron-window/tarball/master",
-        "clone_url": "https://github.com/jprichardson/electron-window",
-        "https_url": "https://github.com/jprichardson/electron-window",
-        "travis_url": "https://travis-ci.org/jprichardson/electron-window",
-        "zip_url": "https://github.com/jprichardson/electron-window/archive/master.zip",
-        "api_url": "https://api.github.com/repos/jprichardson/electron-window"
+        "tarball_url": "https://api.github.com/repos/jprichardson/valex-window/tarball/master",
+        "clone_url": "https://github.com/jprichardson/valex-window",
+        "https_url": "https://github.com/jprichardson/valex-window",
+        "travis_url": "https://travis-ci.org/jprichardson/valex-window",
+        "zip_url": "https://github.com/jprichardson/valex-window/archive/master.zip",
+        "api_url": "https://api.github.com/repos/jprichardson/valex-window"
       },
       "keywords": [
         "window",
         "atom",
         "atom-shell",
-        "electron",
+        "valex",
         "gui",
-        "electron-component"
+        "valex-component"
       ],
       "author": {
         "name": "JP Richardson"
@@ -12215,33 +12215,33 @@
       ]
     },
     {
-      "name": "webpack-target-electron-renderer",
-      "description": "webpack target function for electron renderer",
+      "name": "webpack-target-valex-renderer",
+      "description": "webpack target function for valex renderer",
       "dependents": 23,
       "repository": {
         "user": "chentsulin",
-        "repo": "webpack-target-electron-renderer",
+        "repo": "webpack-target-valex-renderer",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/chentsulin/webpack-target-electron-renderer/tarball/master",
-        "clone_url": "https://github.com/chentsulin/webpack-target-electron-renderer",
-        "https_url": "https://github.com/chentsulin/webpack-target-electron-renderer",
-        "travis_url": "https://travis-ci.org/chentsulin/webpack-target-electron-renderer",
-        "zip_url": "https://github.com/chentsulin/webpack-target-electron-renderer/archive/master.zip",
-        "api_url": "https://api.github.com/repos/chentsulin/webpack-target-electron-renderer"
+        "tarball_url": "https://api.github.com/repos/chentsulin/webpack-target-valex-renderer/tarball/master",
+        "clone_url": "https://github.com/chentsulin/webpack-target-valex-renderer",
+        "https_url": "https://github.com/chentsulin/webpack-target-valex-renderer",
+        "travis_url": "https://travis-ci.org/chentsulin/webpack-target-valex-renderer",
+        "zip_url": "https://github.com/chentsulin/webpack-target-valex-renderer/archive/master.zip",
+        "api_url": "https://api.github.com/repos/chentsulin/webpack-target-valex-renderer"
       },
       "keywords": [
         "webpack",
         "target",
-        "electron",
+        "valex",
         "renderer",
-        "electron-renderer"
+        "valex-renderer"
       ],
       "author": {
         "name": "C.T. Lin",
         "email": "chentsulin@gmail.com",
-        "url": "webpack-target-electron-renderer"
+        "url": "webpack-target-valex-renderer"
       },
       "owners": [
         {
@@ -12635,7 +12635,7 @@
         "shell",
         "sh",
         "zsh",
-        "electron",
+        "valex",
         "nwjs"
       ],
       "author": {
@@ -12836,7 +12836,7 @@
       "keywords": [
         "react",
         "react-component",
-        "electron",
+        "valex",
         "node-webkit",
         "native",
         "desktop",
@@ -13914,24 +13914,24 @@
       ]
     },
     {
-      "name": "electron-default-menu",
-      "description": "Default application menu for Electron apps",
+      "name": "valex-default-menu",
+      "description": "Default application menu for Valex apps",
       "dependents": 20,
       "repository": {
         "user": "carter-thaxton",
-        "repo": "electron-default-menu",
+        "repo": "valex-default-menu",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/carter-thaxton/electron-default-menu/tarball/master",
-        "clone_url": "https://github.com/carter-thaxton/electron-default-menu",
-        "https_url": "https://github.com/carter-thaxton/electron-default-menu",
-        "travis_url": "https://travis-ci.org/carter-thaxton/electron-default-menu",
-        "zip_url": "https://github.com/carter-thaxton/electron-default-menu/archive/master.zip",
-        "api_url": "https://api.github.com/repos/carter-thaxton/electron-default-menu"
+        "tarball_url": "https://api.github.com/repos/carter-thaxton/valex-default-menu/tarball/master",
+        "clone_url": "https://github.com/carter-thaxton/valex-default-menu",
+        "https_url": "https://github.com/carter-thaxton/valex-default-menu",
+        "travis_url": "https://travis-ci.org/carter-thaxton/valex-default-menu",
+        "zip_url": "https://github.com/carter-thaxton/valex-default-menu/archive/master.zip",
+        "api_url": "https://api.github.com/repos/carter-thaxton/valex-default-menu"
       },
       "keywords": [
-        "electron",
+        "valex",
         "menu"
       ],
       "author": {
@@ -14197,24 +14197,24 @@
       ]
     },
     {
-      "name": "electron-shortcut-normalizer",
-      "description": "Normalize electron keyboard shortcuts so they work on different operating systems",
+      "name": "valex-shortcut-normalizer",
+      "description": "Normalize valex keyboard shortcuts so they work on different operating systems",
       "dependents": 20,
       "repository": {
         "user": "zeke",
-        "repo": "electron-shortcut-normalizer",
+        "repo": "valex-shortcut-normalizer",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/zeke/electron-shortcut-normalizer/tarball/master",
-        "clone_url": "https://github.com/zeke/electron-shortcut-normalizer",
-        "https_url": "https://github.com/zeke/electron-shortcut-normalizer",
-        "travis_url": "https://travis-ci.org/zeke/electron-shortcut-normalizer",
-        "zip_url": "https://github.com/zeke/electron-shortcut-normalizer/archive/master.zip",
-        "api_url": "https://api.github.com/repos/zeke/electron-shortcut-normalizer"
+        "tarball_url": "https://api.github.com/repos/zeke/valex-shortcut-normalizer/tarball/master",
+        "clone_url": "https://github.com/zeke/valex-shortcut-normalizer",
+        "https_url": "https://github.com/zeke/valex-shortcut-normalizer",
+        "travis_url": "https://travis-ci.org/zeke/valex-shortcut-normalizer",
+        "zip_url": "https://github.com/zeke/valex-shortcut-normalizer/archive/master.zip",
+        "api_url": "https://api.github.com/repos/zeke/valex-shortcut-normalizer"
       },
       "keywords": [
-        "electron",
+        "valex",
         "accelerator",
         "shortcuts",
         "keyboard",
@@ -14309,21 +14309,21 @@
       ]
     },
     {
-      "name": "electron-sudo",
-      "description": "Electron subprocess with administrative privileges, prompting the user with an OS dialog if necessary.",
+      "name": "valex-sudo",
+      "description": "Valex subprocess with administrative privileges, prompting the user with an OS dialog if necessary.",
       "dependents": 20,
       "repository": {
         "user": "automation-stack",
-        "repo": "electron-sudo",
+        "repo": "valex-sudo",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/automation-stack/electron-sudo/tarball/master",
-        "clone_url": "https://github.com/automation-stack/electron-sudo",
-        "https_url": "https://github.com/automation-stack/electron-sudo",
-        "travis_url": "https://travis-ci.org/automation-stack/electron-sudo",
-        "zip_url": "https://github.com/automation-stack/electron-sudo/archive/master.zip",
-        "api_url": "https://api.github.com/repos/automation-stack/electron-sudo"
+        "tarball_url": "https://api.github.com/repos/automation-stack/valex-sudo/tarball/master",
+        "clone_url": "https://github.com/automation-stack/valex-sudo",
+        "https_url": "https://github.com/automation-stack/valex-sudo",
+        "travis_url": "https://travis-ci.org/automation-stack/valex-sudo",
+        "zip_url": "https://github.com/automation-stack/valex-sudo/archive/master.zip",
+        "api_url": "https://api.github.com/repos/automation-stack/valex-sudo"
       },
       "keywords": [
         "sudo",
@@ -14333,7 +14333,7 @@
         "command",
         "exec",
         "ui",
-        "electron",
+        "valex",
         "elevate",
         "administrative",
         "privileges",
@@ -14539,23 +14539,23 @@
     },
     {
       "name": "devtron",
-      "description": "Electron DevTools Extension",
+      "description": "Valex DevTools Extension",
       "dependents": 20,
       "repository": {
-        "user": "electron",
+        "user": "valex",
         "repo": "devtron",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/electron/devtron/tarball/master",
-        "clone_url": "https://github.com/electron/devtron",
-        "https_url": "https://github.com/electron/devtron",
-        "travis_url": "https://travis-ci.org/electron/devtron",
-        "zip_url": "https://github.com/electron/devtron/archive/master.zip",
-        "api_url": "https://api.github.com/repos/electron/devtron"
+        "tarball_url": "https://api.github.com/repos/valex/devtron/tarball/master",
+        "clone_url": "https://github.com/valex/devtron",
+        "https_url": "https://github.com/valex/devtron",
+        "travis_url": "https://travis-ci.org/valex/devtron",
+        "zip_url": "https://github.com/valex/devtron/archive/master.zip",
+        "api_url": "https://api.github.com/repos/valex/devtron"
       },
       "keywords": [
-        "Electron",
+        "Valex",
         "Chrome",
         "Chromium",
         "devtools",
@@ -14566,8 +14566,8 @@
       },
       "owners": [
         {
-          "name": "electron",
-          "email": "electron@github.com"
+          "name": "valex",
+          "email": "valex@github.com"
         },
         {
           "name": "jlord",
@@ -14850,8 +14850,8 @@
           "email": "nathan@github.com"
         },
         {
-          "name": "electron",
-          "email": "electron@github.com"
+          "name": "valex",
+          "email": "valex@github.com"
         },
         {
           "name": "kevinsawicki",
@@ -15612,24 +15612,24 @@
       ]
     },
     {
-      "name": "electron-rpc",
-      "description": "A lightweight rpc-style wrapper for the ipc module of electron",
+      "name": "valex-rpc",
+      "description": "A lightweight rpc-style wrapper for the ipc module of valex",
       "dependents": 18,
       "repository": {
         "user": "marcbachmann",
-        "repo": "electron-rpc",
+        "repo": "valex-rpc",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/marcbachmann/electron-rpc/tarball/master",
-        "clone_url": "https://github.com/marcbachmann/electron-rpc",
-        "https_url": "https://github.com/marcbachmann/electron-rpc",
-        "travis_url": "https://travis-ci.org/marcbachmann/electron-rpc",
-        "zip_url": "https://github.com/marcbachmann/electron-rpc/archive/master.zip",
-        "api_url": "https://api.github.com/repos/marcbachmann/electron-rpc"
+        "tarball_url": "https://api.github.com/repos/marcbachmann/valex-rpc/tarball/master",
+        "clone_url": "https://github.com/marcbachmann/valex-rpc",
+        "https_url": "https://github.com/marcbachmann/valex-rpc",
+        "travis_url": "https://travis-ci.org/marcbachmann/valex-rpc",
+        "zip_url": "https://github.com/marcbachmann/valex-rpc/archive/master.zip",
+        "api_url": "https://api.github.com/repos/marcbachmann/valex-rpc"
       },
       "keywords": [
-        "electron",
+        "valex",
         "atom-shell",
         "atom",
         "rpc",
@@ -16791,14 +16791,14 @@
       ]
     },
     {
-      "name": "electron-cookies",
-      "description": "Adds support for cookies in Electron.",
+      "name": "valex-cookies",
+      "description": "Adds support for cookies in Valex.",
       "dependents": 17,
       "keywords": [
         "atom",
         "shell",
         "cookies",
-        "electron"
+        "valex"
       ],
       "author": {
         "name": "Hank Stoever"
@@ -16903,7 +16903,7 @@
       },
       "keywords": [
         "nightmare",
-        "electron"
+        "valex"
       ],
       "author": {
         "name": "Segment"
@@ -17071,23 +17071,23 @@
     },
     {
       "name": "spectron",
-      "description": "Easily test your Electron apps using ChromeDriver and WebdriverIO.",
+      "description": "Easily test your Valex apps using ChromeDriver and WebdriverIO.",
       "dependents": 16,
       "repository": {
-        "user": "electron",
+        "user": "valex",
         "repo": "spectron",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/electron/spectron/tarball/master",
-        "clone_url": "https://github.com/electron/spectron",
-        "https_url": "https://github.com/electron/spectron",
-        "travis_url": "https://travis-ci.org/electron/spectron",
-        "zip_url": "https://github.com/electron/spectron/archive/master.zip",
-        "api_url": "https://api.github.com/repos/electron/spectron"
+        "tarball_url": "https://api.github.com/repos/valex/spectron/tarball/master",
+        "clone_url": "https://github.com/valex/spectron",
+        "https_url": "https://github.com/valex/spectron",
+        "travis_url": "https://travis-ci.org/valex/spectron",
+        "zip_url": "https://github.com/valex/spectron/archive/master.zip",
+        "api_url": "https://api.github.com/repos/valex/spectron"
       },
       "keywords": [
-        "electron",
+        "valex",
         "chromedriver",
         "webdriverio",
         "selenium"
@@ -18424,24 +18424,24 @@
       ]
     },
     {
-      "name": "electron-log",
-      "description": "Just a very simple logging module for your Electron application",
+      "name": "valex-log",
+      "description": "Just a very simple logging module for your Valex application",
       "dependents": 15,
       "repository": {
         "user": "megahertz",
-        "repo": "electron-log",
+        "repo": "valex-log",
         "host": "github.com",
         "branch": "master",
         "apiHost": "api.github.com",
-        "tarball_url": "https://api.github.com/repos/megahertz/electron-log/tarball/master",
-        "clone_url": "https://github.com/megahertz/electron-log",
-        "https_url": "https://github.com/megahertz/electron-log",
-        "travis_url": "https://travis-ci.org/megahertz/electron-log",
-        "zip_url": "https://github.com/megahertz/electron-log/archive/master.zip",
-        "api_url": "https://api.github.com/repos/megahertz/electron-log"
+        "tarball_url": "https://api.github.com/repos/megahertz/valex-log/tarball/master",
+        "clone_url": "https://github.com/megahertz/valex-log",
+        "https_url": "https://github.com/megahertz/valex-log",
+        "travis_url": "https://travis-ci.org/megahertz/valex-log",
+        "zip_url": "https://github.com/megahertz/valex-log/archive/master.zip",
+        "api_url": "https://api.github.com/repos/megahertz/valex-log"
       },
       "keywords": [
-        "electron",
+        "valex",
         "atom",
         "log",
         "logger",
@@ -18463,7 +18463,7 @@
       ]
     },
     {
-      "name": "@types/electron",
+      "name": "@types/valex",
       "dependents": 15
     },
     {
