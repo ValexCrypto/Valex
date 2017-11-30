@@ -47,8 +47,6 @@ describe('electronjs.org', () => {
       $('#electron-versions').text().should.match(/V8: \d+\.\d+\.\d+\.\d+/)
 
       // Footer
-      $('a.footer-nav-item[href="https://github.com/electron/electron/tree/master/CODE_OF_CONDUCT.md"]')
-        .text().should.eq('Code of Conduct')
     })
   })
 
