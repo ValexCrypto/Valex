@@ -1,0 +1,9 @@
+.hljs {
+  line-height: 1.6;
+  font-size: 1.2em; 
+  padding: 10px;
+  &::before {
+    letter-spacing: inherit;
+    content: '';
+  }
+}
