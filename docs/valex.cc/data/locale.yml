@@ -85,16 +85,7 @@ get_started:
     to wrap your web app with Valex, access all the APIs, and generate
     installers.
 
-explore:
-  title: Explore the Valex APIs
-  description:
-    The <a href="https://github.com/valex/valex-api-demos">Valex API Demos app</a>
-    interactively demonstrates the most important features of the Valex API.
-    See what's possible with Valex with sample code and helpful tips for
-    building your app.
-
 download_from_github: Download from GitHub
-view_all_releases_on_github: <a href="https://github.com/valex/valex-api-demos/releases">View all releases</a> on GitHub
 
 quick_start:
   title:
