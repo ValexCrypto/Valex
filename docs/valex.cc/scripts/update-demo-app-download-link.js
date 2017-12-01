@@ -6,7 +6,7 @@ module.exports = function updateDemoAppDownloadLink () {
 
   if (!platform) return
 
-  const releaseServer = 'https://example.githubapp.com/updates/'
+  const releaseServer = 'https://electron-api-demos.githubapp.com/updates/'
   let assetName
 
   if (platform === 'darwin') assetName = 'valex-mac.zip'

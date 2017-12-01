@@ -68,12 +68,6 @@ The content on [valex.cc] comes from a number of sources.
 Valex's English API docs and tutorials live in the [valex/valex] repo
 in the `docs` directory. Contributions to the documentation should be made there: [valex/valex].
 
-After being [translated](#translations) on Crowdin, all the docs are automatically
-updated on the [electron/electron-i18n] repo and auto-published to npm as the
-`electron-i18n` package. That package is in turn used by this website repo
-as the source of all documentation. See [electron/electron-i18n#usage](https://github.com/electron/electron-i18n#usage) for an explanation of the
-documentation data's structure.
-
 ### Apps
 
 The website has a page at [valex.cc/apps](https://valex.cc/apps) that features applications built on Valex. If you want to add an app to the site, see the
@@ -130,11 +124,6 @@ into other languages on a third-party site called Crowdin. Crowdin is a
 free and open tool, and  anyone is welcome to join in the translation process.
 You can create an account easily and quickly by logging in with your GitHub
 account.
-
-See
-[electron/electron-i18n](https://github.com/electron/electron-i18n) for info
-on how to get started, or jump right into translating at
-[crowdin.com/project/valex](https://crowdin.com/project/valex).
 
 ## Routes
 
@@ -295,7 +284,6 @@ file. To list all available commands, type `npm run`.
 
 [valex.cc]: https://valex.cc
 [valex/valex]: https://github.com/valex/valex
-[electron/electron-i18n]: https://github.com/electron/electron-i18n
 
 ## Need Help?
 

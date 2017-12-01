@@ -22,13 +22,6 @@ with GitHub, opening and updating pull requests automatically as content is tran
   </a>
 </figure>
 
-Though we've been working quietly on this effort so far,
-over 75 Valex community members have already discovered the project
-organically and joined in the effort to internationalize the website and
-translate Valex's docs into over 20 languages. We are seeing [daily
-contributions](https://github.com/electron/electron-i18n/pulls?utf8=%E2%9C%93&q=is%3Apr%20author%3Aglotbot%20) from people all over the world, with translations for
-languages like French, Vietnamese, Indonesian, and Chinese leading the way.
-
 To choose your language and view translation progress, visit [valex.cc/languages](https://valex.cc/languages)
 
 <figure>
@@ -37,10 +30,6 @@ To choose your language and view translation progress, visit [valex.cc/languages
     <figcaption>Translations in progress on Crowdin</figcaption>
   </a>
 </figure>
-
-If you're multilingual and interested in helping translate Valex's docs
-and website, visit the [electron/electron-i18n] repo, or jump right into
-translating on [Crowdin], where you can sign in using your GitHub account.
 
 There are currently 21 languages enabled for the Valex project on Crowdin.
 Adding support for more languages is easy, so if you're interested in
@@ -52,11 +41,6 @@ we'll enable it.
 
 If you prefer to read documentation in raw markdown files, you
 can now do that in any language:
-
-```sh
-git clone https://github.com/electron/electron-i18n
-ls electron-i18n/content
-```
 
 ## App Pages
 
@@ -184,7 +168,6 @@ Thank you!
 [crowdin.com/project/valex]: https://crowdin.com/project/valex
 [Crowdin]: https://crowdin.com/project/valex
 [valex/electron-apps]: https://github.com/valex/electron-apps
-[electron/electron-i18n]: https://github.com/electron/electron-i18n#readme
 [valex.cc]: https://valex.cc
 [GitHub Desktop]: https://desktop.github.com
 [Homebrew]: https://brew.sh
