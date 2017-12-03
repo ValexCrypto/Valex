@@ -1,6 +1,0 @@
-#!/bin/sh
-# usage: script/server
-#
-# Run the jekyll server
-
-bundle exec jekyll serve --baseurl '' --watch

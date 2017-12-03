@@ -33,7 +33,7 @@
     manner. By leveraging cross-blockchain atomic swaps and order-
     match-based mining to establish a decentralized exchange, the
     Valence protocol allows anonymous parties to exchange currencies
-    without communicating. While  Bitcoin and Ethereum, the two
+    without communicating. While Bitcoin and Ethereum, the two
     largest cryptocurrencies by market cap, are of particular
     interest, the proposed system is extensible, allowing the
     addition of arbitrarily many cryptocurrencies. The Valence
@@ -166,16 +166,16 @@
         \begin{tikzpicture}[shorten >=1pt,node distance=4.5cm,
         					on grid]
   \node[state] (m)                {Miners};
-  \node[state] (e) [right=of m] {Exchange};
+  \node[state] (e) [right=of m] {Exchange Contract};
   \node[state] (t) [right=of e] {Traders};
-  \path[->] (m) edge [bend left=45] node [above] {Suggested Matches}
+  \path[->] (m) edge [bend left=40] node [above] {Suggested Matches}
   																(e)
             (e) edge [loop below]   node  {Order Book (Public)} ()
-            	edge [bend left=45] node [above] {Validated Matches}
+            	edge [bend left=40] node [above] {Validated Matches}
             											(t)
-            	edge [bend left=45]   node [below] {Payment} (m)
+            	edge [bend left=40]   node [below] {Payment} (m)
             (t) edge [loop above]   node {Atomic Swaps} ()
-            	edge [bend left=45]   node [below] {Orders} (e);
+            	edge [bend left=40]   node [below] {Orders} (e);
 		\end{tikzpicture}
         \end{center}
         \end{small}
@@ -183,10 +183,9 @@
 \section*{Order Matching}
 	Orders contain specifications on
     the currencies to be exchanged, volume, addresses of the trader,
-    and price limit. They are sent with an Ether deposit, which is fully
-    refunded on successful execution of the trade or partially refunded on
-    withdrawal of the trade prior to execution. Orders are also sent with
-    a predetermined amount of Ether to pay for gas and fees. The fees required are proportionate to the volume ordered. These orders
+    and price limit. Orders are also sent with
+    a predetermined amount of Ether to pay for gas and fees.
+		The fees required are proportionate to the volume ordered, and partially refunded if the order is cancelled. These orders
     are submitted by traders to the exchange, which then stores them in a
     public order book. Miners can access this information to make matches,
     which are then executed as trustless trades.
@@ -421,6 +420,20 @@
     best practice, especially on an exchange with a public order book, but
     miners are in no way empowered to match orders that are not consensual
     for all parties involved.
+
+	\addcontentsline{toc}{subsection}{Message Forgery}
+  \subsection*{Message Forgery}
+		After making a match, miners diffuse their message to the exchange through the network.
+		This presents an opportunity for other miners to take credit for making the
+		match, rapidly diffuse this forged message, and receive payment for the match
+		if the forged message is accepted by a majority of nodes. To counteract this
+		potential abuse, we recommend the inclusion of a cryptographic nonce in the miners'
+		message to the exchange, composed of a hash of the miner's public key and specifications
+		for the trade. Creating this hash is a more complex operation than simply substituting the true
+		key for the forger's key, so the inclusion of this nonce will slow down forgers, giving the true
+		miner a more significant head start in diffusing the message and ensuring that the finder of the
+		match is paid. The hash will be verified by the exchange on receipt of the message, and payment for the match will be withheld if the provided nonce is not equal to the hash of the relevant values.
+
   \addcontentsline{toc}{subsection}{Barriers to Entry}
   \subsection*{Barriers to Entry}
   	Atomic swaps do not support fiat currencies.
@@ -442,13 +455,12 @@
     obtain a larger quantity using an implementation of Valence.
 
     Because of its design as a completely trustless system, the outlined
-    protocol does not require traders or miners to register.
-    %Unlike
-    %competing approaches such as OmegaOne,\footnote[7]
-    %{\url{https://omega.one/}}
-    there is also no minimum token balance to trade.
-    This removes a
+    protocol does not require traders or miners to register. This removes a
     significant entry barrier faced by centralized exchanges.
+    %Unlike
+    %other decentralized systems such as OmegaOne,\footnote[7]
+    %{\url{https://omega.one/}}
+    %there is also no minimum token balance to trade.
   \addcontentsline{toc}{subsection}{Competition}
   \subsection*{Competition}
     An implementation of this protocol would also compete with other planned decentralized cryptocurrency exchanges such as KyberNetwork. Often, however, these exchanges primarily aim to support trading Ethereum tokens, with cross-blockchain transactions as an afterthought. In the case of KyberNetwork, for example, there is no plan to support cross-blockchain trading until 2019.\footnote[7]{\url{https://kyber.network/\#roadmap}} Additionally, KyberNetwork depends on a reserve-management model, which poses significant security risks and is potentially prone to exchange rate fixing by malevolent reserve managers.\footnote[8]
@@ -456,7 +468,8 @@
 
     Existing and planned token exchanges like AirSwap, Bancor, and 0x are orthogonal to Valence, and would not compete with a Valence implementation. Atomic swap contracts for exchanging tokens on the Ethereum blockchain are significantly different from those for cross-blockchain transactions, so for any of these exchanges to expand into competing with a Valence implementation would be a substantial undertaking.
 
-    Dark pools such as OmegaOne serve an adjacent but separate role from Valence. Due to their high barriers to entry, they are largely inaccessible to even sophisticated traders without an agreement with a specialized broker. Furthermore, because OmegaOne is not a freestanding exchange, but rather splits up large orders it receives and distributes them among various exchanges, its relationship with Valence would actually be a mutualistic one, so the success of either would be beneficial to the other.
+    Dark pools such as OmegaOne serve an adjacent but separate role from Valence.\footnote[9]
+    {\url{https://omega.one/}} Due to their high barriers to entry, they are largely inaccessible to even sophisticated traders without an agreement with a specialized broker. Furthermore, because OmegaOne is not a freestanding exchange, but rather splits up large orders it receives and distributes them among various exchanges, its relationship with Valence would actually be a mutualistic one, so the success of either would be beneficial to the other.
 
 \addcontentsline{toc}{section}{Conclusion}
 \section*{Conclusion}
