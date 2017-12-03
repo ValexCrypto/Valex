@@ -8,13 +8,12 @@ import '../libs/SafeMathLib.sol';
 
 contract Exchange {
   using SafeMathLib for uint;
-  // TODO: figure out how gas refunds should work
   // fee parameters and such
   struct Parameters{
     //wei per eth
     // closure fee paid up front, refunded - withdrawal fee if cancelled
     uint closureFeePerUnit;
-    uint withdrawalFeePerUnit;
+    uint cancelFeePerUnit;
     // fixed gas fee (Everything should run in O(1) time)
     // valuated in gas (so remember to multiply by tx.gasprice)
     uint gasFee;
@@ -74,22 +73,16 @@ contract Exchange {
     returns(bool passes)
   {
     // valid chapter
-    if (chapter >= this.orderBook.length){
-      return false;
-    }
+    require(chapter < this.orderBook.length);
     // valid indices
-    if ((index1 >= this.orderBook[chapter].length) ||
-          (index2 >= this.orderBook[chapter].length)){
-      return false;
-    }
+    require(index1 < this.orderBook[chapter].length);
+    require(index2 < this.orderBook[chapter].length);
     //One buy order and one sell order
-    if (this.orderBook[chapter][index1].buyETH == this.orderBook[chapter][index2].buyETH){
-      return false;
-    }
-    if ((this.orderBook[chapter][index1].volume == 0 ) ||
-          (this.orderBook[chapter][index2].volume == 0)){
-      return false;
-    }
+    require(this.orderBook[chapter][index1].buyETH != this.orderBook[chapter][index2].buyETH);
+    //Non-empty order
+    require(this.orderBook[chapter][index1].volume != 0);
+    require(this.orderBook[chapter][index2].volume != 0);
+    // All edge cases work!
     return true;
   }
 
@@ -298,18 +291,53 @@ contract Exchange {
   {
     require(volume > 0);
     require(limit0 > 0 && limit1 > 0);
+    // for accounting
+    // TODO: Not sure if this is necessary
     require(tx.gasprice == this.params.gasDef);
+    // Charge according to ether transaction vol
     if (buyETH){
-      require((limit1 * volume * msg.value) > limit0 * closureFeePerUnit);
+      require((limit1 * volume * msg.value) > limit0 * this.params.closureFeePerUnit);
     }
     else{
-      require((limit0 * volume * msg.value) > limit1 * closureFeePerUnit);
+      require((limit0 * volume * msg.value) > limit1 * this.params.closureFeePerUnit);
     }
     uint[2] limit;
     limit[0] = limit0;
     limit[1] = limit1;
     this.orderBook[chapter].push(Order(buyETH, volume, limit));
     this.addressBook[chapter].push(AddressInfo(ethAddress, otherAddress));
+    return true;
+  }
+
+  // Allows traders to cancel orders
+  function cancelOrder(uint chapter, uint index)
+    public
+    returns(bool accepted)
+  {
+    //TODO: Account for gas price (maybe, if necessary)
+    // Valid indices
+    require(chapter < this.orderBook.length);
+    require(index < this.orderBook[chapter].length);
+    // Can't cancel other people's orders
+    require(msg.sender == this.addressBook[chapter][index].ethAddress);
+    uint volume = this.orderBook[chapter][index].volume;
+    uint limit;
+    // Refund according to ether transaction vol
+    if (this.orderBook[chapter][index].buyETH){
+      limit = limit[0];
+    }
+    else{
+      limit = limit[1];
+    }
+    uint cancelPayment = limit * (this.params.closureFeePerUnit - this.params.cancelFeePerUnit);
+    msg.sender.transfer(cancelPayment);
+    // Update balances
+    this.balances.openBalance = (this.balances.openBalance -
+                                (limit * this.params.closureFeePerUnit));
+    this.balances.closedBalance = (this.balances.closedBalance +
+                                  (limit * this.params.cancelFeePerUnit));
+    delete this.orderBook[chapter][index];
+    delete this.addressBook[chapter][index];
     return true;
   }
 }
