@@ -21,7 +21,7 @@ contract Exchange {
     uint gasDef;
     // Order margin for error (match), expressed as margin[0] units/margin[1] units
     uint[2] margin;
-    // Size at which we should clean an order book
+    // Size of numsCleared at which we should clean an order book
     uint cleanSize;
     // Proportion of fees that miners get
     uint[2] minerShare;
@@ -66,6 +66,8 @@ contract Exchange {
   // that's why they're 2D
   Order[][] orderBook;
   AddressInfo[][] private addressBook;
+  // Orders that have been closed are kept here
+  uint[] numsCleared;
 
   // Checks edge cases for match verification
   function checkMatchEdges(uint chapter, uint index1, uint index2)
@@ -146,6 +148,7 @@ contract Exchange {
   {
     if (this.orderBook[chapter][index1].volume == volumes[0]){
       delete this.orderBook[chapter][index1].volume;
+      this.numsCleared[chapter] += 1;
     }
     else{
       this.orderBook[chapter][index1].volume = (this.orderBook[chapter][index1].volume -
@@ -153,6 +156,7 @@ contract Exchange {
     }
     if (this.orderBook[chapter][index2].volume == volumes[1]){
       delete this.orderBook[chapter][index2].volume;
+      this.numsCleared[chapter] += 1;
     }
     else{
       this.orderBook[chapter][index2].volume = (this.orderBook[chapter][index2].volume -
@@ -246,6 +250,28 @@ contract Exchange {
     return;
   }
 
+  // Clean chapter (called when size reaches size to clean)
+  function cleanChapter(uint chapter)
+    private
+  {
+    // Clean chapter only if size is appropriate
+    if (this.numsCleared[chapter] < this.params.cleanSize){
+      return;
+    }
+    // For all orders
+    // If it's a cleared order:
+    // Replace it with the next one, and clear the next one
+    for (uint i = 0; i < this.orderBook[chapter].length; i++){
+      if (this.orderBook[chapter][i].volume == 0){
+        if (i < this.orderBook[chapter].length - 1){
+          this.orderBook[chapter][i] = this.orderBook[chapter][i+1]
+          delete this.orderBook[chapter][i+1];
+        }
+      }
+    }
+    this.orderBook[chapter].length = this.orderBook[chapter].length - this.numsCleared[chapter];
+  }
+
   // Miners suggest matches with this function
   // Performs nonce verification (keccak256)
   // Wrapper for isValidMatch, performs other required functions
@@ -279,6 +305,7 @@ contract Exchange {
     clearBalance(minerPayment, volumes);
     alertTraders(chapter, index1, index2, volumes);
     clearTrade(chapter, index1, index2, volumes);
+    cleanChapter(chapter);
     return true;
   }
 
@@ -338,6 +365,8 @@ contract Exchange {
                                   (limit * this.params.cancelFeePerUnit));
     delete this.orderBook[chapter][index];
     delete this.addressBook[chapter][index];
+    this.numsCleared[chapter] += 1;
+    cleanChapter(chapter);
     return true;
   }
 }
