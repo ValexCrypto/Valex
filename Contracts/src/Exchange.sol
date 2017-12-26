@@ -1,6 +1,5 @@
 pragma solidity ^0.4.17;
 
-import './Swap.sol';
 import '../libs/SafeMathLib.sol';
 
 /// @title Exchange
@@ -206,7 +205,7 @@ contract Exchange {
     // a little different from the other version
     uint buyIndex;
     uint sellIndex;
-    bool index1ETH
+    bool index1ETH;
     if (this.orderBook[chapter][index1].buyETH){
       buyIndex = index1;
       sellIndex = index2;
@@ -264,7 +263,7 @@ contract Exchange {
     for (uint i = 0; i < this.orderBook[chapter].length; i++){
       if (this.orderBook[chapter][i].volume == 0){
         if (i < this.orderBook[chapter].length - 1){
-          this.orderBook[chapter][i] = this.orderBook[chapter][i+1]
+          this.orderBook[chapter][i] = this.orderBook[chapter][i+1];
           delete this.orderBook[chapter][i+1];
         }
       }
@@ -275,7 +274,7 @@ contract Exchange {
   // Miners suggest matches with this function
   // Performs nonce verification (keccak256)
   // Wrapper for isValidMatch, performs other required functions
-  function match(uint chapter, uint index1, uint index2,
+  function getMatch(uint chapter, uint index1, uint index2,
                   bytes32 nonce, uint hashVal)
     public
     payable
