@@ -1,4 +1,4 @@
-pragma solidity ^0.4.17;
+pragma solidity ^0.4.16;
 
 // from:
 // https://github.com/aragon/zeppelin-solidity/blob/master/contracts/SafeMathLib.sol
@@ -19,9 +19,5 @@ library SafeMathLib {
     uint c = a + b;
     assert(c>=a && c>=b);
     return c;
-  }
-
-  function assert(bool assertion) private {
-    if (!assertion) throw;
   }
 }
