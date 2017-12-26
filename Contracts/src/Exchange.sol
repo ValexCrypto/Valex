@@ -51,13 +51,13 @@ contract Exchange {
     string otherAddress;
   }
 
-  event TradeInfo{
-    address ethAddress;
-    string otherAddress;
+  event TradeInfo(
+    address ethAddress,
+    string otherAddress,
     // ether / other volumes
-    uint ethVol;
-    uint otherVol;
-  }
+    uint ethVol,
+    uint otherVol
+  );
 
   Parameters params;
   Balances private balances;
