@@ -1,12 +1,12 @@
-pragma solidity ^0.4.17;
+pragma solidity ^0.4.16;
 
-import '../libs/SafeMathLib.sol';
+// import '../libs/SafeMathLib.sol';
 
 /// @title Exchange
-/// @Author khelmy
+/// @author khelmy
 
 contract Exchange {
-  using SafeMathLib for uint;
+  // using SafeMathLib for uint;
   // fee parameters and such
   struct Parameters{
     //wei per eth
@@ -51,19 +51,21 @@ contract Exchange {
   }
 
   event TradeInfo(
-    address ethAddress,
-    string otherAddress,
+    address ethAddress1,
+    address ethAddress2,
+    string otherAddress1,
+    string otherAddress2,
     // ether / other volumes
     uint ethVol,
     uint otherVol
   );
 
-  Parameters params;
+  Parameters public params;
   Balances private balances;
 
   // separate chapters for different currency pairs
   // that's why they're 2D
-  Order[][] orderBook;
+  Order[][] public orderBook;
   AddressInfo[][] private addressBook;
   // Orders that have been closed are kept here
   uint[] numsCleared;
@@ -74,15 +76,15 @@ contract Exchange {
     returns(bool passes)
   {
     // valid chapter
-    require(chapter < this.orderBook.length);
+    require(chapter < orderBook.length);
     // valid indices
-    require(index1 < this.orderBook[chapter].length);
-    require(index2 < this.orderBook[chapter].length);
+    require(index1 < orderBook[chapter].length);
+    require(index2 < orderBook[chapter].length);
     //One buy order and one sell order
-    require(this.orderBook[chapter][index1].buyETH != this.orderBook[chapter][index2].buyETH);
+    require(orderBook[chapter][index1].buyETH != orderBook[chapter][index2].buyETH);
     //Non-empty order
-    require(this.orderBook[chapter][index1].volume != 0);
-    require(this.orderBook[chapter][index2].volume != 0);
+    require(orderBook[chapter][index1].volume != 0);
+    require(orderBook[chapter][index2].volume != 0);
     // All edge cases work!
     return true;
   }
@@ -100,7 +102,7 @@ contract Exchange {
     // buy-sell copy1
     uint buyIndex;
     uint sellIndex;
-    if (this.orderBook[chapter][index1].buyETH){
+    if (orderBook[chapter][index1].buyETH){
       buyIndex = index1;
       sellIndex = index2;
     }
@@ -109,32 +111,29 @@ contract Exchange {
       sellIndex = index1;
     }
     // shorthand for buy and sell orders
-    Order buyOrder = this.orderBook[chapter][buyIndex];
-    Order sellOrder = this.orderBook[chapter][sellIndex];
 
     // Non-contradictory limits
     // (non-negative trade surplus)
     // TODO: DEBUGGING: verify that these are the correct equations
-    if (buyOrder.limit[0] * sellOrder.limit[1] <
-        buyOrder.limit[1] * sellOrder.limit[0]){
+    if (orderBook[chapter][buyIndex].limit[0] * orderBook[chapter][sellIndex].limit[1] <
+        orderBook[chapter][buyIndex].limit[1] * orderBook[chapter][sellIndex].limit[0]){
       return false;
     }
-
     // Meet in middle rate
     // mimRate copy2
     uint[2] mimRate;
-    mimRate[1] = buyOrder.limit[0] * sellOrder.limit[1] * 2;
-    mimRate[0] = (buyOrder.limit[1] * sellOrder.limit[0]) + (buyOrder.limit[0] * sellOrder.limit[1]);
+    mimRate[1] = orderBook[chapter][buyIndex].limit[0] * orderBook[chapter][sellIndex].limit[1] * 2;
+    mimRate[0] = (buyOrder.limit[1] * sellOrder.limit[0]) + (orderBook[chapter][buyIndex].limit[0] * orderBook[chapter][sellIndex].limit[1]);
 
     // Volumes comparable
     // TODO: DEBUGGING: verify that these are the correct equations
-    if (buyOrder.volume * mimRate[0] > sellOrder.volume * mimRate[1]){
-      if (buyOrder.volume * margin[0] * mimRate[0] > sellOrder.volume * margin[1] * mimRate[1]){
+    if (orderBook[chapter][buyIndex].volume * mimRate[0] > orderBook[chapter][sellIndex].volume * mimRate[1]){
+      if (orderBook[chapter][buyIndex].volume * params.margin[0] * mimRate[0] > orderBook[chapter][sellIndex].volume * params.margin[1] * mimRate[1]){
         return false;
       }
     }
-    if (sellOrder.volume * mimRate[1] > buyOrder.volume * mimRate[0] ){
-      if (sellOrder.volume * margin[0] * mimRate[0] > buyOrder.volume * margin[1] * mimRate[1] ){
+    if (orderBook[chapter][sellIndex].volume * mimRate[1] > orderBook[chapter][buyIndex].volume * mimRate[0] ){
+      if (orderBook[chapter][sellIndex].volume * params.margin[0] * mimRate[0] > orderBook[chapter][buyIndex].volume * params.margin[1] * mimRate[1] ){
         return false;
       }
     }
@@ -144,54 +143,52 @@ contract Exchange {
   // Clears closed trade, reenters into order book if incomplete
   function clearTrade(uint chapter, uint index1, uint index2, uint[2] volumes)
     private
+    returns(bool passed)
   {
-    if (this.orderBook[chapter][index1].volume == volumes[0]){
-      delete this.orderBook[chapter][index1].volume;
-      this.numsCleared[chapter] += 1;
+    if (orderBook[chapter][index1].volume == volumes[0]){
+      delete orderBook[chapter][index1].volume;
+      numsCleared[chapter] += 1;
     }
     else{
-      this.orderBook[chapter][index1].volume = (this.orderBook[chapter][index1].volume -
+      orderBook[chapter][index1].volume = (orderBook[chapter][index1].volume -
                                                 volumes[0]);
     }
-    if (this.orderBook[chapter][index2].volume == volumes[1]){
-      delete this.orderBook[chapter][index2].volume;
-      this.numsCleared[chapter] += 1;
+    if (orderBook[chapter][index2].volume == volumes[1]){
+      delete orderBook[chapter][index2].volume;
+      numsCleared[chapter] += 1;
     }
     else{
-      this.orderBook[chapter][index2].volume = (this.orderBook[chapter][index2].volume -
+      orderBook[chapter][index2].volume = (orderBook[chapter][index2].volume -
                                                 volumes[1]);
     }
-    return;
+    return true;
   }
 
   // Adds trade to log, for traders to note
   // http://solidity.readthedocs.io/en/latest/contracts.html?highlight=events#events
   function alertTraders(uint chapter, uint index1, uint index2, uint[2] volumes)
     private
+    returns(bool passed)
   {
-    address ethAddress;
-    string otherAddress;
     uint ethVol;
     uint otherVol;
-    if (volumes[3] == 0){
-      ethAddress = this.addressBook[chapter][index1].ethAddress;
-      otherAddress = this.addressBook[chapter][index2].ethAddress;
-      ethVol = 0;
-      otherVol = 1;
+    if (orderBook[chapter][index1].buyETH){
+      ethVol = volumes[0];
+      otherVol = volumes[1];
     }
     else{
-      ethAddress = this.addressBook[chapter][index2].ethAddress;
-      otherAddress = this.addressBook[chapter][index1].ethAddress;
-      ethVol = 1;
-      otherVol = 0;
+      ethVol = volumes[0];
+      otherVol = volumes[1];
     }
     TradeInfo(
-      ethAddress,
-      otherAddress,
+      addressBook[chapter][index1].ethAddress, //ethAddress1,
+      addressBook[chapter][index2].ethAddress, //ethAddress2,
+      addressBook[chapter][index1].otherAddress, //otherAddress1,
+      addressBook[chapter][index2].otherAddress, // otherAddress2,
       ethVol,
       otherVol
       );
-    return;
+    return true;
   }
 
   // Calculates exchange volumes for trade using limits (meet in middle)
@@ -206,7 +203,7 @@ contract Exchange {
     uint buyIndex;
     uint sellIndex;
     bool index1ETH;
-    if (this.orderBook[chapter][index1].buyETH){
+    if (orderBook[chapter][index1].buyETH){
       buyIndex = index1;
       sellIndex = index2;
       index1ETH = false;
@@ -217,8 +214,8 @@ contract Exchange {
       index1ETH = true;
     }
     // shorthand for buy and sell orders
-    Order buyOrder = this.orderBook[chapter][buyIndex];
-    Order sellOrder = this.orderBook[chapter][sellIndex];
+    Order storage buyOrder = orderBook[chapter][buyIndex];
+    Order storage sellOrder = orderBook[chapter][sellIndex];
     // TODO: FINISH FUNCTION
     // Meet in middle rate
     // mimRate copy2
@@ -226,12 +223,12 @@ contract Exchange {
     mimRate[1] = buyOrder.limit[0] * sellOrder.limit[1] * 2;
     mimRate[0] = (buyOrder.limit[1] * sellOrder.limit[0]) + (buyOrder.limit[0] * sellOrder.limit[1]);
     if (((sellOrder.volume * mimRate[1]) / mimRate[0]) <= buyOrder.volume){
-      volumes[0] = sellOrder;
+      volumes[0] = sellOrder.volume;
       volumes[1] = ((buyOrder.volume * mimRate[0]) / mimRate[1]);
     }
     else{
       volumes[0] = ((buyOrder.volume * mimRate[0]) / mimRate[1]);
-      volumes[1] = buyOrder;
+      volumes[1] = buyOrder.volume;
     }
     return volumes;
   }
@@ -240,35 +237,38 @@ contract Exchange {
   // Eliminate minerPayment from either balance
   function clearBalance(uint minerPayment, uint[2] volumes)
     private
+    returns(bool passed)
   {
-    this.balances.openBalance = (this.balances.openBalance -
-                                  (closureFeePerUnit * volumes[0]));
-    this.balances.closedBalance = (this.balances.closedBalance -
+    balances.openBalance = (balances.openBalance -
+                                  (params.closureFeePerUnit * volumes[0]));
+    balances.closedBalance = (balances.closedBalance -
                                   minerPayment +
-                                  (closureFeePerUnit * volumes[0]));
-    return;
+                                  (params.closureFeePerUnit * volumes[0]));
+    return true;
   }
 
   // Clean chapter (called when size reaches size to clean)
   function cleanChapter(uint chapter)
     private
+    returns(bool cleaned)
   {
     // Clean chapter only if size is appropriate
-    if (this.numsCleared[chapter] < this.params.cleanSize){
-      return;
+    if (numsCleared[chapter] < params.cleanSize){
+      return false;
     }
     // For all orders
     // If it's a cleared order:
     // Replace it with the next one, and clear the next one
-    for (uint i = 0; i < this.orderBook[chapter].length; i++){
-      if (this.orderBook[chapter][i].volume == 0){
-        if (i < this.orderBook[chapter].length - 1){
-          this.orderBook[chapter][i] = this.orderBook[chapter][i+1];
-          delete this.orderBook[chapter][i+1];
+    for (uint i = 0; i < orderBook[chapter].length; i++){
+      if (orderBook[chapter][i].volume == 0){
+        if (i < orderBook[chapter].length - 1){
+          orderBook[chapter][i] = orderBook[chapter][i+1];
+          delete orderBook[chapter][i+1];
         }
       }
     }
-    this.orderBook[chapter].length = this.orderBook[chapter].length - this.numsCleared[chapter];
+    orderBook[chapter].length = orderBook[chapter].length - numsCleared[chapter];
+    return true;
   }
 
   // Miners suggest matches with this function
@@ -280,7 +280,7 @@ contract Exchange {
     payable
     returns(bool isValid)
   {
-    require(msg.value >= this.params.gasFee * tx.gasprice);
+    require(msg.value >= params.gasFee * tx.gasprice);
     // Validate that nonce is equivalent
     // modulo so that cost is constant
     // + 110 so that it's always 3 digits
@@ -296,10 +296,10 @@ contract Exchange {
     if (! isValidMatch(chapter, index1, index2)){
       return false;
     }
-    uint[2] volumes = getVolumes(chapter, index1, index2);
+    uint[2] memory volumes = getVolumes(chapter, index1, index2);
     // calculate the miner's payment
-    uint minerPayment = ((this.params.minerShare[0] * closureFeePerUnit * volumes[0]) /
-                          this.params.minerShare[1]);
+    uint minerPayment = ((params.minerShare[0] * params.closureFeePerUnit * volumes[0]) /
+                          params.minerShare[1]);
     msg.sender.transfer(minerPayment);
     clearBalance(minerPayment, volumes);
     alertTraders(chapter, index1, index2, volumes);
@@ -319,19 +319,19 @@ contract Exchange {
     require(limit0 > 0 && limit1 > 0);
     // for accounting
     // TODO: Not sure if this is necessary
-    require(tx.gasprice == this.params.gasDef);
+    require(tx.gasprice == params.gasDef);
     // Charge according to ether transaction vol
     if (buyETH){
-      require((limit1 * volume * msg.value) > limit0 * this.params.closureFeePerUnit);
+      require((limit1 * volume * msg.value) > limit0 * params.closureFeePerUnit);
     }
     else{
-      require((limit0 * volume * msg.value) > limit1 * this.params.closureFeePerUnit);
+      require((limit0 * volume * msg.value) > limit1 * params.closureFeePerUnit);
     }
     uint[2] limit;
     limit[0] = limit0;
     limit[1] = limit1;
-    this.orderBook[chapter].push(Order(buyETH, volume, limit));
-    this.addressBook[chapter].push(AddressInfo(ethAddress, otherAddress));
+    orderBook[chapter].push(Order(buyETH, volume, limit));
+    addressBook[chapter].push(AddressInfo(ethAddress, otherAddress));
     return true;
   }
 
@@ -342,29 +342,29 @@ contract Exchange {
   {
     //TODO: Account for gas price (maybe, if necessary)
     // Valid indices
-    require(chapter < this.orderBook.length);
-    require(index < this.orderBook[chapter].length);
+    require(chapter < orderBook.length);
+    require(index < orderBook[chapter].length);
     // Can't cancel other people's orders
-    require(msg.sender == this.addressBook[chapter][index].ethAddress);
-    uint volume = this.orderBook[chapter][index].volume;
+    require(msg.sender == addressBook[chapter][index].ethAddress);
+    uint volume = orderBook[chapter][index].volume;
     uint limit;
     // Refund according to ether transaction vol
-    if (this.orderBook[chapter][index].buyETH){
-      limit = limit[0];
+    if (orderBook[chapter][index].buyETH){
+      limit = orderBook[chapter][index].limit[0];
     }
     else{
-      limit = limit[1];
+      limit = orderBook[chapter][index].limit[1];
     }
-    uint cancelPayment = limit * (this.params.closureFeePerUnit - this.params.cancelFeePerUnit);
+    uint cancelPayment = limit * (params.closureFeePerUnit - params.cancelFeePerUnit);
     msg.sender.transfer(cancelPayment);
     // Update balances
-    this.balances.openBalance = (this.balances.openBalance -
-                                (limit * this.params.closureFeePerUnit));
-    this.balances.closedBalance = (this.balances.closedBalance +
-                                  (limit * this.params.cancelFeePerUnit));
-    delete this.orderBook[chapter][index];
-    delete this.addressBook[chapter][index];
-    this.numsCleared[chapter] += 1;
+    balances.openBalance = (balances.openBalance -
+                                (limit * params.closureFeePerUnit));
+    balances.closedBalance = (balances.closedBalance +
+                                  (limit * params.cancelFeePerUnit));
+    delete orderBook[chapter][index];
+    delete addressBook[chapter][index];
+    numsCleared[chapter] += 1;
     cleanChapter(chapter);
     return true;
   }
