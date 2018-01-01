@@ -64,19 +64,70 @@ contract Exchange {
   Balances private balances;
 
   // separate chapters for different currency pairs
-  // that's why they're 2D
-  Order[][] public orderBook;
-  AddressInfo[][] private addressBook;
-  // Orders that have been closed are kept here
+  // that's why they're 2D mappings
+  mapping (uint => Order[]) public orderBook;
+  // Order[][] public orderBook;
+  mapping (uint => AddressInfo[]) private addressBook;
+  // AddressInfo[][] private addressBook;
+  // Numbers of orders that have been closed are kept here
   uint[] numsCleared;
+
+  // Used to make sure the constructor isn't called more than once
+  // Only used in constructor
+  bool initialized = false;
+  // Constructor for pre-alpha version of contract
+  function Exchange(uint closureFeePerUnit, uint cancelFeePerUnit, uint gasFee,
+                    uint gasDef, uint margin0, uint margin1, uint cleanSize,
+                    uint minershare0, uint minerShare1)
+    public
+  {
+    require(initialized == false);
+    // Initialize parameters books
+    setParams(closureFeePerUnit, cancelFeePerUnit, gasFee,
+              gasDef, margin0, margin1, cleanSize, minershare0, minerShare1);
+    // Initialize order books
+    setBooks();
+    // Initialize numsCleared[0] as zero
+    numsCleared.push(0);
+    initialized = true;
+    return;
+  }
+
+  // TODO: If necessary, implement, otherwise delete
+  // Initializes orderBook and addressBook
+  // Only used in constructor
+  function setBooks()
+    private
+    returns(bool passes)
+  {
+    return true;
+  }
+  // Init the params struct, which contains the bulk of exchange's parameters
+  // Only used in constructor
+  function setParams(uint closureFeePerUnit, uint cancelFeePerUnit, uint gasFee,
+                    uint gasDef, uint margin0, uint margin1, uint cleanSize,
+                    uint minerShare0, uint minerShare1)
+    private
+    returns(bool passes)
+  {
+    params.closureFeePerUnit = closureFeePerUnit;
+    params.cancelFeePerUnit = cancelFeePerUnit;
+    params.gasFee = gasFee;
+    params.gasDef = gasDef;
+    params.margin[0] = margin0;
+    params.margin[1] = margin1;
+    params.cleanSize = cleanSize;
+    params.minerShare[0] = minerShare0;
+    params.minerShare[1] = minerShare1;
+    return true;
+  }
 
   // Checks edge cases for match verification
   function checkMatchEdges(uint chapter, uint index1, uint index2)
     private
+    view
     returns(bool passes)
   {
-    // valid chapter
-    require(chapter < orderBook.length);
     // valid indices
     require(index1 < orderBook[chapter].length);
     require(index2 < orderBook[chapter].length);
@@ -92,6 +143,7 @@ contract Exchange {
   // verifies that match is valid
   function isValidMatch(uint chapter, uint index1, uint index2)
     private
+    view
     returns(bool isValid)
   {
     // check edge cases
@@ -111,29 +163,32 @@ contract Exchange {
       sellIndex = index1;
     }
     // shorthand for buy and sell orders
+    Order memory buyOrder = orderBook[chapter][buyIndex];
+    Order memory sellOrder = orderBook[chapter][sellIndex];
 
     // Non-contradictory limits
     // (non-negative trade surplus)
     // TODO: DEBUGGING: verify that these are the correct equations
-    if (orderBook[chapter][buyIndex].limit[0] * orderBook[chapter][sellIndex].limit[1] <
-        orderBook[chapter][buyIndex].limit[1] * orderBook[chapter][sellIndex].limit[0]){
+    if (buyOrder.limit[0] * sellOrder.limit[1] <
+        buyOrder.limit[1] * sellOrder.limit[0]){
       return false;
     }
+
     // Meet in middle rate
     // mimRate copy2
-    uint[2] mimRate;
-    mimRate[1] = orderBook[chapter][buyIndex].limit[0] * orderBook[chapter][sellIndex].limit[1] * 2;
-    mimRate[0] = (buyOrder.limit[1] * sellOrder.limit[0]) + (orderBook[chapter][buyIndex].limit[0] * orderBook[chapter][sellIndex].limit[1]);
+    uint[2] memory mimRate;
+    mimRate[1] = buyOrder.limit[0] * sellOrder.limit[1] * 2;
+    mimRate[0] = (buyOrder.limit[1] * sellOrder.limit[0]) + (buyOrder.limit[0] * sellOrder.limit[1]);
 
     // Volumes comparable
     // TODO: DEBUGGING: verify that these are the correct equations
-    if (orderBook[chapter][buyIndex].volume * mimRate[0] > orderBook[chapter][sellIndex].volume * mimRate[1]){
-      if (orderBook[chapter][buyIndex].volume * params.margin[0] * mimRate[0] > orderBook[chapter][sellIndex].volume * params.margin[1] * mimRate[1]){
+    if (buyOrder.volume * mimRate[0] > sellOrder.volume * mimRate[1]){
+      if (buyOrder.volume * params.margin[0] * mimRate[0] > sellOrder.volume * params.margin[1] * mimRate[1]){
         return false;
       }
     }
-    if (orderBook[chapter][sellIndex].volume * mimRate[1] > orderBook[chapter][buyIndex].volume * mimRate[0] ){
-      if (orderBook[chapter][sellIndex].volume * params.margin[0] * mimRate[0] > orderBook[chapter][buyIndex].volume * params.margin[1] * mimRate[1] ){
+    if (sellOrder.volume * mimRate[1] > buyOrder.volume * mimRate[0] ){
+      if (sellOrder.volume * params.margin[0] * mimRate[0] > buyOrder.volume * params.margin[1] * mimRate[1] ){
         return false;
       }
     }
@@ -195,6 +250,7 @@ contract Exchange {
   // Ether volume is always first
   function getVolumes(uint chapter, uint index1, uint index2)
     private
+    view
     returns(uint[2] volumes)
   {
     // which order is buying and selling ETH?
@@ -219,7 +275,7 @@ contract Exchange {
     // TODO: FINISH FUNCTION
     // Meet in middle rate
     // mimRate copy2
-    uint[2] mimRate;
+    uint[2] memory mimRate;
     mimRate[1] = buyOrder.limit[0] * sellOrder.limit[1] * 2;
     mimRate[0] = (buyOrder.limit[1] * sellOrder.limit[0]) + (buyOrder.limit[0] * sellOrder.limit[1]);
     if (((sellOrder.volume * mimRate[1]) / mimRate[0]) <= buyOrder.volume){
@@ -268,13 +324,14 @@ contract Exchange {
       }
     }
     orderBook[chapter].length = orderBook[chapter].length - numsCleared[chapter];
+    numsCleared[chapter] = 0;
     return true;
   }
 
   // Miners suggest matches with this function
   // Performs nonce verification (keccak256)
   // Wrapper for isValidMatch, performs other required functions
-  function getMatch(uint chapter, uint index1, uint index2,
+  function giveMatch(uint chapter, uint index1, uint index2,
                   bytes32 nonce, uint hashVal)
     public
     payable
@@ -327,7 +384,7 @@ contract Exchange {
     else{
       require((limit0 * volume * msg.value) > limit1 * params.closureFeePerUnit);
     }
-    uint[2] limit;
+    uint[2] memory limit;
     limit[0] = limit0;
     limit[1] = limit1;
     orderBook[chapter].push(Order(buyETH, volume, limit));
@@ -342,11 +399,11 @@ contract Exchange {
   {
     //TODO: Account for gas price (maybe, if necessary)
     // Valid indices
-    require(chapter < orderBook.length);
+    // require(chapter < orderBook.length);
     require(index < orderBook[chapter].length);
     // Can't cancel other people's orders
     require(msg.sender == addressBook[chapter][index].ethAddress);
-    uint volume = orderBook[chapter][index].volume;
+    // uint volume = orderBook[chapter][index].volume;
     uint limit;
     // Refund according to ether transaction vol
     if (orderBook[chapter][index].buyETH){
