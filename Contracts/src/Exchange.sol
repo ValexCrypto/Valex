@@ -13,11 +13,6 @@ contract Exchange {
     // closure fee paid up front, refunded - withdrawal fee if cancelled
     uint closureFeePerUnit;
     uint cancelFeePerUnit;
-    // fixed gas fee (Everything should run in O(1) time)
-    // valuated in gas (so remember to multiply by tx.gasprice)
-    uint gasFee;
-    // default gas value
-    uint gasDef;
     // Order margin for error (match), expressed as margin[0] units/margin[1] units
     uint[2] margin;
     // Size of numsCleared at which we should clean an order book
@@ -79,15 +74,15 @@ contract Exchange {
   // Only used in constructor
   bool initialized = false;
   // Constructor for pre-alpha version of contract
-  function Exchange(uint closureFeePerUnit, uint cancelFeePerUnit, uint gasFee,
-                    uint gasDef, uint margin0, uint margin1, uint cleanSize,
+  function Exchange(uint closureFeePerUnit, uint cancelFeePerUnit,
+                    uint margin0, uint margin1, uint cleanSize,
                     uint minershare0, uint minerShare1)
     public
   {
     require(initialized == false);
     // Initialize parameters books
-    setParams(closureFeePerUnit, cancelFeePerUnit, gasFee,
-              gasDef, margin0, margin1, cleanSize, minershare0, minerShare1);
+    setParams(closureFeePerUnit, cancelFeePerUnit,
+              margin0, margin1, cleanSize, minershare0, minerShare1);
     // Initialize order books
     setBooks();
     // Initialize numsCleared[0] as zero
@@ -109,16 +104,14 @@ contract Exchange {
   }
   // Init the params struct, which contains the bulk of exchange's parameters
   // Only used in constructor
-  function setParams(uint closureFeePerUnit, uint cancelFeePerUnit, uint gasFee,
-                    uint gasDef, uint margin0, uint margin1, uint cleanSize,
+  function setParams(uint closureFeePerUnit, uint cancelFeePerUnit,
+                    uint margin0, uint margin1, uint cleanSize,
                     uint minerShare0, uint minerShare1)
     private
     returns(bool passes)
   {
     params.closureFeePerUnit = closureFeePerUnit;
     params.cancelFeePerUnit = cancelFeePerUnit;
-    params.gasFee = gasFee;
-    params.gasDef = gasDef;
     params.margin[0] = margin0;
     params.margin[1] = margin1;
     params.cleanSize = cleanSize;
@@ -344,7 +337,6 @@ contract Exchange {
     payable
     returns(bool isValid)
   {
-    require(msg.value >= params.gasFee * tx.gasprice);
     // Validate that nonce is equivalent
     // modulo so that cost is constant
     // + 110 so that it's always 3 digits
@@ -382,9 +374,6 @@ contract Exchange {
   {
     require(volume > 0);
     require(limit0 > 0 && limit1 > 0);
-    // for accounting
-    // TODO: Not sure if this is necessary
-    require(tx.gasprice == params.gasDef);
     // Charge according to ether transaction vol
     if (buyETH){
       require((limit1 * volume * msg.value) > limit0 * params.closureFeePerUnit);
