@@ -47,12 +47,15 @@ contract Exchange {
   // stores address info on people placing orders (private information)
   struct AddressInfo{
     address ethAddress;
+    string firstAddress;
     string otherAddress;
   }
 
   event TradeInfo(
     address ethAddress1,
     address ethAddress2,
+    string firstAddress1,
+    string firstAddress2,
     string otherAddress1,
     string otherAddress2,
     // ether / other volumes
@@ -98,6 +101,8 @@ contract Exchange {
   // Only used in constructor
   function setBooks()
     private
+    // pure to avoid warning, but in final version is not
+    pure
     returns(bool passes)
   {
     return true;
@@ -238,6 +243,8 @@ contract Exchange {
     TradeInfo(
       addressBook[chapter][index1].ethAddress, //ethAddress1,
       addressBook[chapter][index2].ethAddress, //ethAddress2,
+      addressBook[chapter][index1].firstAddress, //firstAddress1,
+      addressBook[chapter][index2].firstAddress, //firstAddress2,
       addressBook[chapter][index1].otherAddress, //otherAddress1,
       addressBook[chapter][index2].otherAddress, // otherAddress2,
       ethVol,
@@ -367,7 +374,8 @@ contract Exchange {
 
   // Allows traders to place orders
   function placeOrder(bool buyETH, uint volume, uint limit0, uint limit1,
-                      address ethAddress, string otherAddress, uint chapter)
+                      address ethAddress, string firstAddress,
+                      string otherAddress, uint chapter)
     public
     payable
     returns(bool accepted)
@@ -388,7 +396,7 @@ contract Exchange {
     limit[0] = limit0;
     limit[1] = limit1;
     orderBook[chapter].push(Order(buyETH, volume, limit));
-    addressBook[chapter].push(AddressInfo(ethAddress, otherAddress));
+    addressBook[chapter].push(AddressInfo(ethAddress, firstAddress, otherAddress));
     return true;
   }
 
