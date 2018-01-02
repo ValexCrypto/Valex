@@ -3,10 +3,7 @@ pragma solidity ^0.4.16;
 import "../libs/SafeMathLib.sol";
 
 /// @title Exchange
-/// @author khelmy
-
-// Modified from:
-// https://github.com/aragon/zeppelin-solidity/blob/master/contracts/SafeMathLib.sol
+/// @author Karim Helmy
 
 //Primary contract: Describes functions of exchange
 contract Exchange {
@@ -23,6 +20,8 @@ contract Exchange {
     uint cleanSize;
     // Proportion of fees that miners get
     uint[2] minerShare;
+    // closedBalance at which we distribute dividends
+    uint distBalance;
   }
 
   // stores active balances
@@ -63,7 +62,7 @@ contract Exchange {
   );
 
   Parameters public params;
-  Balances private balances;
+  Balances public balances;
 
   // separate chapters for different currency pairs
   // that's why they're 2D mappings
@@ -100,6 +99,7 @@ contract Exchange {
   // Only used in constructor
   function setBooks()
     private
+    // TODO: Make impure when finished
     // pure to avoid warning, but in final version will not be
     pure
     returns(bool passes)

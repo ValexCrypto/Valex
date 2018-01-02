@@ -1,6 +1,6 @@
 pragma solidity ^0.4.16;
 
-// from:
+// Modified from:
 // https://github.com/aragon/zeppelin-solidity/blob/master/contracts/SafeMathLib.sol
 
 library SafeMathLib {
@@ -17,7 +17,7 @@ library SafeMathLib {
 
   function plus(uint a, uint b) public pure returns (uint) {
     uint c = a + b;
-    assert(c>=a && c>=b);
+    assert(c >= a && c >= b);
     return c;
   }
 }

@@ -5,6 +5,9 @@ import "../libs/ERC20Interface.sol";
 import "../libs/ApproveAndCallFallBack.sol";
 import "../libs/Owned.sol";
 
+/// @title ValexToken
+/// @author Karim Helmy
+
 // Modified from https://github.com/bokkypoobah/Tokens/blob/master/contracts/FixedSupplyToken.sol
 
 // ----------------------------------------------------------------------------
