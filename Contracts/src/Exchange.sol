@@ -110,7 +110,7 @@ contract Exchange {
   // Only used in constructor
   function setParams(uint closureFeePerUnit, uint cancelFeePerUnit,
                     uint margin0, uint margin1, uint cleanSize,
-                    uint minerShare0, uint minerShare1)
+                    uint minerShare0, uint minerShare1, uint distBalance)
     private
     returns(bool passes)
   {
@@ -121,6 +121,7 @@ contract Exchange {
     params.cleanSize = cleanSize;
     params.minerShare[0] = minerShare0;
     params.minerShare[1] = minerShare1;
+    params.distBalance = distBalance;
     return true;
   }
 
@@ -293,6 +294,16 @@ contract Exchange {
     return volumes;
   }
 
+  // TODO: Implement
+  // Distributes dividends when balance is of sufficient size
+  function distDividends()
+    private
+    returns(bool passes)
+  {
+    balances.closedBalance = 0;
+    return true;
+  }
+
   // Move balance from open to closed
   // Eliminate minerPayment from either balance
   function clearBalance(uint minerPayment, uint[2] volumes)
@@ -304,6 +315,9 @@ contract Exchange {
     balances.closedBalance = (balances.closedBalance -
                                   minerPayment +
                                   (params.closureFeePerUnit * volumes[0]));
+    if (balances.closedBalance >= params.distBalance){
+      distDividends();
+    }
     return true;
   }
 
