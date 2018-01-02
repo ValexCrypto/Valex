@@ -1,4 +1,4 @@
-pragma solidity ^0.4.17;
+pragma solidity ^0.4.16;
 
 // from:
 // https://github.com/aragon/zeppelin-solidity/blob/master/contracts/SafeMathLib.sol
