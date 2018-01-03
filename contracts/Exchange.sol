@@ -346,9 +346,27 @@ contract Exchange {
     return true;
   }
 
-  // Miners suggest matches with this function
+  // Checks if POW (nonce) is valid
   // Performs nonce verification (keccak256)
-  // Wrapper for isValidMatch, performs other required functions
+  // Helper for giveMatch
+  function isValidPOW(address msgSender, uint chapter, uint index1,
+                  uint index2, bytes32 nonce, uint hashVal)
+    private
+    pure
+    returns(bool isValid)
+  {
+    if (nonce != keccak256(msgSender,
+                          (chapter + 110) % 1000,
+                          (index1 + 110) % 1000,
+                          (index2 + 110) % 1000,
+                          (hashVal + 110) % 1000)){
+      return false;
+    }
+    return true;
+  }
+
+  // Miners suggest matches with this function
+  // Wrapper for isValidMatch and isValidPOW, performs other required functions
   function giveMatch(uint chapter, uint index1, uint index2,
                   bytes32 nonce, uint hashVal)
     public
@@ -360,14 +378,9 @@ contract Exchange {
     // + 110 so that it's always 3 digits
     // storing all values is impractical
     // hashVal adds security if trade volume is small
-    if (nonce != keccak256(msg.sender,
-                          (hashVal + 110) % 1000,
-                          (chapter + 110) % 1000,
-                          (index1 + 110) % 1000,
-                          (index2 + 110) % 1000)){
-      return false;
-    }
-    if (! isValidMatch(chapter, index1, index2)){
+    // Helper for giveMatch
+    if (! isValidMatch(chapter, index1, index2) ||
+        ! isValidPOW(msg.sender, chapter, index1, index2, nonce, hashVal)){
       return false;
     }
     uint[2] memory volumes = getVolumes(chapter, index1, index2);
