@@ -1,0 +1,31 @@
+{
+  "name": "valex",
+  "version": "1.0.0",
+  "description": "Decentralized cryptocurrency exchange.",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khelmy/Valex.git"
+  },
+  "keywords": [
+    "ethereum",
+    "bitcoin",
+    "cryptocurrency",
+    "decentralized"
+  ],
+  "author": "Karim Helmy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/khelmy/Valex/issues"
+  },
+  "homepage": "https://github.com/khelmy/Valex#readme",
+  "dependencies": {
+    "zeppelin-solidity": "^1.5.0"
+  }
+}

@@ -1,6 +1,6 @@
 pragma solidity ^0.4.16;
 
-import "../libs/SafeMathLib.sol";
+import "./libs/SafeMathLib.sol";
 
 /// @title Exchange
 /// @author Karim Helmy

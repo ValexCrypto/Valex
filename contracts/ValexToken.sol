@@ -1,9 +1,9 @@
 pragma solidity ^0.4.16;
 
-import "../libs/SafeMathLib.sol";
-import "../libs/ERC20Interface.sol";
-import "../libs/ApproveAndCallFallBack.sol";
-import "../libs/Owned.sol";
+import 'zeppelin-solidity/contracts/math/SafeMath.sol';
+import "zeppelin-solidity/contracts/token/ERC20.sol";
+import "./libs/ApproveAndCallFallBack.sol";
+import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
 
 /// @title ValexToken
 /// @author Karim Helmy
@@ -26,7 +26,7 @@ import "../libs/Owned.sol";
 // ERC20 Token, with the addition of symbol, name and decimals and an
 // initial fixed supply
 // ----------------------------------------------------------------------------
-contract ValexToken is ERC20Interface, Owned {
+contract ValexToken is ERC20, Ownable {
     using SafeMathLib for uint;
 
     string public symbol;
