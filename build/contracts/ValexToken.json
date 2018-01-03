@@ -552,14 +552,14 @@
   "deployedBytecode": "0x",
   "sourceMap": "",
   "deployedSourceMap": "",
-  "source": "pragma solidity ^0.4.16;\n\nimport 'zeppelin-solidity/contracts/math/SafeMath.sol';\nimport 'zeppelin-solidity/contracts/token/StandardToken.sol';\nimport './Exchange.sol';\n\n\n/// @title ValexToken\n/// @author Karim Helmy\n\n// Parts sourced from https://github.com/bokkypoobah/Tokens/blob/master/contracts/FixedSupplyToken.sol\n\n// ----------------------------------------------------------------------------\n// 'VLX' 'Valex Token' token contract\n//\n// Symbol      : VLX\n// Name        : Valex Token\n// Total supply: 1,000,000.000000000000000000\n// Decimals    : 18\n//\n// ----------------------------------------------------------------------------\n\n// ----------------------------------------------------------------------------\n// ERC20 Token, with the addition of symbol, name and decimals and an\n// initial fixed supply\n// ----------------------------------------------------------------------------\ncontract ValexToken is StandardToken, Exchange {\n    using SafeMath for uint;\n\n    mapping(address => uint) public balances;\n    mapping(address => mapping(address => uint)) public allowed;\n\n    string public name = \"Valex Token\";\n    string public symbol = \"VLX\";\n    uint8 public decimals = 18;\n\n    uint256 public initialSupply = 10000 * (10 ** uint256(decimals));\n\n    /**\n     * @dev Constructor that gives msg.sender all of existing tokens.\n     */\n    function ValexToken() public {\n      totalSupply = initialSupply;\n      balances[msg.sender] = initialSupply;\n    }\n\n}\n",
+  "source": "pragma solidity ^0.4.18;\n\nimport 'zeppelin-solidity/contracts/math/SafeMath.sol';\nimport 'zeppelin-solidity/contracts/token/StandardToken.sol';\nimport './Exchange.sol';\n\n\n/// @title ValexToken\n/// @author Karim Helmy\n\n// Parts sourced from https://github.com/bokkypoobah/Tokens/blob/master/contracts/FixedSupplyToken.sol\n\n// ----------------------------------------------------------------------------\n// 'VLX' 'Valex Token' token contract\n//\n// Symbol      : VLX\n// Name        : Valex Token\n// Total supply: 1,000,000.000000000000000000\n// Decimals    : 18\n//\n// ----------------------------------------------------------------------------\n\n// ----------------------------------------------------------------------------\n// ERC20 Token, with the addition of symbol, name and decimals and an\n// initial fixed supply\n// ----------------------------------------------------------------------------\ncontract ValexToken is StandardToken, Exchange {\n    using SafeMath for uint;\n\n    mapping(address => uint) public balances;\n    mapping(address => mapping(address => uint)) public allowed;\n\n    string public name = \"Valex Token\";\n    string public symbol = \"VLX\";\n    uint8 public decimals = 18;\n\n    uint256 public initialSupply = 10000 * (10 ** uint256(decimals));\n\n    /**\n     * @dev Constructor that gives msg.sender all of existing tokens.\n     */\n     // TODO: Make the constructor inherit from Exchange's\n    function ValexToken() public {\n      totalSupply = initialSupply;\n      balances[msg.sender] = initialSupply;\n    }\n\n}\n",
   "sourcePath": "/Users/Karim/Desktop/Valex/contracts/ValexToken.sol",
   "ast": {
     "attributes": {
       "absolutePath": "/Users/Karim/Desktop/Valex/contracts/ValexToken.sol",
       "exportedSymbols": {
         "ValexToken": [
-          1547
+          1604
         ]
       }
     },
@@ -570,80 +570,80 @@
             "solidity",
             "^",
             "0.4",
-            ".16"
+            ".18"
           ]
         },
-        "id": 1492,
+        "id": 1549,
         "name": "PragmaDirective",
-        "src": "0:24:1"
+        "src": "0:24:2"
       },
       {
         "attributes": {
-          "SourceUnit": 1646,
+          "SourceUnit": 1703,
           "absolutePath": "zeppelin-solidity/contracts/math/SafeMath.sol",
           "file": "zeppelin-solidity/contracts/math/SafeMath.sol",
-          "scope": 1548,
+          "scope": 1605,
           "symbolAliases": [
             null
           ],
           "unitAlias": ""
         },
-        "id": 1493,
+        "id": 1550,
         "name": "ImportDirective",
-        "src": "26:55:1"
+        "src": "26:55:2"
       },
       {
         "attributes": {
-          "SourceUnit": 2050,
+          "SourceUnit": 2107,
           "absolutePath": "zeppelin-solidity/contracts/token/StandardToken.sol",
           "file": "zeppelin-solidity/contracts/token/StandardToken.sol",
-          "scope": 1548,
+          "scope": 1605,
           "symbolAliases": [
             null
           ],
           "unitAlias": ""
         },
-        "id": 1494,
+        "id": 1551,
         "name": "ImportDirective",
-        "src": "82:61:1"
+        "src": "82:61:2"
       },
       {
         "attributes": {
           "SourceUnit": 1491,
           "absolutePath": "/Users/Karim/Desktop/Valex/contracts/Exchange.sol",
           "file": "./Exchange.sol",
-          "scope": 1548,
+          "scope": 1605,
           "symbolAliases": [
             null
           ],
           "unitAlias": ""
         },
-        "id": 1495,
+        "id": 1552,
         "name": "ImportDirective",
-        "src": "144:24:1"
+        "src": "144:24:2"
       },
       {
         "attributes": {
           "contractDependencies": [
             1490,
-            1731,
-            1774,
-            1803,
-            2049
+            1788,
+            1831,
+            1860,
+            2106
           ],
           "contractKind": "contract",
           "documentation": "@title ValexToken\n @author Karim Helmy",
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            1547,
+            1604,
             1490,
-            2049,
-            1731,
-            1774,
-            1803
+            2106,
+            1788,
+            1831,
+            1860
           ],
           "name": "ValexToken",
-          "scope": 1548
+          "scope": 1605
         },
         "children": [
           {
@@ -657,17 +657,17 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "StandardToken",
-                  "referencedDeclaration": 2049,
+                  "referencedDeclaration": 2106,
                   "type": "contract StandardToken"
                 },
-                "id": 1496,
+                "id": 1553,
                 "name": "UserDefinedTypeName",
-                "src": "920:13:1"
+                "src": "920:13:2"
               }
             ],
-            "id": 1497,
+            "id": 1554,
             "name": "InheritanceSpecifier",
-            "src": "920:13:1"
+            "src": "920:13:2"
           },
           {
             "attributes": {
@@ -683,14 +683,14 @@
                   "referencedDeclaration": 1490,
                   "type": "contract Exchange"
                 },
-                "id": 1498,
+                "id": 1555,
                 "name": "UserDefinedTypeName",
-                "src": "935:8:1"
+                "src": "935:8:2"
               }
             ],
-            "id": 1499,
+            "id": 1556,
             "name": "InheritanceSpecifier",
-            "src": "935:8:1"
+            "src": "935:8:2"
           },
           {
             "children": [
@@ -698,32 +698,32 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "SafeMath",
-                  "referencedDeclaration": 1645,
+                  "referencedDeclaration": 1702,
                   "type": "library SafeMath"
                 },
-                "id": 1500,
+                "id": 1557,
                 "name": "UserDefinedTypeName",
-                "src": "956:8:1"
+                "src": "956:8:2"
               },
               {
                 "attributes": {
                   "name": "uint",
                   "type": "uint256"
                 },
-                "id": 1501,
+                "id": 1558,
                 "name": "ElementaryTypeName",
-                "src": "969:4:1"
+                "src": "969:4:2"
               }
             ],
-            "id": 1502,
+            "id": 1559,
             "name": "UsingForDirective",
-            "src": "950:24:1"
+            "src": "950:24:2"
           },
           {
             "attributes": {
               "constant": false,
               "name": "balances",
-              "scope": 1547,
+              "scope": 1604,
               "stateVariable": true,
               "storageLocation": "default",
               "type": "mapping(address => uint256)",
@@ -741,34 +741,34 @@
                       "name": "address",
                       "type": "address"
                     },
-                    "id": 1503,
+                    "id": 1560,
                     "name": "ElementaryTypeName",
-                    "src": "988:7:1"
+                    "src": "988:7:2"
                   },
                   {
                     "attributes": {
                       "name": "uint",
                       "type": "uint256"
                     },
-                    "id": 1504,
+                    "id": 1561,
                     "name": "ElementaryTypeName",
-                    "src": "999:4:1"
+                    "src": "999:4:2"
                   }
                 ],
-                "id": 1505,
+                "id": 1562,
                 "name": "Mapping",
-                "src": "980:24:1"
+                "src": "980:24:2"
               }
             ],
-            "id": 1506,
+            "id": 1563,
             "name": "VariableDeclaration",
-            "src": "980:40:1"
+            "src": "980:40:2"
           },
           {
             "attributes": {
               "constant": false,
               "name": "allowed",
-              "scope": 1547,
+              "scope": 1604,
               "stateVariable": true,
               "storageLocation": "default",
               "type": "mapping(address => mapping(address => uint256))",
@@ -786,9 +786,9 @@
                       "name": "address",
                       "type": "address"
                     },
-                    "id": 1507,
+                    "id": 1564,
                     "name": "ElementaryTypeName",
-                    "src": "1034:7:1"
+                    "src": "1034:7:2"
                   },
                   {
                     "attributes": {
@@ -800,39 +800,39 @@
                           "name": "address",
                           "type": "address"
                         },
-                        "id": 1508,
+                        "id": 1565,
                         "name": "ElementaryTypeName",
-                        "src": "1053:7:1"
+                        "src": "1053:7:2"
                       },
                       {
                         "attributes": {
                           "name": "uint",
                           "type": "uint256"
                         },
-                        "id": 1509,
+                        "id": 1566,
                         "name": "ElementaryTypeName",
-                        "src": "1064:4:1"
+                        "src": "1064:4:2"
                       }
                     ],
-                    "id": 1510,
+                    "id": 1567,
                     "name": "Mapping",
-                    "src": "1045:24:1"
+                    "src": "1045:24:2"
                   }
                 ],
-                "id": 1511,
+                "id": 1568,
                 "name": "Mapping",
-                "src": "1026:44:1"
+                "src": "1026:44:2"
               }
             ],
-            "id": 1512,
+            "id": 1569,
             "name": "VariableDeclaration",
-            "src": "1026:59:1"
+            "src": "1026:59:2"
           },
           {
             "attributes": {
               "constant": false,
               "name": "name",
-              "scope": 1547,
+              "scope": 1604,
               "stateVariable": true,
               "storageLocation": "default",
               "type": "string storage ref",
@@ -844,9 +844,9 @@
                   "name": "string",
                   "type": "string storage pointer"
                 },
-                "id": 1513,
+                "id": 1570,
                 "name": "ElementaryTypeName",
-                "src": "1092:6:1"
+                "src": "1092:6:2"
               },
               {
                 "attributes": {
@@ -861,20 +861,20 @@
                   "type": "literal_string \"Valex Token\"",
                   "value": "Valex Token"
                 },
-                "id": 1514,
+                "id": 1571,
                 "name": "Literal",
-                "src": "1113:13:1"
+                "src": "1113:13:2"
               }
             ],
-            "id": 1515,
+            "id": 1572,
             "name": "VariableDeclaration",
-            "src": "1092:34:1"
+            "src": "1092:34:2"
           },
           {
             "attributes": {
               "constant": false,
               "name": "symbol",
-              "scope": 1547,
+              "scope": 1604,
               "stateVariable": true,
               "storageLocation": "default",
               "type": "string storage ref",
@@ -886,9 +886,9 @@
                   "name": "string",
                   "type": "string storage pointer"
                 },
-                "id": 1516,
+                "id": 1573,
                 "name": "ElementaryTypeName",
-                "src": "1132:6:1"
+                "src": "1132:6:2"
               },
               {
                 "attributes": {
@@ -903,20 +903,20 @@
                   "type": "literal_string \"VLX\"",
                   "value": "VLX"
                 },
-                "id": 1517,
+                "id": 1574,
                 "name": "Literal",
-                "src": "1155:5:1"
+                "src": "1155:5:2"
               }
             ],
-            "id": 1518,
+            "id": 1575,
             "name": "VariableDeclaration",
-            "src": "1132:28:1"
+            "src": "1132:28:2"
           },
           {
             "attributes": {
               "constant": false,
               "name": "decimals",
-              "scope": 1547,
+              "scope": 1604,
               "stateVariable": true,
               "storageLocation": "default",
               "type": "uint8",
@@ -928,9 +928,9 @@
                   "name": "uint8",
                   "type": "uint8"
                 },
-                "id": 1519,
+                "id": 1576,
                 "name": "ElementaryTypeName",
-                "src": "1166:5:1"
+                "src": "1166:5:2"
               },
               {
                 "attributes": {
@@ -945,20 +945,20 @@
                   "type": "int_const 18",
                   "value": "18"
                 },
-                "id": 1520,
+                "id": 1577,
                 "name": "Literal",
-                "src": "1190:2:1"
+                "src": "1190:2:2"
               }
             ],
-            "id": 1521,
+            "id": 1578,
             "name": "VariableDeclaration",
-            "src": "1166:26:1"
+            "src": "1166:26:2"
           },
           {
             "attributes": {
               "constant": false,
               "name": "initialSupply",
-              "scope": 1547,
+              "scope": 1604,
               "stateVariable": true,
               "storageLocation": "default",
               "type": "uint256",
@@ -970,9 +970,9 @@
                   "name": "uint256",
                   "type": "uint256"
                 },
-                "id": 1522,
+                "id": 1579,
                 "name": "ElementaryTypeName",
-                "src": "1199:7:1"
+                "src": "1199:7:2"
               },
               {
                 "attributes": {
@@ -1002,9 +1002,9 @@
                       "type": "int_const 10000",
                       "value": "10000"
                     },
-                    "id": 1523,
+                    "id": 1580,
                     "name": "Literal",
-                    "src": "1230:5:1"
+                    "src": "1230:5:2"
                   },
                   {
                     "attributes": {
@@ -1045,9 +1045,9 @@
                               "type": "int_const 10",
                               "value": "10"
                             },
-                            "id": 1524,
+                            "id": 1581,
                             "name": "Literal",
-                            "src": "1239:2:1"
+                            "src": "1239:2:2"
                           },
                           {
                             "attributes": {
@@ -1079,9 +1079,9 @@
                                   "type": "type(uint256)",
                                   "value": "uint256"
                                 },
-                                "id": 1525,
+                                "id": 1582,
                                 "name": "ElementaryTypeNameExpression",
-                                "src": "1245:7:1"
+                                "src": "1245:7:2"
                               },
                               {
                                 "attributes": {
@@ -1089,38 +1089,38 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 1521,
+                                  "referencedDeclaration": 1578,
                                   "type": "uint8",
                                   "value": "decimals"
                                 },
-                                "id": 1526,
+                                "id": 1583,
                                 "name": "Identifier",
-                                "src": "1253:8:1"
+                                "src": "1253:8:2"
                               }
                             ],
-                            "id": 1527,
+                            "id": 1584,
                             "name": "FunctionCall",
-                            "src": "1245:17:1"
+                            "src": "1245:17:2"
                           }
                         ],
-                        "id": 1528,
+                        "id": 1585,
                         "name": "BinaryOperation",
-                        "src": "1239:23:1"
+                        "src": "1239:23:2"
                       }
                     ],
-                    "id": 1529,
+                    "id": 1586,
                     "name": "TupleExpression",
-                    "src": "1238:25:1"
+                    "src": "1238:25:2"
                   }
                 ],
-                "id": 1530,
+                "id": 1587,
                 "name": "BinaryOperation",
-                "src": "1230:33:1"
+                "src": "1230:33:2"
               }
             ],
-            "id": 1531,
+            "id": 1588,
             "name": "VariableDeclaration",
-            "src": "1199:64:1"
+            "src": "1199:64:2"
           },
           {
             "attributes": {
@@ -1132,7 +1132,7 @@
               ],
               "name": "ValexToken",
               "payable": false,
-              "scope": 1547,
+              "scope": 1604,
               "stateMutability": "nonpayable",
               "superFunction": null,
               "visibility": "public"
@@ -1145,9 +1145,9 @@
                   ]
                 },
                 "children": [],
-                "id": 1532,
+                "id": 1589,
                 "name": "ParameterList",
-                "src": "1375:2:1"
+                "src": "1434:2:2"
               },
               {
                 "attributes": {
@@ -1156,9 +1156,9 @@
                   ]
                 },
                 "children": [],
-                "id": 1533,
+                "id": 1590,
                 "name": "ParameterList",
-                "src": "1385:0:1"
+                "src": "1444:0:2"
               },
               {
                 "children": [
@@ -1181,13 +1181,13 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1778,
+                              "referencedDeclaration": 1835,
                               "type": "uint256",
                               "value": "totalSupply"
                             },
-                            "id": 1534,
+                            "id": 1591,
                             "name": "Identifier",
-                            "src": "1393:11:1"
+                            "src": "1452:11:2"
                           },
                           {
                             "attributes": {
@@ -1195,23 +1195,23 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1531,
+                              "referencedDeclaration": 1588,
                               "type": "uint256",
                               "value": "initialSupply"
                             },
-                            "id": 1535,
+                            "id": 1592,
                             "name": "Identifier",
-                            "src": "1407:13:1"
+                            "src": "1466:13:2"
                           }
                         ],
-                        "id": 1536,
+                        "id": 1593,
                         "name": "Assignment",
-                        "src": "1393:27:1"
+                        "src": "1452:27:2"
                       }
                     ],
-                    "id": 1537,
+                    "id": 1594,
                     "name": "ExpressionStatement",
-                    "src": "1393:27:1"
+                    "src": "1452:27:2"
                   },
                   {
                     "children": [
@@ -1242,13 +1242,13 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 1506,
+                                  "referencedDeclaration": 1563,
                                   "type": "mapping(address => uint256)",
                                   "value": "balances"
                                 },
-                                "id": 1538,
+                                "id": 1595,
                                 "name": "Identifier",
-                                "src": "1428:8:1"
+                                "src": "1487:8:2"
                               },
                               {
                                 "attributes": {
@@ -1268,23 +1268,23 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 2061,
+                                      "referencedDeclaration": 2118,
                                       "type": "msg",
                                       "value": "msg"
                                     },
-                                    "id": 1539,
+                                    "id": 1596,
                                     "name": "Identifier",
-                                    "src": "1437:3:1"
+                                    "src": "1496:3:2"
                                   }
                                 ],
-                                "id": 1540,
+                                "id": 1597,
                                 "name": "MemberAccess",
-                                "src": "1437:10:1"
+                                "src": "1496:10:2"
                               }
                             ],
-                            "id": 1541,
+                            "id": 1598,
                             "name": "IndexAccess",
-                            "src": "1428:20:1"
+                            "src": "1487:20:2"
                           },
                           {
                             "attributes": {
@@ -1292,43 +1292,43 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1531,
+                              "referencedDeclaration": 1588,
                               "type": "uint256",
                               "value": "initialSupply"
                             },
-                            "id": 1542,
+                            "id": 1599,
                             "name": "Identifier",
-                            "src": "1451:13:1"
+                            "src": "1510:13:2"
                           }
                         ],
-                        "id": 1543,
+                        "id": 1600,
                         "name": "Assignment",
-                        "src": "1428:36:1"
+                        "src": "1487:36:2"
                       }
                     ],
-                    "id": 1544,
+                    "id": 1601,
                     "name": "ExpressionStatement",
-                    "src": "1428:36:1"
+                    "src": "1487:36:2"
                   }
                 ],
-                "id": 1545,
+                "id": 1602,
                 "name": "Block",
-                "src": "1385:86:1"
+                "src": "1444:86:2"
               }
             ],
-            "id": 1546,
+            "id": 1603,
             "name": "FunctionDefinition",
-            "src": "1356:115:1"
+            "src": "1415:115:2"
           }
         ],
-        "id": 1547,
+        "id": 1604,
         "name": "ContractDefinition",
-        "src": "897:577:1"
+        "src": "897:636:2"
       }
     ],
-    "id": 1548,
+    "id": 1605,
     "name": "SourceUnit",
-    "src": "0:1475:1"
+    "src": "0:1534:2"
   },
   "compiler": {
     "name": "solc",
@@ -1336,5 +1336,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2018-01-03T07:14:36.848Z"
+  "updatedAt": "2018-01-03T19:11:40.966Z"
 }

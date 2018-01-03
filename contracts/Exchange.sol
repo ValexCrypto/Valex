@@ -1,12 +1,13 @@
-pragma solidity ^0.4.16;
+pragma solidity ^0.4.18;
 
 import 'zeppelin-solidity/contracts/math/SafeMath.sol';
 
 /// @title Exchange
 /// @author Karim Helmy
 
-//Primary contract: Describes functions of exchange
+// Primary contract: Describes functions of exchange
 contract Exchange {
+  // TODO: Make all operations safe
   using SafeMath for uint;
   // fee parameters and such
   struct Parameters{
@@ -73,16 +74,12 @@ contract Exchange {
   // Numbers of orders that have been closed are kept here
   uint[] numsCleared;
 
-  // Used to make sure the constructor isn't called more than once
-  // Only used in constructor
-  bool initialized = false;
-  // Constructor for pre-alpha version of contract
+  // Constructor for contract
   function Exchange(uint closureFeePerUnit, uint cancelFeePerUnit,
                     uint margin0, uint margin1, uint cleanSize,
                     uint minershare0, uint minerShare1, uint distBalance)
     public
   {
-    require(initialized == false);
     // Initialize parameters books
     setParams(closureFeePerUnit, cancelFeePerUnit,
               margin0, margin1, cleanSize, minershare0, minerShare1, distBalance);
@@ -90,7 +87,6 @@ contract Exchange {
     setBooks();
     // Initialize numsCleared[0] as zero
     numsCleared.push(0);
-    initialized = true;
     return;
   }
 
