@@ -2,6 +2,8 @@ pragma solidity ^0.4.16;
 
 import 'zeppelin-solidity/contracts/math/SafeMath.sol';
 import 'zeppelin-solidity/contracts/token/StandardToken.sol';
+import './Exchange.sol';
+
 
 /// @title ValexToken
 /// @author Karim Helmy
@@ -22,7 +24,7 @@ import 'zeppelin-solidity/contracts/token/StandardToken.sol';
 // ERC20 Token, with the addition of symbol, name and decimals and an
 // initial fixed supply
 // ----------------------------------------------------------------------------
-contract ValexToken is StandardToken {
+contract ValexToken is StandardToken, Exchange {
     using SafeMath for uint;
 
     mapping(address => uint) public balances;
@@ -37,6 +39,7 @@ contract ValexToken is StandardToken {
     /**
      * @dev Constructor that gives msg.sender all of existing tokens.
      */
+     // TODO: Make the constructor inherit from Exchange's
     function ValexToken() public {
       totalSupply = initialSupply;
       balances[msg.sender] = initialSupply;
