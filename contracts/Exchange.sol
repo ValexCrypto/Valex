@@ -1,13 +1,13 @@
 pragma solidity ^0.4.16;
 
-import "./libs/SafeMathLib.sol";
+import 'zeppelin-solidity/contracts/math/SafeMath.sol';
 
 /// @title Exchange
 /// @author Karim Helmy
 
 //Primary contract: Describes functions of exchange
 contract Exchange {
-  using SafeMathLib for uint;
+  using SafeMath for uint;
   // fee parameters and such
   struct Parameters{
     //wei per eth
