@@ -76,8 +76,8 @@ contract ValexToken is ERC20Interface, Owned {
     // - 0 value transfers are allowed
     // ------------------------------------------------------------------------
     function transfer(address to, uint tokens) public returns (bool success) {
-        balances[msg.sender] = balances[msg.sender].sub(tokens);
-        balances[to] = balances[to].add(tokens);
+        balances[msg.sender] = balances[msg.sender].minus(tokens);
+        balances[to] = balances[to].plus(tokens);
         Transfer(msg.sender, to, tokens);
         return true;
     }
@@ -106,9 +106,9 @@ contract ValexToken is ERC20Interface, Owned {
     // - 0 value transfers are allowed
     // ------------------------------------------------------------------------
     function transferFrom(address from, address to, uint tokens) public returns (bool success) {
-        balances[from] = balances[from].sub(tokens);
-        allowed[from][msg.sender] = allowed[from][msg.sender].sub(tokens);
-        balances[to] = balances[to].add(tokens);
+        balances[from] = balances[from].minus(tokens);
+        allowed[from][msg.sender] = allowed[from][msg.sender].minus(tokens);
+        balances[to] = balances[to].plus(tokens);
         Transfer(from, to, tokens);
         return true;
     }

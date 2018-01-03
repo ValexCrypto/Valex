@@ -79,13 +79,13 @@ contract Exchange {
   // Constructor for pre-alpha version of contract
   function Exchange(uint closureFeePerUnit, uint cancelFeePerUnit,
                     uint margin0, uint margin1, uint cleanSize,
-                    uint minershare0, uint minerShare1)
+                    uint minershare0, uint minerShare1, uint distBalance)
     public
   {
     require(initialized == false);
     // Initialize parameters books
     setParams(closureFeePerUnit, cancelFeePerUnit,
-              margin0, margin1, cleanSize, minershare0, minerShare1);
+              margin0, margin1, cleanSize, minershare0, minerShare1, distBalance);
     // Initialize order books
     setBooks();
     // Initialize numsCleared[0] as zero
