@@ -27,22 +27,31 @@ import './Exchange.sol';
 contract ValexToken is StandardToken, Exchange {
     using SafeMath for uint;
 
-    mapping(address => uint) public balances;
     mapping(address => mapping(address => uint)) public allowed;
 
     string public name = "Valex Token";
     string public symbol = "VLX";
     uint8 public decimals = 18;
 
+    mapping(address => uint256) balances;
+
     uint256 public initialSupply = 10000 * (10 ** uint256(decimals));
 
     /**
      * @dev Constructor that gives msg.sender all of existing tokens.
+     * @dev Initializes token to have same parameters as exchange
      */
-     // TODO: Make the constructor inherit from Exchange's
-    function ValexToken() public {
+    function ValexToken(uint closureFeePerUnit, uint cancelFeePerUnit,
+                      uint margin0, uint margin1, uint cleanSize,
+                      uint minershare0, uint minerShare1, uint distBalance)
+      Exchange(closureFeePerUnit, cancelFeePerUnit,
+              margin0, margin1, cleanSize,
+              minershare0, minerShare1, distBalance)
+      public
+    {
       totalSupply = initialSupply;
       balances[msg.sender] = initialSupply;
     }
+    //TODO: Implement voting/parameter modification
 
 }

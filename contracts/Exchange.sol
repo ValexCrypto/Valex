@@ -25,7 +25,7 @@ contract Exchange {
     uint distBalance;
   }
 
-  // stores active balances
+  // stores active exBalances
   struct Balances{
     // separate out the open balance (includes unclosed fees, gas fees),
     // which will be distributed between miners, the exchange, and traders,
@@ -63,7 +63,7 @@ contract Exchange {
   );
 
   Parameters public params;
-  Balances public balances;
+  Balances public exBalances;
 
   // separate chapters for different currency pairs
   // that's why they're 2D mappings
@@ -296,7 +296,7 @@ contract Exchange {
     private
     returns(bool passes)
   {
-    balances.closedBalance = 0;
+    exBalances.closedBalance = 0;
     return true;
   }
 
@@ -306,12 +306,12 @@ contract Exchange {
     private
     returns(bool passed)
   {
-    balances.openBalance = (balances.openBalance -
+    exBalances.openBalance = (exBalances.openBalance -
                                   (params.closureFeePerUnit * volumes[0]));
-    balances.closedBalance = (balances.closedBalance -
+    exBalances.closedBalance = (exBalances.closedBalance -
                                   minerPayment +
                                   (params.closureFeePerUnit * volumes[0]));
-    if (balances.closedBalance >= params.distBalance){
+    if (exBalances.closedBalance >= params.distBalance){
       distDividends();
     }
     return true;
@@ -438,10 +438,10 @@ contract Exchange {
     }
     uint cancelPayment = limit * (params.closureFeePerUnit - params.cancelFeePerUnit);
     msg.sender.transfer(cancelPayment);
-    // Update balances
-    balances.openBalance = (balances.openBalance -
+    // Update exBalances
+    exBalances.openBalance = (exBalances.openBalance -
                                 (limit * params.closureFeePerUnit));
-    balances.closedBalance = (balances.closedBalance +
+    exBalances.closedBalance = (exBalances.closedBalance +
                                   (limit * params.cancelFeePerUnit));
     delete orderBook[chapter][index];
     delete addressBook[chapter][index];
