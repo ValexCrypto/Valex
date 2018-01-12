@@ -10,6 +10,12 @@ Current version can be found on Rinkeby at: `0x2dcd687724b2ff9430cc05ae87b153334
 Open a terminal window in the Valex folder. Run:
 
 ```
+ganache-cli
+```
+
+Open another window. Run:
+
+```
 truffle migrate
 ```
 
