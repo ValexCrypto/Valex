@@ -29,6 +29,7 @@ Open a terminal window in the Valex folder. Run:
 ```
 geth --rinkeby --rpc --rpcapi db,eth,net,web3,personal --unlock="[your testnet address]"
 ```
+You will be prompted to give your password for the account. Type it in and hit enter.
 
 Open another window. Run:
 ```
