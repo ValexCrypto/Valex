@@ -244,7 +244,7 @@ contract Exchange is ExchangeStructs {
   // Performs nonce verification (keccak256)
   // Helper for giveMatch
   function isValidPOW(address msgSender, uint chapter, uint index1,
-                  uint index2, bytes32 nonce, uint hashVal)
+                      uint index2, bytes32 nonce, uint hashVal)
     private
     pure
     returns(bool isValid)
