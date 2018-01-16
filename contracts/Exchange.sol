@@ -86,14 +86,14 @@ contract Exchange is ExchangeStructs {
   }
 
   // verifies that match is valid
-  function isValidMatch(uint chapter, uint index1, uint index2)
+  function calcRateAndVol(uint chapter, uint index1, uint index2)
     private
     view
-    returns(bool isValid)
+    returns (uint mimRate, uint ethVol)
   {
     // check edge cases
     if (! checkMatchEdges(chapter, index1, index2)){
-      return false;
+      return (0,0);
     }
     // which order is buying and selling ETH?
     // buy-sell copy1
@@ -113,69 +113,68 @@ contract Exchange is ExchangeStructs {
 
     // Non-contradictory limits
     if (buyOrder.limit < sellOrder.limit){
-      return false;
+      return (0, 0);
     }
-
     // Meet in middle rate
-    // mimRate copy2
-    uint mimRate = (buyOrder.limit + sellOrder.limit) / 2;
+    // mimRate
+    mimRate = (buyOrder.limit + sellOrder.limit) / 2;
 
     // Volumes comparable
     // TODO: DEBUGGING: verify that these are the correct equations
-    // Probably have to multiply left side by 10^18
+    // Probably have to multiply buyOrder side by 10^18
     if (buyOrder.volume > sellOrder.volume * mimRate){
       if (buyOrder.minVolume > sellOrder.volume * mimRate){
-        return false;
+        return (0, 0);
       }
+      return (mimRate, sellOrder.volume * mimRate);
     }
     if (sellOrder.volume * mimRate > buyOrder.volume ){
       if (sellOrder.minVolume * mimRate > buyOrder.volume){
-        return false;
+        return (0, 0);
       }
     }
-    return true;
+    return (mimRate, buyOrder.volume);
   }
 
   // Clears closed trade, reenters into order book if incomplete
-  function clearTrade(uint chapter, uint index1, uint index2, uint[2] volumes)
+  function clearTrade(uint chapter, uint index1, uint index2,
+                      uint mimRate, uint ethVol)
     private
     returns(bool passed)
   {
-    if (orderBook[chapter][index1].volume == volumes[0]){
-      delete orderBook[chapter][index1].volume;
-      numsCleared[chapter] += 1;
+    // which order is buying and selling ETH?
+    // buy-sell copy1
+    uint buyIndex;
+    uint sellIndex;
+    if (orderBook[chapter][index1].buyETH){
+      buyIndex = index1;
+      sellIndex = index2;
     }
     else{
-      orderBook[chapter][index1].volume = (orderBook[chapter][index1].volume -
-                                                volumes[0]);
+      buyIndex = index2;
+      sellIndex = index1;
     }
-    if (orderBook[chapter][index2].volume == volumes[1]){
-      delete orderBook[chapter][index2].volume;
+    if (orderBook[chapter][buyIndex].volume == ethVol){
       numsCleared[chapter] += 1;
     }
-    else{
-      orderBook[chapter][index2].volume = (orderBook[chapter][index2].volume -
-                                                volumes[1]);
+    orderBook[chapter][buyIndex].volume = (orderBook[chapter][index1].volume -
+                                           ethVol);
+    // TODO: DEBUGGING: ethvol * mimRate / 10^18?
+    if (orderBook[chapter][index2].volume == ethVol * mimRate){
+      numsCleared[chapter] += 1;
     }
+    // TODO: DEBUGGING: ethvol * mimRate / 10^18?
+    orderBook[chapter][index2].volume = (orderBook[chapter][index2].volume -
+                                        ethVol * mimRate);
     return true;
   }
 
   // Adds trade to log, for traders to note
   // http://solidity.readthedocs.io/en/latest/contracts.html?highlight=events#events
-  function alertTraders(uint chapter, uint index1, uint index2, uint[2] volumes)
+  function alertTraders(uint chapter, uint index1, uint index2, uint mimRate, uint ethVol)
     private
     returns(bool passed)
   {
-    uint ethVol;
-    uint otherVol;
-    if (orderBook[chapter][index1].buyETH){
-      ethVol = volumes[0];
-      otherVol = volumes[1];
-    }
-    else{
-      ethVol = volumes[0];
-      otherVol = volumes[1];
-    }
     TradeInfo(
       addressBook[chapter][index1].ethAddress, //ethAddress1,
       addressBook[chapter][index2].ethAddress, //ethAddress2,
@@ -183,52 +182,10 @@ contract Exchange is ExchangeStructs {
       addressBook[chapter][index2].firstAddress, //firstAddress2,
       addressBook[chapter][index1].otherAddress, //otherAddress1,
       addressBook[chapter][index2].otherAddress, // otherAddress2,
-      ethVol,
-      otherVol
+      mimRate,
+      ethVol
       );
     return true;
-  }
-
-  // Calculates exchange volumes for trade using limits (meet in middle)
-  // Ether volume is always first
-  //TODO: CHANGE FOR NEW MODEL
-  function getVolumes(uint chapter, uint index1, uint index2)
-    private
-    view
-    returns(uint[2] volumes)
-  {
-    // which order is buying and selling ETH?
-    // buy-sell copy1
-    // a little different from the other version
-    uint buyIndex;
-    uint sellIndex;
-    bool index1ETH;
-    if (orderBook[chapter][index1].buyETH){
-      buyIndex = index1;
-      sellIndex = index2;
-      index1ETH = false;
-    }
-    else{
-      buyIndex = index2;
-      sellIndex = index1;
-      index1ETH = true;
-    }
-    // shorthand for buy and sell orders
-    Order storage buyOrder = orderBook[chapter][buyIndex];
-    Order storage sellOrder = orderBook[chapter][sellIndex];
-    // TODO: FINISH FUNCTION
-    // Meet in middle rate
-    // mimRate copy2
-    uint mimRate = (buyOrder.limit + sellOrder.limit) / 2;
-    if ((sellOrder.volume * mimRate) <= buyOrder.volume){
-      volumes[0] = sellOrder.volume;
-      volumes[1] = sellOrder.volume * mimRate;
-    }
-    else{
-      volumes[0] = buyOrder.volume * mimRate;
-      volumes[1] = buyOrder.volume;
-    }
-    return volumes;
   }
 
   // TODO: Implement
@@ -243,15 +200,15 @@ contract Exchange is ExchangeStructs {
 
   // Move balance from open to closed
   // Eliminate minerPayment from either balance
-  function clearBalance(uint minerPayment, uint[2] volumes)
+  function clearBalance(uint minerPayment, uint ethVol)
     private
     returns(bool passed)
   {
     exBalances.openBalance = (exBalances.openBalance -
-                                  (params.closureFeePerUnit * volumes[0]));
+                                  (params.closureFeePerUnit * ethVol));
     exBalances.closedBalance = (exBalances.closedBalance -
                                   minerPayment +
-                                  (params.closureFeePerUnit * volumes[0]));
+                                  (params.closureFeePerUnit * ethVol));
     if (exBalances.closedBalance >= params.distBalance){
       distDividends();
     }
@@ -303,7 +260,7 @@ contract Exchange is ExchangeStructs {
   }
 
   // Miners suggest matches with this function
-  // Wrapper for isValidMatch and isValidPOW, performs other required functions
+  // Wrapper for calcRateAndVol and isValidPOW, performs other required functions
   function giveMatch(uint chapter, uint index1, uint index2,
                   bytes32 nonce, uint hashVal)
     public
@@ -316,18 +273,20 @@ contract Exchange is ExchangeStructs {
     // storing all values is impractical
     // hashVal adds security if trade volume is small
     // Helper for giveMatch
-    if (! isValidMatch(chapter, index1, index2) ||
-        ! isValidPOW(msg.sender, chapter, index1, index2, nonce, hashVal)){
+    if (! isValidPOW(msg.sender, chapter, index1, index2, nonce, hashVal)){
       return false;
     }
-    uint[2] memory volumes = getVolumes(chapter, index1, index2);
+    var (mimRate, ethVol) = calcRateAndVol(chapter, index1, index2);
+    if (ethVol == 0){
+      return false;
+    }
     // calculate the miner's payment
-    uint minerPayment = ((params.minerShare[0] * params.closureFeePerUnit * volumes[0]) /
+    uint minerPayment = ((params.minerShare[0] * params.closureFeePerUnit * ethVol) /
                           params.minerShare[1]);
     msg.sender.transfer(minerPayment);
-    clearBalance(minerPayment, volumes);
-    alertTraders(chapter, index1, index2, volumes);
-    clearTrade(chapter, index1, index2, volumes);
+    clearBalance(minerPayment, ethVol);
+    alertTraders(chapter, index1, index2, mimRate, ethVol);
+    clearTrade(chapter, index1, index2, mimRate, ethVol);
     cleanChapter(chapter);
     return true;
   }

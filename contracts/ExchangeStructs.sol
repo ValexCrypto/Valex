@@ -32,6 +32,7 @@ contract ExchangeStructs{
     // Minimum acceptable volume
     // If equal to volume, is all or nothing
     uint minVolume;
+    // WRT 10^18 * currency A
     uint limit;
   }
 
@@ -50,7 +51,7 @@ contract ExchangeStructs{
     string otherAddress1,
     string otherAddress2,
     // ether / other volumes
-    uint ethVol,
-    uint otherVol
+    uint mimRate,
+    uint ethVol
   );
 }
