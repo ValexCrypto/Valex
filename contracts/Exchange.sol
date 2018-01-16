@@ -24,13 +24,13 @@ contract Exchange is ExchangeStructs {
 
   // Constructor for contract
   function Exchange(uint closureFeePerUnit, uint cancelFeePerUnit,
-                    uint margin0, uint margin1, uint cleanSize,
-                    uint minershare0, uint minerShare1, uint distBalance)
+                    uint cleanSize, uint minershare0, uint minerShare1,
+                    uint distBalance)
     public
   {
     // Initialize parameters books
     setParams(closureFeePerUnit, cancelFeePerUnit,
-              margin0, margin1, cleanSize, minershare0, minerShare1, distBalance);
+              cleanSize, minershare0, minerShare1, distBalance);
     // Initialize order books
     setBooks();
     // Initialize numsCleared[0] as zero
@@ -53,15 +53,13 @@ contract Exchange is ExchangeStructs {
   // Init the params struct, which contains the bulk of exchange's parameters
   // Only used in constructor
   function setParams(uint closureFeePerUnit, uint cancelFeePerUnit,
-                    uint margin0, uint margin1, uint cleanSize,
-                    uint minerShare0, uint minerShare1, uint distBalance)
+                    uint cleanSize, uint minerShare0, uint minerShare1,
+                    uint distBalance)
     private
     returns(bool passes)
   {
     params.closureFeePerUnit = closureFeePerUnit;
     params.cancelFeePerUnit = cancelFeePerUnit;
-    params.margin[0] = margin0;
-    params.margin[1] = margin1;
     params.cleanSize = cleanSize;
     params.minerShare[0] = minerShare0;
     params.minerShare[1] = minerShare1;
@@ -126,12 +124,12 @@ contract Exchange is ExchangeStructs {
     // TODO: DEBUGGING: verify that these are the correct equations
     // Probably have to multiply left side by 10^18
     if (buyOrder.volume > sellOrder.volume * mimRate){
-      if (buyOrder.volume * params.margin[0] > sellOrder.volume * params.margin[1] * mimRate){
+      if (buyOrder.minVolume > sellOrder.volume * mimRate){
         return false;
       }
     }
     if (sellOrder.volume * mimRate > buyOrder.volume ){
-      if (sellOrder.volume * params.margin[0] * mimRate > buyOrder.volume * params.margin[1]){
+      if (sellOrder.minVolume * mimRate > buyOrder.volume){
         return false;
       }
     }
@@ -335,7 +333,7 @@ contract Exchange is ExchangeStructs {
   }
 
   // Allows traders to place orders
-  function placeOrder(bool buyETH, uint volume, uint limit,
+  function placeOrder(bool buyETH, uint volume, uint minVolume, uint limit,
                       address ethAddress, string firstAddress,
                       string otherAddress, uint chapter)
     public
@@ -343,6 +341,8 @@ contract Exchange is ExchangeStructs {
     returns(bool accepted)
   {
     require(volume > 0);
+    require(minVolume > 0);
+    require(volume >= minVolume);
     require(limit > 0);
     // TODO: NEXT VERSION: Charge according to transaction vol for generic currencies
     // Use market rate
@@ -352,7 +352,7 @@ contract Exchange is ExchangeStructs {
     else{
       require(msg.value >= volume * params.closureFeePerUnit);
     }
-    orderBook[chapter].push(Order(buyETH, volume, limit));
+    orderBook[chapter].push(Order(buyETH, volume, minVolume, limit));
     addressBook[chapter].push(AddressInfo(ethAddress, firstAddress, otherAddress));
     return true;
   }

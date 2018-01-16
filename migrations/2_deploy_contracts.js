@@ -7,5 +7,5 @@ module.exports = function(deployer) {
   deployer.deploy(ExchangeStructs);
   deployer.link(SafeMath, Exchange);
   deployer.link(ExchangeStructs, Exchange);
-  deployer.deploy(Exchange, 1, 1, 1, 2, 100, 1, 2, 100);
+  deployer.deploy(Exchange, 1, 1, 100, 1, 2, 100);
 };

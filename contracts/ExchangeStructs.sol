@@ -6,8 +6,6 @@ contract ExchangeStructs{
     // closure fee paid up front, refunded - cancel fee if cancelled
     uint closureFeePerUnit;
     uint cancelFeePerUnit;
-    // Order margin for error (match), expressed as margin[0] units/margin[1] units
-    uint[2] margin;
     // Size of numsCleared at which we should clean an order book
     uint cleanSize;
     // Proportion of fees that miners get
@@ -29,7 +27,11 @@ contract ExchangeStructs{
   struct Order{
     // false for buy ETH, true for sell ETH
     bool buyETH;
+    // Trade volume requested
     uint volume;
+    // Minimum acceptable volume
+    // If equal to volume, is all or nothing
+    uint minVolume;
     uint limit;
   }
 

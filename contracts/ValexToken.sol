@@ -42,10 +42,10 @@ contract ValexToken is StandardToken, Exchange {
      * @dev Initializes token to have same parameters as exchange
      */
     function ValexToken(uint closureFeePerUnit, uint cancelFeePerUnit,
-                      uint margin0, uint margin1, uint cleanSize,
-                      uint minershare0, uint minerShare1, uint distBalance)
+                      uint cleanSize, uint minershare0, uint minerShare1,
+                      uint distBalance)
       Exchange(closureFeePerUnit, cancelFeePerUnit,
-              margin0, margin1, cleanSize,
+              cleanSize,
               minershare0, minerShare1, distBalance)
       public
     {
