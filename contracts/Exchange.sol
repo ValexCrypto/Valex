@@ -38,7 +38,7 @@ contract Exchange is ExchangeStructs {
     return;
   }
 
-  // TODO: If necessary, implement, otherwise delete
+  // TODO: Implement
   // Initializes orderBook and addressBook
   // Only used in constructor
   function setBooks()
@@ -114,28 +114,24 @@ contract Exchange is ExchangeStructs {
     Order memory sellOrder = orderBook[chapter][sellIndex];
 
     // Non-contradictory limits
-    // (non-negative trade surplus)
-    // TODO: DEBUGGING: verify that these are the correct equations
-    if (buyOrder.limit[0] * sellOrder.limit[1] <
-        buyOrder.limit[1] * sellOrder.limit[0]){
+    if (buyOrder.limit < sellOrder.limit){
       return false;
     }
 
     // Meet in middle rate
     // mimRate copy2
-    uint[2] memory mimRate;
-    mimRate[1] = buyOrder.limit[0] * sellOrder.limit[1] * 2;
-    mimRate[0] = (buyOrder.limit[1] * sellOrder.limit[0]) + (buyOrder.limit[0] * sellOrder.limit[1]);
+    uint mimRate = (buyOrder.limit + sellOrder.limit) / 2;
 
     // Volumes comparable
     // TODO: DEBUGGING: verify that these are the correct equations
-    if (buyOrder.volume * mimRate[0] > sellOrder.volume * mimRate[1]){
-      if (buyOrder.volume * params.margin[0] * mimRate[0] > sellOrder.volume * params.margin[1] * mimRate[1]){
+    // Probably have to multiply left side by 10^18
+    if (buyOrder.volume > sellOrder.volume * mimRate){
+      if (buyOrder.volume * params.margin[0] > sellOrder.volume * params.margin[1] * mimRate){
         return false;
       }
     }
-    if (sellOrder.volume * mimRate[1] > buyOrder.volume * mimRate[0] ){
-      if (sellOrder.volume * params.margin[0] * mimRate[0] > buyOrder.volume * params.margin[1] * mimRate[1] ){
+    if (sellOrder.volume * mimRate > buyOrder.volume ){
+      if (sellOrder.volume * params.margin[0] * mimRate > buyOrder.volume * params.margin[1]){
         return false;
       }
     }
@@ -197,6 +193,7 @@ contract Exchange is ExchangeStructs {
 
   // Calculates exchange volumes for trade using limits (meet in middle)
   // Ether volume is always first
+  //TODO: CHANGE FOR NEW MODEL
   function getVolumes(uint chapter, uint index1, uint index2)
     private
     view
@@ -224,15 +221,13 @@ contract Exchange is ExchangeStructs {
     // TODO: FINISH FUNCTION
     // Meet in middle rate
     // mimRate copy2
-    uint[2] memory mimRate;
-    mimRate[1] = buyOrder.limit[0] * sellOrder.limit[1] * 2;
-    mimRate[0] = (buyOrder.limit[1] * sellOrder.limit[0]) + (buyOrder.limit[0] * sellOrder.limit[1]);
-    if (((sellOrder.volume * mimRate[1]) / mimRate[0]) <= buyOrder.volume){
+    uint mimRate = (buyOrder.limit + sellOrder.limit) / 2;
+    if ((sellOrder.volume * mimRate) <= buyOrder.volume){
       volumes[0] = sellOrder.volume;
-      volumes[1] = ((buyOrder.volume * mimRate[0]) / mimRate[1]);
+      volumes[1] = sellOrder.volume * mimRate;
     }
     else{
-      volumes[0] = ((buyOrder.volume * mimRate[0]) / mimRate[1]);
+      volumes[0] = buyOrder.volume * mimRate;
       volumes[1] = buyOrder.volume;
     }
     return volumes;
@@ -340,7 +335,7 @@ contract Exchange is ExchangeStructs {
   }
 
   // Allows traders to place orders
-  function placeOrder(bool buyETH, uint volume, uint limit0, uint limit1,
+  function placeOrder(bool buyETH, uint volume, uint limit,
                       address ethAddress, string firstAddress,
                       string otherAddress, uint chapter)
     public
@@ -348,17 +343,15 @@ contract Exchange is ExchangeStructs {
     returns(bool accepted)
   {
     require(volume > 0);
-    require(limit0 > 0 && limit1 > 0);
-    // Charge according to ether transaction vol
+    require(limit > 0);
+    // TODO: NEXT VERSION: Charge according to transaction vol for generic currencies
+    // Use market rate
     if (buyETH){
-      require((limit1 * volume * msg.value) > limit0 * params.closureFeePerUnit);
+      require(limit * msg.value >= volume * params.closureFeePerUnit);
     }
     else{
-      require((limit0 * volume * msg.value) > limit1 * params.closureFeePerUnit);
+      require(msg.value >= volume * params.closureFeePerUnit);
     }
-    uint[2] memory limit;
-    limit[0] = limit0;
-    limit[1] = limit1;
     orderBook[chapter].push(Order(buyETH, volume, limit));
     addressBook[chapter].push(AddressInfo(ethAddress, firstAddress, otherAddress));
     return true;
@@ -369,28 +362,21 @@ contract Exchange is ExchangeStructs {
     public
     returns(bool accepted)
   {
-    //TODO: Account for gas price (maybe, if necessary)
-    // Valid indices
-    // require(chapter < orderBook.length);
     require(index < orderBook[chapter].length);
     // Can't cancel other people's orders
     require(msg.sender == addressBook[chapter][index].ethAddress);
     // uint volume = orderBook[chapter][index].volume;
-    uint limit;
-    // Refund according to ether transaction vol
+    uint limit = orderBook[chapter][index].limit;
+    uint volume = orderBook[chapter][index].volume;
+    // TODO: NEXT VERSION: Refund according to transaction vol for generic currencies
+    // Use market rate
+    // Refund according to ether transaction volume
     if (orderBook[chapter][index].buyETH){
-      limit = orderBook[chapter][index].limit[0];
+      msg.sender.transfer(volume * (params.closureFeePerUnit - params.cancelFeePerUnit) / limit);
     }
     else{
-      limit = orderBook[chapter][index].limit[1];
+      msg.sender.transfer(volume * (params.closureFeePerUnit - params.cancelFeePerUnit) / limit);
     }
-    uint cancelPayment = limit * (params.closureFeePerUnit - params.cancelFeePerUnit);
-    msg.sender.transfer(cancelPayment);
-    // Update exBalances
-    exBalances.openBalance = (exBalances.openBalance -
-                                (limit * params.closureFeePerUnit));
-    exBalances.closedBalance = (exBalances.closedBalance +
-                                  (limit * params.cancelFeePerUnit));
     delete orderBook[chapter][index];
     delete addressBook[chapter][index];
     numsCleared[chapter] += 1;

@@ -30,8 +30,7 @@ contract ExchangeStructs{
     // false for buy ETH, true for sell ETH
     bool buyETH;
     uint volume;
-    // buy : sell ratio
-    uint[2] limit;
+    uint limit;
   }
 
   // stores address info on people placing orders (private information)
