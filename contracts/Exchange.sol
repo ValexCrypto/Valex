@@ -121,15 +121,14 @@ contract Exchange is ExchangeStructs {
 
     // Volumes comparable
     // TODO: DEBUGGING: verify that these are the correct equations
-    // Probably have to multiply buyOrder side by 10^18
-    if (buyOrder.volume > sellOrder.volume * mimRate){
-      if (buyOrder.minVolume > sellOrder.volume * mimRate){
+    if (buyOrder.volume * PRECISION > sellOrder.volume * mimRate){
+      if (buyOrder.minVolume * PRECISION > sellOrder.volume * mimRate){
         return (0, 0);
       }
       return (mimRate, sellOrder.volume * mimRate);
     }
-    if (sellOrder.volume * mimRate > buyOrder.volume ){
-      if (sellOrder.minVolume * mimRate > buyOrder.volume){
+    if (sellOrder.volume * mimRate > buyOrder.volume * PRECISION ){
+      if (sellOrder.minVolume * mimRate > buyOrder.volume * PRECISION){
         return (0, 0);
       }
     }
@@ -159,13 +158,11 @@ contract Exchange is ExchangeStructs {
     }
     orderBook[chapter][buyIndex].volume = (orderBook[chapter][index1].volume -
                                            ethVol);
-    // TODO: DEBUGGING: ethvol * mimRate / 10^18?
-    if (orderBook[chapter][index2].volume == ethVol * mimRate){
+    if (orderBook[chapter][index2].volume == (ethVol * mimRate / PRECISION)){
       numsCleared[chapter] += 1;
     }
-    // TODO: DEBUGGING: ethvol * mimRate / 10^18?
     orderBook[chapter][index2].volume = (orderBook[chapter][index2].volume -
-                                        ethVol * mimRate);
+                                        (ethVol * mimRate / PRECISION));
     return true;
   }
 
