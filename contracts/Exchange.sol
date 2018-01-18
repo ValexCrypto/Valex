@@ -24,13 +24,13 @@ contract Exchange is ExchangeStructs {
 
   // Constructor for contract
   function Exchange(uint closureFeePerUnit, uint cancelFeePerUnit,
-                    uint cleanSize, uint minershare0, uint minerShare1,
+                    uint cleanSize, uint minerShare,
                     uint distBalance)
     public
   {
     // Initialize parameters books
     setParams(closureFeePerUnit, cancelFeePerUnit,
-              cleanSize, minershare0, minerShare1, distBalance);
+              cleanSize, minerShare, distBalance);
     // Initialize order books
     setBooks();
     // Initialize numsCleared[0] as zero
@@ -53,7 +53,7 @@ contract Exchange is ExchangeStructs {
   // Init the params struct, which contains the bulk of exchange's parameters
   // Only used in constructor
   function setParams(uint closureFeePerUnit, uint cancelFeePerUnit,
-                    uint cleanSize, uint minerShare0, uint minerShare1,
+                    uint cleanSize, uint minerShare,
                     uint distBalance)
     private
     returns(bool passes)
@@ -61,8 +61,7 @@ contract Exchange is ExchangeStructs {
     params.closureFeePerUnit = closureFeePerUnit;
     params.cancelFeePerUnit = cancelFeePerUnit;
     params.cleanSize = cleanSize;
-    params.minerShare[0] = minerShare0;
-    params.minerShare[1] = minerShare1;
+    params.minerShare = minerShare;
     params.distBalance = distBalance;
     return true;
   }
@@ -278,8 +277,8 @@ contract Exchange is ExchangeStructs {
       return false;
     }
     // calculate the miner's payment
-    uint minerPayment = ((params.minerShare[0] * params.closureFeePerUnit * ethVol) /
-                          params.minerShare[1]);
+    uint minerPayment = ((params.minerShare * params.closureFeePerUnit * ethVol) /
+                          PRECISION);
     msg.sender.transfer(minerPayment);
     clearBalance(minerPayment, ethVol);
     alertTraders(chapter, index1, index2, mimRate, ethVol);

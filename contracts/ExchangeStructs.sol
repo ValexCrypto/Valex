@@ -10,8 +10,8 @@ contract ExchangeStructs{
     uint cancelFeePerUnit;
     // Size of numsCleared at which we should clean an order book
     uint cleanSize;
-    // Proportion of fees that miners get
-    uint[2] minerShare;
+    // Proportion of fees that miners get (divided by precision)
+    uint minerShare;
     // closedBalance at which we distribute dividends
     uint distBalance;
   }
