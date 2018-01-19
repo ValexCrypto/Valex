@@ -91,18 +91,17 @@ contract Exchange is ExchangeStructs {
     returns (uint mimRate, uint ethVol)
   {
     // check edge cases
-    if (! checkMatchEdges(chapter, index1, index2)){
+    if (! checkMatchEdges(chapter, index1, index2)) {
       return (0,0);
     }
     // which order is buying and selling ETH?
     // buy-sell copy1
     uint buyIndex;
     uint sellIndex;
-    if (orderBook[chapter][index1].buyETH){
+    if (orderBook[chapter][index1].buyETH) {
       buyIndex = index1;
       sellIndex = index2;
-    }
-    else{
+    } else{
       buyIndex = index2;
       sellIndex = index1;
     }
@@ -111,7 +110,7 @@ contract Exchange is ExchangeStructs {
     Order memory sellOrder = orderBook[chapter][sellIndex];
 
     // Non-contradictory limits
-    if (buyOrder.limit < sellOrder.limit){
+    if (buyOrder.limit < sellOrder.limit) {
       return (0, 0);
     }
     // Meet in middle rate
@@ -120,14 +119,14 @@ contract Exchange is ExchangeStructs {
 
     // Volumes comparable
     // TODO: DEBUGGING: verify that these are the correct equations
-    if (buyOrder.volume * PRECISION > sellOrder.volume * mimRate){
-      if (buyOrder.minVolume * PRECISION > sellOrder.volume * mimRate){
+    if (buyOrder.volume * PRECISION > sellOrder.volume * mimRate) {
+      if (buyOrder.minVolume * PRECISION > sellOrder.volume * mimRate) {
         return (0, 0);
       }
       return (mimRate, sellOrder.volume * mimRate);
     }
-    if (sellOrder.volume * mimRate > buyOrder.volume * PRECISION ){
-      if (sellOrder.minVolume * mimRate > buyOrder.volume * PRECISION){
+    if (sellOrder.volume * mimRate > buyOrder.volume * PRECISION ) {
+      if (sellOrder.minVolume * mimRate > buyOrder.volume * PRECISION) {
         return (0, 0);
       }
     }
@@ -144,31 +143,28 @@ contract Exchange is ExchangeStructs {
     // buy-sell copy1
     uint buyIndex;
     uint sellIndex;
-    if (orderBook[chapter][index1].buyETH){
+    if (orderBook[chapter][index1].buyETH) {
       buyIndex = index1;
       sellIndex = index2;
-    }
-    else{
+    } else{
       buyIndex = index2;
       sellIndex = index1;
     }
-    if (orderBook[chapter][buyIndex].volume == ethVol){
+    if (orderBook[chapter][buyIndex].volume == ethVol) {
       numsCleared[chapter] += 1;
     }
-    if (orderBook[chapter][buyIndex].minVolume < ethVol){
+    if (orderBook[chapter][buyIndex].minVolume < ethVol) {
       orderBook[chapter][buyIndex].minVolume = 0;
-    }
-    else{
+    } else{
       orderBook[chapter][buyIndex].minVolume -= ethVol;
     }
     orderBook[chapter][buyIndex].volume -= ethVol;
-    if (orderBook[chapter][sellIndex].volume == (ethVol * mimRate / PRECISION)){
+    if (orderBook[chapter][sellIndex].volume == (ethVol * mimRate / PRECISION)) {
       numsCleared[chapter] += 1;
     }
-    if (orderBook[chapter][sellIndex].minVolume < (ethVol * mimRate / PRECISION)){
+    if (orderBook[chapter][sellIndex].minVolume < (ethVol * mimRate / PRECISION)) {
       orderBook[chapter][sellIndex].minVolume = 0;
-    }
-    else{
+    } else{
       orderBook[chapter][sellIndex].minVolume -= (ethVol * mimRate / PRECISION);
     }
     orderBook[chapter][sellIndex].volume -= ethVol * mimRate / PRECISION;
@@ -215,7 +211,7 @@ contract Exchange is ExchangeStructs {
     exBalances.closedBalance = (exBalances.closedBalance -
                                   minerPayment +
                                   (params.closureFeePerUnit * ethVol));
-    if (exBalances.closedBalance >= params.distBalance){
+    if (exBalances.closedBalance >= params.distBalance) {
       distDividends();
     }
     return true;
@@ -227,15 +223,15 @@ contract Exchange is ExchangeStructs {
     returns(bool cleaned)
   {
     // Clean chapter only if size is appropriate
-    if (numsCleared[chapter] < params.cleanSize){
+    if (numsCleared[chapter] < params.cleanSize) {
       return false;
     }
     // For all orders
     // If it's a cleared order:
     // Replace it with the next one, and clear the next one
-    for (uint i = 0; i < orderBook[chapter].length; i++){
-      if (orderBook[chapter][i].volume == 0){
-        if (i < orderBook[chapter].length - 1){
+    for (uint i = 0; i < orderBook[chapter].length; i++) {
+      if (orderBook[chapter][i].volume == 0) {
+        if (i < orderBook[chapter].length - 1) {
           orderBook[chapter][i] = orderBook[chapter][i+1];
           delete orderBook[chapter][i+1];
         }
@@ -259,7 +255,7 @@ contract Exchange is ExchangeStructs {
                           (chapter + 110) % 1000,
                           (index1 + 110) % 1000,
                           (index2 + 110) % 1000,
-                          (hashVal + 110) % 1000)){
+                          (hashVal + 110) % 1000)) {
       return false;
     }
     return true;
@@ -279,11 +275,11 @@ contract Exchange is ExchangeStructs {
     // storing all values is impractical
     // hashVal adds security if trade volume is small
     // Helper for giveMatch
-    if (! isValidPOW(msg.sender, chapter, index1, index2, nonce, hashVal)){
+    if (! isValidPOW(msg.sender, chapter, index1, index2, nonce, hashVal)) {
       return false;
     }
     var (mimRate, ethVol) = calcRateAndVol(chapter, index1, index2);
-    if (ethVol == 0){
+    if (ethVol == 0) {
       return false;
     }
     // calculate the miner's payment
@@ -311,10 +307,9 @@ contract Exchange is ExchangeStructs {
     require(limit > 0);
     // TODO: NEXT VERSION: Charge according to transaction vol for generic currencies
     // Use market rate
-    if (buyETH){
+    if (buyETH) {
       require(limit * msg.value >= volume * params.closureFeePerUnit);
-    }
-    else{
+    } else{
       require(msg.value >= volume * params.closureFeePerUnit);
     }
     orderBook[chapter].push(Order(buyETH, volume, minVolume, limit));
@@ -336,10 +331,9 @@ contract Exchange is ExchangeStructs {
     // TODO: NEXT VERSION: Refund according to transaction vol for generic currencies
     // Use market rate
     // Refund according to ether transaction volume
-    if (orderBook[chapter][index].buyETH){
+    if (orderBook[chapter][index].buyETH) {
       msg.sender.transfer(volume * (params.closureFeePerUnit - params.cancelFeePerUnit) / limit);
-    }
-    else{
+    } else{
       msg.sender.transfer(volume * (params.closureFeePerUnit - params.cancelFeePerUnit) / limit);
     }
     delete orderBook[chapter][index];

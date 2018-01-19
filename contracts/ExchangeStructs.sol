@@ -4,7 +4,7 @@ contract ExchangeStructs{
   uint constant PRECISION = 10 ** 18;
 
   // fee parameters and such
-  struct Parameters{
+  struct Parameters {
     // closure fee paid up front, refunded - cancel fee if cancelled
     uint closureFeePerUnit;
     uint cancelFeePerUnit;
@@ -17,7 +17,7 @@ contract ExchangeStructs{
   }
 
   // stores active exBalances
-  struct Balances{
+  struct Balances {
     // separate out the open balance (includes unclosed fees, gas fees),
     // which will be distributed between miners, the exchange, and traders,
     // from closed balance, which belongs to the exchange
@@ -26,7 +26,7 @@ contract ExchangeStructs{
   }
 
   // stores order info (public information)
-  struct Order{
+  struct Order {
     // false for buy ETH, true for sell ETH
     bool buyETH;
     // Trade volume requested
@@ -39,7 +39,7 @@ contract ExchangeStructs{
   }
 
   // stores address info on people placing orders (private information)
-  struct AddressInfo{
+  struct AddressInfo {
     address ethAddress;
     string firstAddress;
     string otherAddress;
