@@ -155,9 +155,21 @@ contract Exchange is ExchangeStructs {
     if (orderBook[chapter][buyIndex].volume == ethVol){
       numsCleared[chapter] += 1;
     }
+    if (orderBook[chapter][buyIndex].minVolume < ethVol){
+      orderBook[chapter][buyIndex].minVolume = 0;
+    }
+    else{
+      orderBook[chapter][buyIndex].minVolume -= ethVol;
+    }
     orderBook[chapter][buyIndex].volume -= ethVol;
     if (orderBook[chapter][sellIndex].volume == (ethVol * mimRate / PRECISION)){
       numsCleared[chapter] += 1;
+    }
+    if (orderBook[chapter][sellIndex].minVolume < (ethVol * mimRate / PRECISION)){
+      orderBook[chapter][sellIndex].minVolume = 0;
+    }
+    else{
+      orderBook[chapter][sellIndex].minVolume -= (ethVol * mimRate / PRECISION);
     }
     orderBook[chapter][sellIndex].volume -= ethVol * mimRate / PRECISION;
     return true;
