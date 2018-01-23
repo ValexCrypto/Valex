@@ -24,8 +24,7 @@ contract Exchange is ExchangeStructs {
 
   // Constructor for contract
   function Exchange(uint closureFeePerUnit, uint cancelFeePerUnit,
-                    uint cleanSize, uint minerShare,
-                    uint distBalance)
+                    uint cleanSize, uint minerShare, uint distBalance)
     public
   {
     // Initialize parameters books
@@ -53,8 +52,7 @@ contract Exchange is ExchangeStructs {
   // Init the params struct, which contains the bulk of exchange's parameters
   // Only used in constructor
   function setParams(uint closureFeePerUnit, uint cancelFeePerUnit,
-                    uint cleanSize, uint minerShare,
-                    uint distBalance)
+                    uint cleanSize, uint minerShare, uint distBalance)
     private
     returns(bool passes)
   {
@@ -252,10 +250,10 @@ contract Exchange is ExchangeStructs {
     returns(bool isValid)
   {
     if (nonce != keccak256(msgSender,
-                          (chapter + 110) % 1000,
-                          (index1 + 110) % 1000,
-                          (index2 + 110) % 1000,
-                          (hashVal + 110) % 1000)) {
+                          chapter,
+                          index1,
+                          index2,
+                          hashVal)) {
       return false;
     }
     return true;
