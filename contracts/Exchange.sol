@@ -116,7 +116,6 @@ contract Exchange is ExchangeStructs {
     mimRate = (buyOrder.limit + sellOrder.limit) / 2;
 
     // Volumes comparable
-    // TODO: DEBUGGING: verify that these are the correct equations
     if (buyOrder.volume * PRECISION > sellOrder.volume * mimRate) {
       if (buyOrder.minVolume * PRECISION > sellOrder.volume * mimRate) {
         return (0, 0);

@@ -27,13 +27,9 @@ import './Exchange.sol';
 contract ValexToken is StandardToken, Exchange {
     using SafeMath for uint;
 
-    mapping(address => mapping(address => uint)) public allowed;
-
     string public name = "Valex Token";
     string public symbol = "VLX";
     uint8 public decimals = 18;
-
-    mapping(address => uint256) balances;
 
     uint256 public initialSupply = 10000 * (10 ** uint256(decimals));
 
