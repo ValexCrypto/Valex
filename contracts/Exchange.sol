@@ -53,15 +53,13 @@ contract Exchange is ExchangeStructs {
   // Only used in constructor
   function setParams(uint closureFeePerUnit, uint cancelFeePerUnit,
                     uint cleanSize, uint minerShare, uint distBalance)
-    private
-    returns(bool passes)
+    internal
   {
     params.closureFeePerUnit = closureFeePerUnit;
     params.cancelFeePerUnit = cancelFeePerUnit;
     params.cleanSize = cleanSize;
     params.minerShare = minerShare;
     params.distBalance = distBalance;
-    return true;
   }
 
   // Checks edge cases for match verification
@@ -134,7 +132,6 @@ contract Exchange is ExchangeStructs {
   function clearTrade(uint chapter, uint index1, uint index2,
                       uint mimRate, uint ethVol)
     private
-    returns(bool passed)
   {
     // which order is buying and selling ETH?
     // buy-sell copy1
@@ -165,14 +162,12 @@ contract Exchange is ExchangeStructs {
       orderBook[chapter][sellIndex].minVolume -= (ethVol * mimRate / PRECISION);
     }
     orderBook[chapter][sellIndex].volume -= ethVol * mimRate / PRECISION;
-    return true;
   }
 
   // Adds trade to log, for traders to note
   // http://solidity.readthedocs.io/en/latest/contracts.html?highlight=events#events
   function alertTraders(uint chapter, uint index1, uint index2, uint mimRate, uint ethVol)
     private
-    returns(bool passed)
   {
     TradeInfo(
       addressBook[chapter][index1].ethAddress, //ethAddress1,
@@ -184,24 +179,20 @@ contract Exchange is ExchangeStructs {
       mimRate,
       ethVol
       );
-    return true;
   }
 
-  // TODO: Implement
-  // Distributes dividends when balance is of sufficient size
+  // Clears exBalances.closedBalance
+  // ValexToken ovverride distributes dividends when balance is of sufficient size
   function distDividends()
-    private
-    returns(bool passes)
+    internal
   {
     exBalances.closedBalance = 0;
-    return true;
   }
 
   // Move balance from open to closed
   // Eliminate minerPayment from either balance
   function clearBalance(uint minerPayment, uint ethVol)
     private
-    returns(bool passed)
   {
     exBalances.openBalance = (exBalances.openBalance -
                                   (params.closureFeePerUnit * ethVol));
@@ -211,7 +202,6 @@ contract Exchange is ExchangeStructs {
     if (exBalances.closedBalance >= params.distBalance) {
       distDividends();
     }
-    return true;
   }
 
   // Clean chapter (called when size reaches size to clean)

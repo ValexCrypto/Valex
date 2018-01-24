@@ -46,6 +46,15 @@ contract ValexToken is StandardToken, Exchange {
       totalSupply = initialSupply;
       balances[msg.sender] = initialSupply;
     }
+
+    // Distributes dividends when balance is of sufficient size
+    function distDividends()
+      internal
+    {
+      //TODO: Implement distribution
+      Exchange.distDividends();
+    }
+
     //TODO: Implement voting/parameter modification
 
 }
