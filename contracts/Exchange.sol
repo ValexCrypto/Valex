@@ -47,6 +47,7 @@ contract Exchange is ExchangeStructs {
     addressBook[0].push(AddressInfo(address(0),"",""));
     return true;
   }
+
   // Init the params struct, which contains the bulk of exchange's parameters
   // Only used in constructor
   function setParams(uint closureFeePerUnit, uint cancelFeePerUnit,
@@ -110,7 +111,6 @@ contract Exchange is ExchangeStructs {
     // Meet in middle rate
     // mimRate
     mimRate = (buyOrder.limit + sellOrder.limit) / 2;
-
     // Volumes comparable
     if (buyOrder.volume * PRECISION > sellOrder.volume * mimRate) {
       if (buyOrder.minVolume * PRECISION > sellOrder.volume * mimRate) {
@@ -236,11 +236,7 @@ contract Exchange is ExchangeStructs {
     pure
     returns(bool isValid)
   {
-    if (nonce != keccak256(msgSender,
-                          chapter,
-                          index1,
-                          index2,
-                          hashVal)) {
+    if (nonce != keccak256(msgSender, chapter, index1, index2, hashVal)) {
       return false;
     }
     return true;
