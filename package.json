@@ -26,6 +26,6 @@
   },
   "homepage": "https://github.com/khelmy/Valex#readme",
   "dependencies": {
-    "zeppelin-solidity": "^1.5.0"
+    "zeppelin-solidity": "^1.6.0"
   }
 }

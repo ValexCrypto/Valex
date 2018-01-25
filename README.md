@@ -3,7 +3,7 @@ Valex: A Decentralized Cryptocurrency Exchange
 
 https://valex.io
 
-Current version can be found on Rinkeby at: `0x2dcd687724b2ff9430cc05ae87b15333406192b57206821a7ead53ecd5101fd1`
+Current version of Exchange contract can be found on Rinkeby at: `0x0F2bE5a445E1D9Ae5E48986B404FD3A3eF123114`
 
 ## Instructions for running locally:
 
