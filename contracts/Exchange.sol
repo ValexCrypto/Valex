@@ -37,16 +37,14 @@ contract Exchange is ExchangeStructs {
     return;
   }
 
-  // TODO: Implement
   // Initializes orderBook and addressBook
   // Only used in constructor
   function setBooks()
     private
-    // TODO: Make impure when finished
-    // pure to avoid warning, but in final version will not be
-    pure
     returns(bool passes)
   {
+    orderBook[0].push(Order(false,0,0,0));
+    addressBook[0].push(AddressInfo(address(0),"",""));
     return true;
   }
   // Init the params struct, which contains the bulk of exchange's parameters
@@ -216,7 +214,7 @@ contract Exchange is ExchangeStructs {
     // For all orders
     // If it's a cleared order:
     // Replace it with the next one, and clear the next one
-    for (uint i = 0; i < orderBook[chapter].length; i++) {
+    for (uint i = 1; i < orderBook[chapter].length; i++) {
       if (orderBook[chapter][i].volume == 0) {
         if (i < orderBook[chapter].length - 1) {
           orderBook[chapter][i] = orderBook[chapter][i+1];
@@ -299,6 +297,7 @@ contract Exchange is ExchangeStructs {
     } else{
       require(msg.value >= volume * params.closureFeePerUnit);
     }
+    require(orderBook[chapter].length > 0);
     orderBook[chapter].push(Order(buyETH, volume, minVolume, limit));
     addressBook[chapter].push(AddressInfo(ethAddress, firstAddress, otherAddress));
     return true;
