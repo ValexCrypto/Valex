@@ -1,11 +1,11 @@
 pragma solidity ^0.4.18;
 
 import 'zeppelin-solidity/contracts/math/SafeMath.sol';
-import 'zeppelin-solidity/contracts/token/StandardToken.sol';
+import 'zeppelin-solidity/contracts/token/ERC20/StandardToken.sol';
 import './Exchange.sol';
 
 
-/// @title ValexPreferred
+/// @title ValexPreferredToken
 /// @author Karim Helmy
 
 // Parts sourced from https://github.com/bokkypoobah/Tokens/blob/master/contracts/FixedSupplyToken.sol
@@ -24,7 +24,7 @@ import './Exchange.sol';
 // ERC20 Token, with the addition of symbol, name and decimals and an
 // initial fixed supply
 // ----------------------------------------------------------------------------
-contract ValexPreferredToken is StandardToken, Exchange {
+contract ValexPreferredToken is Exchange, StandardToken {
     using SafeMath for uint;
 
     string public name = "Valex Preferred Token";
@@ -37,13 +37,13 @@ contract ValexPreferredToken is StandardToken, Exchange {
      * @dev Constructor that gives msg.sender all of existing tokens.
      * @dev Initializes token to have same parameters as exchange
      */
-    function ValexPreferred(uint closureFeePerUnit, uint cancelFeePerUnit,
+    function ValexPreferredToken(uint closureFeePerUnit, uint cancelFeePerUnit,
                       uint cleanSize, uint minershare, uint distBalance)
       Exchange(closureFeePerUnit, cancelFeePerUnit,
               cleanSize, minershare, distBalance)
       public
     {
-      totalSupply = initialSupply;
+      totalSupply_ = initialSupply;
       balances[msg.sender] = initialSupply;
     }
 
