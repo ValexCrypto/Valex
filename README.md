@@ -3,7 +3,7 @@ Valex: A Decentralized Cryptocurrency Exchange
 
 https://valex.io
 
-Current version of Exchange contract can be found on Rinkeby at: `0x0F2bE5a445E1D9Ae5E48986B404FD3A3eF123114`
+Current version of Exchange contract can be found on Rinkeby at: `0x0b285915ef45aa6b9e63e33e438a1ad85f4b307a`
 
 ## Instructions for running locally:
 
@@ -33,5 +33,5 @@ You will be prompted to give your password for the account. Type it in and hit e
 
 Open another window. Run:
 ```
-truffle migrate --network rinkeby
+truffle migrate --network rinkeby --reset
 ```

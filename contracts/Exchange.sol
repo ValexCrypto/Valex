@@ -17,7 +17,7 @@ contract Exchange is ExchangeStructs {
   // that's why they're 2D mappings
   mapping (uint => Order[]) public orderBook;
   // Order[][] public orderBook;
-  mapping (uint => AddressInfo[]) private addressBook;
+  mapping (uint => AddressInfo[]) public addressBook;
   // AddressInfo[][] private addressBook;
   // Numbers of orders that have been closed are kept here
   uint[] numsCleared;
