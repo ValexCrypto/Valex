@@ -20,14 +20,29 @@ import './Exchange.sol';
 //
 // ----------------------------------------------------------------------------
 
-contract ValexToken is Exchange, MintableToken {
+contract ValexToken is Exchange, StandardToken {
     using SafeMath for uint;
 
     string public name = "Valex Token";
     string public symbol = "VLX";
     uint8 public decimals = 18;
 
-    // uint256 public initialSupply = 10000 * (10 ** uint256(decimals));
+    uint256 public initialSupply = 10000 * (10 ** uint256(decimals));
+
+    // Voting mappings
+    // Holds what every address has voted for
+    mapping (address => Parameters) voteBook;
+    // Hold frequencies of what addresses have voted for (in coin-votes)
+    mapping (uint => uint) closureFeeFreqs;
+    mapping (uint => uint) cancelFeeFreqs;
+    mapping (uint => uint) cleanSizeFreqs;
+    mapping (uint => uint) minerShareFreqs;
+    mapping (uint => uint) distBalanceFreqs;
+
+    // Thresholds to be met for each parameter adjustment
+    // TODO: add initialization for thresholds
+    // TODO: add meta-voting for thresholds (will always require 51%)
+    Parameters public thresholds;
 
     /**
      * @dev Constructor that gives msg.sender all of existing tokens.
@@ -51,6 +66,25 @@ contract ValexToken is Exchange, MintableToken {
       Exchange.distDividends();
     }
 
-    //TODO: Implement voting/parameter modification
+    // TODO: Implement voting/parameter modification
+    // Vote for a closure fee
+    // Adjust closure fee if threshold met
+    // voting copy3
+    function voteClosureFee(uint desiredParam)
+      public
+    {
+      require(balances[msg.sender] > 0);
+      require(desiredParam > 0);
+      if (voteBook[msg.sender].closureFeePerUnit > 0){
+        closureFeeFreqs[voteBook[msg.sender].closureFeePerUnit] -= balances[msg.sender];
+      }
+      voteBook[msg.sender].closureFeePerUnit = desiredParam;
+      closureFeeFreqs[desiredParam] += balances[msg.sender];
+      if (closureFeeFreqs[desiredParam] > thresholds.closureFeePerUnit){
+        params.closureFeePerUnit = desiredParam;
+      }
+    }
+
+    // TODO: Implement adding/removing chapters
 
 }
