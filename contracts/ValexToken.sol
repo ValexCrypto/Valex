@@ -66,9 +66,10 @@ contract ValexToken is Exchange, StandardToken {
       Exchange.distDividends();
     }
 
-    // TODO: Implement voting/parameter modification
-    // Vote for a closure fee
-    // Adjust closure fee if threshold met
+    // Voting functions for various parameters
+    // Solidity doesn't allow any meaningful abstraction
+    // Adjust relevant parameter if threshold met
+
     // voting copy3
     function voteClosureFee(uint desiredParam)
       public
@@ -82,6 +83,70 @@ contract ValexToken is Exchange, StandardToken {
       closureFeeFreqs[desiredParam] += balances[msg.sender];
       if (closureFeeFreqs[desiredParam] > thresholds.closureFeePerUnit){
         params.closureFeePerUnit = desiredParam;
+      }
+    }
+
+    // voting copy3
+    function voteCancelFee(uint desiredParam)
+      public
+    {
+      require(balances[msg.sender] > 0);
+      require(desiredParam > 0);
+      if (voteBook[msg.sender].cancelFeePerUnit > 0){
+        cancelFeeFreqs[voteBook[msg.sender].cancelFeePerUnit] -= balances[msg.sender];
+      }
+      voteBook[msg.sender].cancelFeePerUnit = desiredParam;
+      cancelFeeFreqs[desiredParam] += balances[msg.sender];
+      if (cancelFeeFreqs[desiredParam] > thresholds.cancelFeePerUnit){
+        params.cancelFeePerUnit = desiredParam;
+      }
+    }
+
+    // voting copy3
+    function voteCleanSize(uint desiredParam)
+      public
+    {
+      require(balances[msg.sender] > 0);
+      require(desiredParam > 0);
+      if (voteBook[msg.sender].cleanSize > 0){
+        cleanSizeFreqs[voteBook[msg.sender].cleanSize] -= balances[msg.sender];
+      }
+      voteBook[msg.sender].cleanSize = desiredParam;
+      cleanSizeFreqs[desiredParam] += balances[msg.sender];
+      if (cleanSizeFreqs[desiredParam] > thresholds.cleanSize){
+        params.cleanSize = desiredParam;
+      }
+    }
+
+    // voting copy3
+    function voteMinerShare(uint desiredParam)
+      public
+    {
+      require(balances[msg.sender] > 0);
+      require(desiredParam > 0);
+      if (voteBook[msg.sender].minerShare > 0){
+        minerShareFreqs[voteBook[msg.sender].minerShare] -= balances[msg.sender];
+      }
+      voteBook[msg.sender].minerShare = desiredParam;
+      minerShareFreqs[desiredParam] += balances[msg.sender];
+      if (minerShareFreqs[desiredParam] > thresholds.minerShare){
+        params.minerShare = desiredParam;
+      }
+    }
+
+    // voting copy3
+    function voteDistBalance(uint desiredParam)
+      public
+    {
+      require(balances[msg.sender] > 0);
+      require(desiredParam > 0);
+      if (voteBook[msg.sender].distBalance > 0){
+        distBalanceFreqs[voteBook[msg.sender].distBalance] -= balances[msg.sender];
+      }
+      voteBook[msg.sender].distBalance = desiredParam;
+      distBalanceFreqs[desiredParam] += balances[msg.sender];
+      if (distBalanceFreqs[desiredParam] > thresholds.distBalance){
+        params.distBalance = desiredParam;
       }
     }
 
