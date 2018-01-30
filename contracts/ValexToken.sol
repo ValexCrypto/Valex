@@ -44,6 +44,8 @@ contract ValexToken is Exchange, StandardToken {
     // TODO: add meta-voting for thresholds (will always require 51%)
     Parameters public thresholds;
 
+    // TODO: reset votes when tokens are transferred
+
     /**
      * @dev Constructor that gives msg.sender all of existing tokens.
      * @dev Initializes token to have same parameters as exchange
@@ -151,5 +153,7 @@ contract ValexToken is Exchange, StandardToken {
     }
 
     // TODO: Implement adding/removing chapters
+
+    // TODO: NEXT VERSION: Add vote transferring
 
 }
