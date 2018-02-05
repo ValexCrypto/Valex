@@ -230,13 +230,13 @@ contract Exchange is ExchangeStructs {
   // Checks if POW (nonce) is valid
   // Performs nonce verification (keccak256)
   // Helper for giveMatch
-  function isValidPOW(address msgSender, uint chapter, uint index1,
+  function isValidPOW(address depositAddress, uint chapter, uint index1,
                       uint index2, bytes32 nonce, uint hashVal)
     private
     pure
     returns(bool isValid)
   {
-    if (nonce != keccak256(msgSender, chapter, index1, index2, hashVal)) {
+    if (nonce != keccak256(depositAddress, chapter, index1, index2, hashVal)) {
       return false;
     }
     return true;
@@ -244,8 +244,8 @@ contract Exchange is ExchangeStructs {
 
   // Miners suggest matches with this function
   // Wrapper for calcRateAndVol and isValidPOW, performs other required functions
-  function giveMatch(uint chapter, uint index1, uint index2,
-                  bytes32 nonce, uint hashVal)
+  function giveMatch(address depositAddress, uint chapter,
+                    uint index1, uint index2, bytes32 nonce, uint hashVal)
     public
     payable
     returns(bool isValid)
@@ -256,7 +256,7 @@ contract Exchange is ExchangeStructs {
     // storing all values is impractical
     // hashVal adds security if trade volume is small
     // Helper for giveMatch
-    if (! isValidPOW(msg.sender, chapter, index1, index2, nonce, hashVal)) {
+    if (! isValidPOW(depositAddress, chapter, index1, index2, nonce, hashVal)) {
       return false;
     }
     var (mimRate, ethVol) = calcRateAndVol(chapter, index1, index2);
@@ -266,7 +266,7 @@ contract Exchange is ExchangeStructs {
     // calculate the miner's payment
     uint minerPayment = ((params.minerShare * params.closureFeePerUnit * ethVol) /
                           PRECISION);
-    msg.sender.transfer(minerPayment);
+    depositAddress.transfer(minerPayment);
     clearBalance(minerPayment, ethVol);
     alertTraders(chapter, index1, index2, mimRate, ethVol);
     clearTrade(chapter, index1, index2, mimRate, ethVol);
