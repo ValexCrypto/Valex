@@ -14,6 +14,8 @@ contract ExchangeStructs{
     uint minerShare;
     // closedBalance at which we distribute dividends
     uint distBalance;
+    // For nonce-finding
+    bytes32 difficulty;
   }
 
   // stores active exBalances
@@ -34,7 +36,7 @@ contract ExchangeStructs{
     // Minimum acceptable volume
     // If equal to volume, is all or nothing
     uint minVolume;
-    // WRT 10^18 * currency A
+    // WRT 10^-18 * currency A (wei/btc)
     uint limit;
   }
 

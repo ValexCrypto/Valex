@@ -231,12 +231,12 @@ contract Exchange is ExchangeStructs {
   // Performs nonce verification (keccak256)
   // Helper for giveMatch
   function isValidPOW(address depositAddress, uint chapter, uint index1,
-                      uint index2, bytes32 nonce, uint postImage)
+                      uint index2, uint nonce)
     private
-    pure
+    view
     returns(bool isValid)
   {
-    if (nonce != keccak256(depositAddress, chapter, index1, index2, postImage)) {
+    if (params.difficulty > keccak256(depositAddress, chapter, index1, index2, nonce)) {
       return false;
     }
     return true;
@@ -245,7 +245,7 @@ contract Exchange is ExchangeStructs {
   // Miners suggest matches with this function
   // Wrapper for calcRateAndVol and isValidPOW, performs other required functions
   function giveMatch(address depositAddress, uint chapter,
-                    uint index1, uint index2, bytes32 nonce, uint postImage)
+                    uint index1, uint index2, uint nonce)
     public
     payable
     returns(bool isValid)
@@ -253,7 +253,7 @@ contract Exchange is ExchangeStructs {
     // Validate that nonce is equivalent
     // postImage adds entropy if trade volume is small
     // Helper for giveMatch
-    if (! isValidPOW(depositAddress, chapter, index1, index2, nonce, postImage)) {
+    if (! isValidPOW(depositAddress, chapter, index1, index2, nonce)) {
       return false;
     }
     var (mimRate, ethVol) = calcRateAndVol(chapter, index1, index2);
