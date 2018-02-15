@@ -1,8 +1,6 @@
 pragma solidity ^0.4.18;
 
 contract ExchangeStructs{
-  uint constant PRECISION = 10 ** 18;
-
   // fee parameters and such
   struct Parameters {
     // closure fee paid up front, refunded - cancel fee if cancelled

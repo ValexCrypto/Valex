@@ -10,6 +10,8 @@ contract Exchange is ExchangeStructs {
   // TODO: Make all operations safe
   using SafeMath for uint;
 
+  uint public PRECISION = 10 ** 18;
+
   Parameters public params;
   Balances public exBalances;
 
@@ -184,6 +186,8 @@ contract Exchange is ExchangeStructs {
 
   // Clears exBalances.closedBalance
   // ValexToken ovverride distributes dividends when balance is of sufficient size
+  // TODO: Make dividends distributed by time, not quantity
+  // TODO: Add forced dividend distribution
   function distDividends()
     internal
   {
