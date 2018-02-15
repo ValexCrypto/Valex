@@ -24,12 +24,13 @@ contract Exchange is ExchangeStructs {
 
   // Constructor for contract
   function Exchange(uint closureFeePerUnit, uint cancelFeePerUnit,
-                    uint cleanSize, uint minerShare, uint distBalance)
+                    uint cleanSize, uint minerShare, uint distBalance,
+                    bytes32 difficulty)
     public
   {
     // Initialize parameters books
     setParams(closureFeePerUnit, cancelFeePerUnit,
-              cleanSize, minerShare, distBalance);
+              cleanSize, minerShare, distBalance, difficulty);
     // Initialize order books
     setBooks();
     // Initialize numsCleared[0] as zero
@@ -51,7 +52,8 @@ contract Exchange is ExchangeStructs {
   // Init the params struct, which contains the bulk of exchange's parameters
   // Only used in constructor
   function setParams(uint closureFeePerUnit, uint cancelFeePerUnit,
-                    uint cleanSize, uint minerShare, uint distBalance)
+                    uint cleanSize, uint minerShare, uint distBalance,
+                    bytes32 difficulty)
     internal
   {
     params.closureFeePerUnit = closureFeePerUnit;
@@ -59,6 +61,7 @@ contract Exchange is ExchangeStructs {
     params.cleanSize = cleanSize;
     params.minerShare = minerShare;
     params.distBalance = distBalance;
+    params.difficulty = difficulty;
   }
 
   // Checks edge cases for match verification
