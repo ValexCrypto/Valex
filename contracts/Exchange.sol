@@ -66,6 +66,24 @@ contract Exchange is ExchangeStructs {
     params.difficulty = difficulty;
   }
 
+  // Gets live orders in chapter (trading pair) from order book
+  function getOrderChapter(uint chapter)
+    public
+    view
+    returns(Order[] orderChapter)
+  {
+    return orderBook[chapter];
+  }
+
+  // Gets live addresses in chapter (trading pair) from order book
+  function getAddressChapter(uint chapter)
+    public
+    view
+    returns(AddressInfo[] addressChapter)
+  {
+    return addressBook[chapter];
+  }
+
   // Checks edge cases for match verification
   function checkMatchEdges(uint chapter, uint index1, uint index2)
     private

@@ -20,7 +20,7 @@ contract("Exchange", function() {
   });
 
   // Test params initial values
-  it("should have correct initial values for params", async function() {
+  it("should have correct initial params", async function() {
     let exchange = await Exchange.deployed();
     let params = await exchange.params();
 
@@ -52,11 +52,23 @@ contract("Exchange", function() {
                   true, "difficulty should equal expected difficulty");
   });
 
+  // TODO: Test orderBook initial values
+  it("should have correct initial orderBook", async function() {
+    let exchange = await Exchange.deployed();
+    let orderBook = await exchange.orderBook();
 
-  // TODO: Test orderBook
-  // TODO: Test addressBook
+    console.log(orderBook);
+
+    // let expectedPrecision = new web3.BigNumber("1e18");
+    // assert.equal(precision.toString(10) === expectedPrecision.toString(10),
+    //              true, "precision should be equal to 10 ** 18");
+  });
+
+  // TODO: Test addressBook initial values
+  // TODO: Test exBalances initial values
   // TODO: Test placing orders
+  // TODO: SUBGOAL: Test exBalances
   // TODO: Test making matches
   // TODO: Test trade logging
-  // TODO: Test exBalances
+
 })
