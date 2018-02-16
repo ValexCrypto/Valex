@@ -10,6 +10,7 @@ contract Exchange is ExchangeStructs {
   // TODO: Make all operations safe
   using SafeMath for uint;
 
+  // SECTION: Declaring/initializing variables
   uint public PRECISION = 10 ** 18;
 
   Parameters public params;
@@ -31,11 +32,13 @@ contract Exchange is ExchangeStructs {
   mapping (uint => uint[]) public limitBook;
 
   mapping (uint => address[]) public ethAddressBook;
-  mapping (uint => string[]) public firstAddressBook;
-  mapping (uint => string[]) public secondAddressBook;
+  mapping (uint => bytes32[2][]) public firstAddressBook;
+  mapping (uint => bytes32[2][]) public secondAddressBook;
+
   // Numbers of orders that have been closed are kept here
   uint[] numsCleared;
 
+  // SECTION: Constructor and helpers
   // Constructor for contract
   function Exchange(uint closureFee, uint cancelFee,
                     uint cleanSize, uint minerShare, uint distBalance,
@@ -66,8 +69,8 @@ contract Exchange is ExchangeStructs {
     limitBook[0].push(0);
 
     ethAddressBook[0].push(address(0));
-    firstAddressBook[0].push("");
-    secondAddressBook[0].push("");
+    firstAddressBook[0].push([bytes32(0), bytes32(0)]);
+    secondAddressBook[0].push([bytes32(0), bytes32(0)]);
   }
 
   // Init the params struct, which contains the bulk of exchange's parameters
@@ -84,6 +87,52 @@ contract Exchange is ExchangeStructs {
     params.distBalance = distBalance;
     params.difficulty = difficulty;
   }
+
+  // SECTION: Getters
+  // Get chapter from order book
+  function getOrderChapter(uint chapter)
+    external
+    view
+    returns(bool[] buyChapter, uint[] volChapter,
+            uint[] minVolChapter, uint[] limitChapter)
+  {
+    return(buyBook[chapter], volBook[chapter],
+          minVolBook[chapter], limitBook[chapter]);
+  }
+
+  /*
+  * Wish I could've bundled these.
+  * For some reason, get a bug when firstAddressChapter and secondAddressChapter are together.
+  * Suspect it has something to do with returning dynamic arrays of fixed size arrays
+  */
+  // Get chapter from ethAddressBook
+  function getETHAddressChapter(uint chapter)
+    external
+    view
+    returns(address[] ethAddressChapter)
+  {
+    return(ethAddressBook[chapter]);
+  }
+
+  // Get chapter from firstAddressBook
+  function getFirstAddressChapter(uint chapter)
+    external
+    view
+    returns(bytes32[2][] firstAddressChapter)
+  {
+    return(firstAddressBook[chapter]);
+  }
+
+  // Get chapter from secondAddressBook
+  function getSecondAddressChapter(uint chapter)
+    external
+    view
+    returns(bytes32[2][] secondAddressChapter)
+  {
+    return(secondAddressBook[chapter]);
+  }
+
+  // SECTION: Core functionality
   // Checks edge cases for match verification
   function checkMatchEdges(uint chapter, uint index1, uint index2)
     private
@@ -325,8 +374,8 @@ contract Exchange is ExchangeStructs {
 
   // Allows traders to place orders
   function placeOrder(bool buyETH, uint volume, uint minVolume, uint limit,
-                      address ethAddress, string firstAddress,
-                      string otherAddress, uint chapter)
+                      address ethAddress, bytes32[2] firstAddress,
+                      bytes32[2] otherAddress, uint chapter)
     public
     payable
     returns(bool accepted)

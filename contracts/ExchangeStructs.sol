@@ -41,17 +41,17 @@ contract ExchangeStructs{
   // stores address info on people placing orders (private information)
   struct AddressInfo {
     address ethAddress;
-    string firstAddress;
-    string otherAddress;
+    bytes32[2] firstAddress;
+    bytes32[2] otherAddress;
   }
 
   event TradeInfo(
     address ethAddress1,
     address ethAddress2,
-    string firstAddress1,
-    string firstAddress2,
-    string otherAddress1,
-    string otherAddress2,
+    bytes32[2] firstAddress1,
+    bytes32[2] firstAddress2,
+    bytes32[2] otherAddress1,
+    bytes32[2] otherAddress2,
     // ether / other volumes
     uint mimRate,
     uint ethVol
