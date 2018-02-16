@@ -16,11 +16,23 @@ contract Exchange is ExchangeStructs {
   Balances public exBalances;
 
   // separate chapters for different currency pairs
-  // that's why they're 2D mappings
-  mapping (uint => Order[]) public orderBook;
-  // Order[][] public orderBook;
-  mapping (uint => AddressInfo[]) public addressBook;
-  // AddressInfo[][] private addressBook;
+  // that's why they're 2D
+  /*
+  * Web3 can't properly handle structs.
+  * Ethers.js can only handle them under experimental version.
+  * Therefore, the old orderBook and adressBook pattern won't work.
+  * ¯\_(ツ)_/¯
+  */
+  // separate chapters for different currency pairs
+  // that's why they're 2D
+  mapping (uint => bool[]) public buyBook;
+  mapping (uint => uint[]) public volBook;
+  mapping (uint => uint[]) public minVolBook;
+  mapping (uint => uint[]) public limitBook;
+
+  mapping (uint => address[]) public ethAddressBook;
+  mapping (uint => string[]) public firstAddressBook;
+  mapping (uint => string[]) public secondAddressBook;
   // Numbers of orders that have been closed are kept here
   uint[] numsCleared;
 
@@ -40,15 +52,22 @@ contract Exchange is ExchangeStructs {
     return;
   }
 
-  // Initializes orderBook and addressBook
-  // Only used in constructor
+  /*
+  * Initializes order book and address book
+  * Only used in constructor
+  * Pushes "genesis order"
+  */
   function setBooks()
     private
-    returns(bool passes)
   {
-    orderBook[0].push(Order(false,0,0,0));
-    addressBook[0].push(AddressInfo(address(0),"",""));
-    return true;
+    buyBook[0].push(false);
+    volBook[0].push(0);
+    minVolBook[0].push(0);
+    limitBook[0].push(0);
+
+    ethAddressBook[0].push(address(0));
+    firstAddressBook[0].push("");
+    secondAddressBook[0].push("");
   }
 
   // Init the params struct, which contains the bulk of exchange's parameters
@@ -65,25 +84,6 @@ contract Exchange is ExchangeStructs {
     params.distBalance = distBalance;
     params.difficulty = difficulty;
   }
-
-  // Gets live orders in chapter (trading pair) from order book
-  function getOrderChapter(uint chapter)
-    public
-    view
-    returns(Order[] orderChapter)
-  {
-    return orderBook[chapter];
-  }
-
-  // Gets live addresses in chapter (trading pair) from order book
-  function getAddressChapter(uint chapter)
-    public
-    view
-    returns(AddressInfo[] addressChapter)
-  {
-    return addressBook[chapter];
-  }
-
   // Checks edge cases for match verification
   function checkMatchEdges(uint chapter, uint index1, uint index2)
     private
@@ -91,13 +91,13 @@ contract Exchange is ExchangeStructs {
     returns(bool passes)
   {
     // valid indices
-    require(index1 < orderBook[chapter].length);
-    require(index2 < orderBook[chapter].length);
+    require(index1 < buyBook[chapter].length);
+    require(index2 < buyBook[chapter].length);
     //One buy order and one sell order
-    require(orderBook[chapter][index1].buyETH != orderBook[chapter][index2].buyETH);
+    require(buyBook[chapter][index1] != buyBook[chapter][index2]);
     //Non-empty order
-    require(orderBook[chapter][index1].volume != 0);
-    require(orderBook[chapter][index2].volume != 0);
+    require(volBook[chapter][index1] != 0);
+    require(volBook[chapter][index2] != 0);
     // All edge cases work!
     return true;
   }
@@ -116,7 +116,7 @@ contract Exchange is ExchangeStructs {
     // buy-sell copy1
     uint buyIndex;
     uint sellIndex;
-    if (orderBook[chapter][index1].buyETH) {
+    if (buyBook[chapter][index1]) {
       buyIndex = index1;
       sellIndex = index2;
     } else{
@@ -124,8 +124,12 @@ contract Exchange is ExchangeStructs {
       sellIndex = index1;
     }
     // shorthand for buy and sell orders
-    Order memory buyOrder = orderBook[chapter][buyIndex];
-    Order memory sellOrder = orderBook[chapter][sellIndex];
+    Order memory buyOrder = Order(true, volBook[chapter][buyIndex],
+                                  minVolBook[chapter][buyIndex],
+                                  limitBook[chapter][buyIndex]);
+    Order memory sellOrder = Order(false, volBook[chapter][sellIndex],
+                                  minVolBook[chapter][sellIndex],
+                                  limitBook[chapter][sellIndex]);
 
     // Non-contradictory limits
     if (buyOrder.limit < sellOrder.limit) {
@@ -158,31 +162,31 @@ contract Exchange is ExchangeStructs {
     // buy-sell copy1
     uint buyIndex;
     uint sellIndex;
-    if (orderBook[chapter][index1].buyETH) {
+    if (buyBook[chapter][index1]) {
       buyIndex = index1;
       sellIndex = index2;
     } else{
       buyIndex = index2;
       sellIndex = index1;
     }
-    if (orderBook[chapter][buyIndex].volume == ethVol) {
+    if (volBook[chapter][buyIndex] == ethVol) {
       numsCleared[chapter] += 1;
     }
-    if (orderBook[chapter][buyIndex].minVolume < ethVol) {
-      orderBook[chapter][buyIndex].minVolume = 0;
+    if (minVolBook[chapter][buyIndex] < ethVol) {
+      minVolBook[chapter][buyIndex] = 0;
     } else{
-      orderBook[chapter][buyIndex].minVolume -= ethVol;
+      minVolBook[chapter][buyIndex] -= ethVol;
     }
-    orderBook[chapter][buyIndex].volume -= ethVol;
-    if (orderBook[chapter][sellIndex].volume == (ethVol * mimRate / PRECISION)) {
+    volBook[chapter][buyIndex] -= ethVol;
+    if (volBook[chapter][sellIndex] == (ethVol * mimRate / PRECISION)) {
       numsCleared[chapter] += 1;
     }
-    if (orderBook[chapter][sellIndex].minVolume < (ethVol * mimRate / PRECISION)) {
-      orderBook[chapter][sellIndex].minVolume = 0;
+    if (minVolBook[chapter][sellIndex] < (ethVol * mimRate / PRECISION)) {
+      minVolBook[chapter][sellIndex] = 0;
     } else{
-      orderBook[chapter][sellIndex].minVolume -= (ethVol * mimRate / PRECISION);
+      minVolBook[chapter][sellIndex] -= (ethVol * mimRate / PRECISION);
     }
-    orderBook[chapter][sellIndex].volume -= ethVol * mimRate / PRECISION;
+    volBook[chapter][sellIndex] -= ethVol * mimRate / PRECISION;
   }
 
   // Adds trade to log, for traders to note
@@ -191,12 +195,12 @@ contract Exchange is ExchangeStructs {
     private
   {
     TradeInfo(
-      addressBook[chapter][index1].ethAddress, //ethAddress1,
-      addressBook[chapter][index2].ethAddress, //ethAddress2,
-      addressBook[chapter][index1].firstAddress, //firstAddress1,
-      addressBook[chapter][index2].firstAddress, //firstAddress2,
-      addressBook[chapter][index1].otherAddress, //otherAddress1,
-      addressBook[chapter][index2].otherAddress, // otherAddress2,
+      ethAddressBook[chapter][index1], //ethAddress1,
+      ethAddressBook[chapter][index2], //ethAddress2,
+      firstAddressBook[chapter][index1], //firstAddress1,
+      firstAddressBook[chapter][index2], //firstAddress2,
+      secondAddressBook[chapter][index1], //otherAddress1,
+      secondAddressBook[chapter][index2], // otherAddress2,
       mimRate,
       ethVol
       );
@@ -239,15 +243,38 @@ contract Exchange is ExchangeStructs {
     // For all orders
     // If it's a cleared order:
     // Replace it with the next one, and clear the next one
-    for (uint i = 1; i < orderBook[chapter].length; i++) {
-      if (orderBook[chapter][i].volume == 0) {
-        if (i < orderBook[chapter].length - 1) {
-          orderBook[chapter][i] = orderBook[chapter][i+1];
-          delete orderBook[chapter][i+1];
+    for (uint i = 1; i < buyBook[chapter].length; i++) {
+      if (volBook[chapter][i] == 0) {
+        if (i < buyBook[chapter].length - 1) {
+          buyBook[chapter][i] = buyBook[chapter][i+1];
+          volBook[chapter][i] = volBook[chapter][i+1];
+          minVolBook[chapter][i] = minVolBook[chapter][i+1];
+          limitBook[chapter][i] = limitBook[chapter][i+1];
+
+          ethAddressBook[chapter][i] = ethAddressBook[chapter][i+1];
+          firstAddressBook[chapter][i] = firstAddressBook[chapter][i+1];
+          secondAddressBook[chapter][i] = secondAddressBook[chapter][i+1];
+
+          delete buyBook[chapter][i+1];
+          delete volBook[chapter][i+1];
+          delete minVolBook[chapter][i+1];
+          delete limitBook[chapter][i+1];
+
+          delete ethAddressBook[chapter][i+1];
+          delete firstAddressBook[chapter][i+1];
+          delete secondAddressBook[chapter][i+1];
         }
       }
     }
-    orderBook[chapter].length = orderBook[chapter].length - numsCleared[chapter];
+    buyBook[chapter].length = buyBook[chapter].length - numsCleared[chapter];
+    volBook[chapter].length = volBook[chapter].length - numsCleared[chapter];
+    minVolBook[chapter].length = minVolBook[chapter].length - numsCleared[chapter];
+    limitBook[chapter].length = limitBook[chapter].length - numsCleared[chapter];
+
+    ethAddressBook[chapter].length = ethAddressBook[chapter].length - numsCleared[chapter];
+    firstAddressBook[chapter].length = firstAddressBook[chapter].length - numsCleared[chapter];
+    secondAddressBook[chapter].length = secondAddressBook[chapter].length - numsCleared[chapter];
+
     numsCleared[chapter] = 0;
     return true;
   }
@@ -315,9 +342,16 @@ contract Exchange is ExchangeStructs {
     } else{
       require(msg.value >= volume * params.closureFee / PRECISION);
     }
-    require(orderBook[chapter].length > 0);
-    orderBook[chapter].push(Order(buyETH, volume, minVolume, limit));
-    addressBook[chapter].push(AddressInfo(ethAddress, firstAddress, otherAddress));
+    require(buyBook[chapter].length > 0);
+
+    buyBook[chapter].push(buyETH);
+    volBook[chapter].push(volume);
+    minVolBook[chapter].push(minVolume);
+    limitBook[chapter].push(limit);
+
+    ethAddressBook[chapter].push(ethAddress);
+    firstAddressBook[chapter].push(firstAddress);
+    secondAddressBook[chapter].push(otherAddress);
     return true;
   }
 
@@ -326,22 +360,30 @@ contract Exchange is ExchangeStructs {
     public
     returns(bool accepted)
   {
-    require(index < orderBook[chapter].length);
+    require(index < buyBook[chapter].length);
     // Can't cancel other people's orders
-    require(msg.sender == addressBook[chapter][index].ethAddress);
-    // uint volume = orderBook[chapter][index].volume;
-    uint limit = orderBook[chapter][index].limit;
-    uint volume = orderBook[chapter][index].volume;
+    require(msg.sender == ethAddressBook[chapter][index]);
+
+    uint limit = limitBook[chapter][index];
+    uint volume = volBook[chapter][index];
+
     // TODO: NEXT VERSION: Refund according to transaction vol for generic currencies
     // Use market rate
     // Refund according to ether transaction volume
-    if (orderBook[chapter][index].buyETH) {
+    if (buyBook[chapter][index]) {
       msg.sender.transfer(volume * (params.closureFee - params.cancelFee) / limit);
     } else{
       msg.sender.transfer(volume * (params.closureFee - params.cancelFee) / limit);
     }
-    delete orderBook[chapter][index];
-    delete addressBook[chapter][index];
+    delete buyBook[chapter][index];
+    delete volBook[chapter][index];
+    delete minVolBook[chapter][index];
+    delete limitBook[chapter][index];
+
+    delete ethAddressBook[chapter][index];
+    delete firstAddressBook[chapter][index];
+    delete secondAddressBook[chapter][index];
+
     numsCleared[chapter] += 1;
     cleanChapter(chapter);
     return true;

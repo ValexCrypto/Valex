@@ -5,6 +5,9 @@
 *                100, 100, 100, difficulty.valueOf());
 */
 
+var ethers = require("ethers");
+var utils = ethers.utils;
+
 var SafeMath = artifacts.require("SafeMath.sol");
 var ExchangeStructs = artifacts.require("ExchangeStructs.sol");
 var Exchange = artifacts.require("Exchange.sol");
@@ -15,6 +18,7 @@ contract("Exchange", function() {
     let exchange = await Exchange.deployed();
     let precision = await exchange.PRECISION();
     let expectedPrecision = new web3.BigNumber("1e18");
+
     assert.equal(precision.toString(10) === expectedPrecision.toString(10),
                   true, "precision should be equal to 10 ** 18");
   });
@@ -54,10 +58,10 @@ contract("Exchange", function() {
 
   // TODO: Test orderBook initial values
   it("should have correct initial orderBook", async function() {
-    let exchange = await Exchange.deployed();
-    let orderChapter0 = await exchange.getOrderChapter(0);
+    // let exchange = await Exchange.deployed();
+    // let orderChapter0 = await exchange.getOrderChapter(0);
 
-    console.log(orderChapter0);
+    // console.log(orderChapter0);
 
     // let expectedPrecision = new web3.BigNumber("1e18");
     // assert.equal(precision.toString(10) === expectedPrecision.toString(10),
