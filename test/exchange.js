@@ -55,9 +55,9 @@ contract("Exchange", function() {
   // TODO: Test orderBook initial values
   it("should have correct initial orderBook", async function() {
     let exchange = await Exchange.deployed();
-    let orderBook = await exchange.orderBook();
+    let orderChapter0 = await exchange.getOrderChapter(0);
 
-    console.log(orderBook);
+    console.log(orderChapter0);
 
     // let expectedPrecision = new web3.BigNumber("1e18");
     // assert.equal(precision.toString(10) === expectedPrecision.toString(10),
