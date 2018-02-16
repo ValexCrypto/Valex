@@ -18,33 +18,38 @@ contract("Exchange", function() {
     assert.equal(precision.toString(10) === expectedPrecision.toString(10),
                   true, "precision should be equal to 10 ** 18");
   });
-  // TODO: Test params
+
+  // Test params initial values
   it("should have correct initial values for params", async function() {
     let exchange = await Exchange.deployed();
     let params = await exchange.params();
 
-    let closureFee= params[0];
+    let closureFee = params[0];
     let cancelFee = params[1];
-    // Size of numsCleared at which we should clean an order book
     let cleanSize = params[2];
-    // Proportion of fees that miners get (divided by precision)
     let minerShare = params[3];
-    // closedBalance at which we distribute dividends
     let distBalance = params[4];
-    // For nonce-finding
     let difficulty = params[5];
 
     let expectedClosureFee = new web3.BigNumber("1e18");
     let expectedCancelFee = new web3.BigNumber("5e17");
-    // Size of numsCleared at which we should clean an order book
-    let expectedCleanSize;
-    // Proportion of fees that miners get (divided by precision)
-    let minerShare;
-    // closedBalance at which we distribute dividends
-    let distBalance;
-    // For nonce-finding
-    let difficulty; */
-    console.log(params);
+    let expectedCleanSize = new web3.BigNumber("100");
+    let expectedMinerShare = new web3.BigNumber("100");
+    let expectedDistBalance = new web3.BigNumber("100");
+    let expectedDifficulty = "0x341f85f5eca6304166fcfb6f591d49f6019f23fa39be0615e6417da06bf747ce";
+
+    assert.equal(closureFee.toString(10) === expectedClosureFee.toString(10),
+                  true, "closure fee should equal expected closure fee");
+    assert.equal(cancelFee.toString(10) === expectedCancelFee.toString(10),
+                  true, "cancel fee should equal expected cancel fee");
+    assert.equal(cleanSize.toString(10) === expectedCleanSize.toString(10),
+                  true, "clean size should equal expected clean size");
+    assert.equal(minerShare.toString(10) === expectedMinerShare.toString(10),
+                  true, "miner share should equal expected miner share");
+    assert.equal(distBalance.toString(10) === expectedDistBalance.toString(10),
+                  true, "distribution balance should equal expected distribution balance");
+    assert.equal(difficulty === expectedDifficulty,
+                  true, "difficulty should equal expected difficulty");
   });
 
 
