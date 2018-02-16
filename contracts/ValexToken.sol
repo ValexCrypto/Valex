@@ -50,10 +50,10 @@ contract ValexToken is Exchange, StandardToken {
      * @dev Constructor that gives msg.sender all of existing tokens.
      * @dev Initializes token to have same parameters as exchange
      */
-    function ValexToken(uint closureFeePerUnit, uint cancelFeePerUnit,
+    function ValexToken(uint closureFee, uint cancelFee,
                       uint cleanSize, uint minershare, uint distBalance,
                       bytes32 difficulty)
-      Exchange(closureFeePerUnit, cancelFeePerUnit,
+      Exchange(closureFee, cancelFee,
               cleanSize, minershare, distBalance, difficulty)
       public
     {
@@ -79,13 +79,13 @@ contract ValexToken is Exchange, StandardToken {
     {
       require(balances[msg.sender] > 0);
       require(desiredParam > 0);
-      if (voteBook[msg.sender].closureFeePerUnit > 0){
-        closureFeeFreqs[voteBook[msg.sender].closureFeePerUnit] -= balances[msg.sender];
+      if (voteBook[msg.sender].closureFee > 0){
+        closureFeeFreqs[voteBook[msg.sender].closureFee] -= balances[msg.sender];
       }
-      voteBook[msg.sender].closureFeePerUnit = desiredParam;
+      voteBook[msg.sender].closureFee = desiredParam;
       closureFeeFreqs[desiredParam] += balances[msg.sender];
-      if (closureFeeFreqs[desiredParam] > thresholds.closureFeePerUnit){
-        params.closureFeePerUnit = desiredParam;
+      if (closureFeeFreqs[desiredParam] > thresholds.closureFee){
+        params.closureFee = desiredParam;
       }
     }
 
@@ -95,13 +95,13 @@ contract ValexToken is Exchange, StandardToken {
     {
       require(balances[msg.sender] > 0);
       require(desiredParam > 0);
-      if (voteBook[msg.sender].cancelFeePerUnit > 0){
-        cancelFeeFreqs[voteBook[msg.sender].cancelFeePerUnit] -= balances[msg.sender];
+      if (voteBook[msg.sender].cancelFee > 0){
+        cancelFeeFreqs[voteBook[msg.sender].cancelFee] -= balances[msg.sender];
       }
-      voteBook[msg.sender].cancelFeePerUnit = desiredParam;
+      voteBook[msg.sender].cancelFee = desiredParam;
       cancelFeeFreqs[desiredParam] += balances[msg.sender];
-      if (cancelFeeFreqs[desiredParam] > thresholds.cancelFeePerUnit){
-        params.cancelFeePerUnit = desiredParam;
+      if (cancelFeeFreqs[desiredParam] > thresholds.cancelFee){
+        params.cancelFee = desiredParam;
       }
     }
 

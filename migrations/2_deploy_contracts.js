@@ -8,6 +8,6 @@ module.exports = function(deployer) {
   deployer.deploy(ExchangeStructs);
   deployer.link(SafeMath, Exchange);
   deployer.link(ExchangeStructs, Exchange);
-  deployer.deploy(Exchange, 1, 1, 100, 100, 100,
-                  difficulty.valueOf());
+  deployer.deploy(Exchange, new web3.BigNumber("1e18"), new web3.BigNumber("5e17"),
+                  100, 100, 100, difficulty.valueOf());
 };

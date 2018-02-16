@@ -25,13 +25,13 @@ contract Exchange is ExchangeStructs {
   uint[] numsCleared;
 
   // Constructor for contract
-  function Exchange(uint closureFeePerUnit, uint cancelFeePerUnit,
+  function Exchange(uint closureFee, uint cancelFee,
                     uint cleanSize, uint minerShare, uint distBalance,
                     bytes32 difficulty)
     public
   {
     // Initialize parameters books
-    setParams(closureFeePerUnit, cancelFeePerUnit,
+    setParams(closureFee, cancelFee,
               cleanSize, minerShare, distBalance, difficulty);
     // Initialize order books
     setBooks();
@@ -53,13 +53,13 @@ contract Exchange is ExchangeStructs {
 
   // Init the params struct, which contains the bulk of exchange's parameters
   // Only used in constructor
-  function setParams(uint closureFeePerUnit, uint cancelFeePerUnit,
+  function setParams(uint closureFee, uint cancelFee,
                     uint cleanSize, uint minerShare, uint distBalance,
                     bytes32 difficulty)
     internal
   {
-    params.closureFeePerUnit = closureFeePerUnit;
-    params.cancelFeePerUnit = cancelFeePerUnit;
+    params.closureFee = closureFee;
+    params.cancelFee = cancelFee;
     params.cleanSize = cleanSize;
     params.minerShare = minerShare;
     params.distBalance = distBalance;
@@ -200,10 +200,10 @@ contract Exchange is ExchangeStructs {
     private
   {
     exBalances.openBalance = (exBalances.openBalance -
-                                  (params.closureFeePerUnit * ethVol));
+                                  (params.closureFee * ethVol / PRECISION));
     exBalances.closedBalance = (exBalances.closedBalance -
                                   minerPayment +
-                                  (params.closureFeePerUnit * ethVol));
+                                  (params.closureFee * ethVol / PRECISION));
     if (exBalances.closedBalance >= params.distBalance) {
       distDividends();
     }
@@ -268,7 +268,7 @@ contract Exchange is ExchangeStructs {
       return false;
     }
     // calculate the miner's payment
-    uint minerPayment = ((params.minerShare * params.closureFeePerUnit * ethVol) /
+    uint minerPayment = ((params.minerShare * params.closureFee * ethVol) /
                           PRECISION);
     depositAddress.transfer(minerPayment);
     clearBalance(minerPayment, ethVol);
@@ -293,9 +293,9 @@ contract Exchange is ExchangeStructs {
     // TODO: NEXT VERSION: Charge according to transaction vol for generic currencies
     // Use market rate
     if (buyETH) {
-      require(limit * msg.value >= volume * params.closureFeePerUnit);
+      require(limit * msg.value >= volume * params.closureFee / PRECISION);
     } else{
-      require(msg.value >= volume * params.closureFeePerUnit);
+      require(msg.value >= volume * params.closureFee / PRECISION);
     }
     require(orderBook[chapter].length > 0);
     orderBook[chapter].push(Order(buyETH, volume, minVolume, limit));
@@ -318,9 +318,9 @@ contract Exchange is ExchangeStructs {
     // Use market rate
     // Refund according to ether transaction volume
     if (orderBook[chapter][index].buyETH) {
-      msg.sender.transfer(volume * (params.closureFeePerUnit - params.cancelFeePerUnit) / limit);
+      msg.sender.transfer(volume * (params.closureFee - params.cancelFee) / limit);
     } else{
-      msg.sender.transfer(volume * (params.closureFeePerUnit - params.cancelFeePerUnit) / limit);
+      msg.sender.transfer(volume * (params.closureFee - params.cancelFee) / limit);
     }
     delete orderBook[chapter][index];
     delete addressBook[chapter][index];

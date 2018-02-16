@@ -4,8 +4,8 @@ contract ExchangeStructs{
   // fee parameters and such
   struct Parameters {
     // closure fee paid up front, refunded - cancel fee if cancelled
-    uint closureFeePerUnit;
-    uint cancelFeePerUnit;
+    uint closureFee;
+    uint cancelFee;
     // Size of numsCleared at which we should clean an order book
     uint cleanSize;
     // Proportion of fees that miners get (divided by precision)
