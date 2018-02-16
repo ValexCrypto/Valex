@@ -5,9 +5,6 @@
 *                100, 100, 100, difficulty.valueOf());
 */
 
-var ethers = require("ethers");
-var utils = ethers.utils;
-
 var SafeMath = artifacts.require("SafeMath.sol");
 var ExchangeStructs = artifacts.require("ExchangeStructs.sol");
 var Exchange = artifacts.require("Exchange.sol");

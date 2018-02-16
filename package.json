@@ -26,7 +26,6 @@
   },
   "homepage": "https://github.com/khelmy/Valex#readme",
   "dependencies": {
-    "ethers": "^2.2.6",
     "zeppelin-solidity": "^1.6.0"
   }
 }
