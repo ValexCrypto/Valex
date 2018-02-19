@@ -105,6 +105,7 @@ contract("Exchange", function(accounts) {
   // Test placing orders
   it("should place orders properly", async function() {
     let exchange = await Exchange.deployed();
+    // Orders need to be padded.
     let postOrder = await exchange.placeOrder(true, "1e18", "9e17",
                                             "1e18", 11,
                                             ["0x" + "0".repeat(61) + "100",
