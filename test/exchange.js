@@ -1,15 +1,15 @@
 /*
 * Based on these initial values (found in 2_deploy_contracts.js):
 * var difficulty = String("0x341f85f5eca6304166fcfb6f591d49f6019f23fa39be0615e6417da06bf747ce");
-* deployer.deploy(Exchange, new web3.BigNumber("1e18"), new web3.BigNumber("5e17"),
-*                100, 100, 100, difficulty.valueOf());
+* deployer.deploy(Exchange, new web3.BigNumber("5e17"), new web3.BigNumber("5e16"),
+*                 100, 100, 100, difficulty.valueOf());
 */
 
 var SafeMath = artifacts.require("SafeMath.sol");
 var ExchangeStructs = artifacts.require("ExchangeStructs.sol");
 var Exchange = artifacts.require("Exchange.sol");
 
-contract("Exchange", function() {
+contract("Exchange", function(accounts) {
   // SECTION: Test initial values
   // First, test PRECISION
   it("should have precision of 10 ** 18", async function() {
@@ -33,8 +33,8 @@ contract("Exchange", function() {
     let distBalance = params[4];
     let difficulty = params[5];
 
-    let expectedClosureFee = new web3.BigNumber("1e18");
-    let expectedCancelFee = new web3.BigNumber("5e17");
+    let expectedClosureFee = new web3.BigNumber("5e17");
+    let expectedCancelFee = new web3.BigNumber("5e16");
     let expectedCleanSize = new web3.BigNumber("100");
     let expectedMinerShare = new web3.BigNumber("100");
     let expectedDistBalance = new web3.BigNumber("100");
@@ -102,9 +102,60 @@ contract("Exchange", function() {
   });
 
   // SECTION: Test dynamic values
-  // TODO: Test placing orders
+  // Test placing orders
+  it("should place orders properly", async function() {
+    let exchange = await Exchange.deployed();
+    let postOrder = await exchange.placeOrder(true, "1e18", "9e17",
+                                            "1e18", 11,
+                                            ["0x" + "0".repeat(61) + "100",
+                                              "0x" + "0".repeat(62) + "30"],
+                                            ["0x" + "0".repeat(61) + "100",
+                                              "0x" + "0".repeat(62) + "50"], 0,
+                                            {value: "3e18", from: accounts[0]});
+
+    let ethAddressChapter0 = await exchange.getETHAddressChapter(0);
+    let firstAddressChapter0 = await exchange.getFirstAddressChapter(0);
+    let secondAddressChapter0 = await exchange.getSecondAddressChapter(0);
+
+    let orderChapter0 = await exchange.getOrderChapter(0);
+    // This is the expectation for the chapter after the new order is put in
+    let expectedOrderChapter0 = [[false, true],
+                                  [new web3.BigNumber("0"), new web3.BigNumber("1e18")],
+                                  [new web3.BigNumber("0"), new web3.BigNumber("9e17")],
+                                  [new web3.BigNumber("0"), new web3.BigNumber("1e18")]];
+
+    // Was the order placed?
+    assert.equal(JSON.stringify(orderChapter0) === JSON.stringify(expectedOrderChapter0),
+                  true, "order chapter 0 should contain genesis order");
+
+    // Run previous tests to make sure genesis order wasn't messed up
+    assert.equal(web3.toDecimal(ethAddressChapter0[0]) == 0,
+                  true, "address chapter 0 should contain genesis order ETH address");
+    assert.equal(web3.toDecimal(firstAddressChapter0[0][0]) == 0,
+                  true, "address chapter 0 should contain genesis order first address");
+    assert.equal(web3.toDecimal(firstAddressChapter0[0][1]) == 0,
+                  true, "address chapter 0 should contain genesis order first address");
+    assert.equal(web3.toDecimal(secondAddressChapter0[0][0]) == 0,
+                  true, "address chapter 0 should contain genesis order second address");
+    assert.equal(web3.toDecimal(secondAddressChapter0[0][1]) == 0,
+                  true, "address chapter 0 should contain genesis order second address");
+
+    // All address information on new order correct?
+    assert.equal(web3.toDecimal(ethAddressChapter0[1]) == 11,
+                  true, "address chapter 0 should contain new order ETH address");
+    assert.equal(firstAddressChapter0[1][0] === "0x" + "0".repeat(61) + "100",
+                  true, "address chapter 0 should contain new order first address");
+    assert.equal(firstAddressChapter0[1][1] == "0x" + "0".repeat(62) + "30",
+                  true, "address chapter 0 should contain new order first address");
+    assert.equal(secondAddressChapter0[1][0] === "0x" + "0".repeat(61) + "100",
+                  true, "address chapter 0 should contain new order second address");
+    assert.equal(secondAddressChapter0[1][1] == "0x" + "0".repeat(62) + "50",
+                  true, "address chapter 0 should contain new order second address");
+  });
+
   // TODO: SUBGOAL: Test exBalances
   // TODO: Test making matches
+  // TODO: SUBGOAL: Test exBalances
   // TODO: Test trade logging
 
 })
