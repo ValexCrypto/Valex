@@ -359,7 +359,6 @@ contract Exchange is ExchangeStructs {
   function giveMatch(address depositAddress, uint chapter,
                     uint index1, uint index2, uint nonce)
     public
-    payable
     returns(bool isValid)
   {
     // Validate nonce
