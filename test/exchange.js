@@ -102,12 +102,12 @@ contract("Exchange", function(accounts) {
     let exchange = await Exchange.deployed();
     // Orders need to be padded.
     let postOrder = await exchange.placeOrder(true, "1e18", "9e17",
-                                            "1e18", 11,
-                                            ["0x" + "0".repeat(61) + "100",
-                                              "0x" + "0".repeat(62) + "30"],
-                                            ["0x" + "0".repeat(61) + "100",
-                                              "0x" + "0".repeat(62) + "50"], 0,
-                                            {value: "3e18", from: accounts[0]});
+                                              "1e18", 11,
+                                              ["0x" + "0".repeat(61) + "100",
+                                                "0x" + "0".repeat(62) + "30"],
+                                              ["0x" + "0".repeat(61) + "100",
+                                                "0x" + "0".repeat(62) + "50"], 0,
+                                              {value: "3e18", from: accounts[0]});
 
     let ethAddressChapter0 = await exchange.getETHAddressChapter(0);
     let firstAddressChapter0 = await exchange.getFirstAddressChapter(0);
@@ -149,7 +149,20 @@ contract("Exchange", function(accounts) {
                   true, "address chapter 0 should contain new order second address");
   });
 
-  // TODO: SUBGOAL: Test balances
+  // Test placing orders
+  // SUBGOAL: Test balances
+  it("should update balances properly", async function() {
+    let exchange = await Exchange.deployed();
+
+    let openBalance = await exchange.openBalance();
+    let totalBalance = await web3.eth.getBalance(exchange.address);
+
+    assert.equal(new web3.BigNumber("3e18").toString(10) === openBalance.toString(10),
+                  true, "open balance should equal message value of order placed");
+    assert.equal(totalBalance.toString(10) === openBalance.toString(10),
+                  true, "total balance should equal open balance");
+  });
+
   // TODO: Test making matches
   // TODO: SUBGOAL: Test balances
   // TODO: Test trade logging
