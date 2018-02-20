@@ -13,8 +13,12 @@ contract Exchange is ExchangeStructs {
   // SECTION: Declaring/initializing variables
   uint public PRECISION = 10 ** 18;
 
+  // separate out the open balance (includes unclosed fees, gas fees),
+  // which will be distributed between miners, the exchange, and traders,
+  // from closed balance, which belongs to the exchange
+  uint public openBalance = 0;
+
   Parameters public params;
-  Balances public exBalances;
 
   // separate chapters for different currency pairs
   // that's why they're 2D
@@ -255,27 +259,23 @@ contract Exchange is ExchangeStructs {
       );
   }
 
-  // Clears exBalances.closedBalance
-  // ValexToken ovverride distributes dividends when balance is of sufficient size
+  // ValexToken override distributes dividends when balance is of sufficient size
+  // What to do about purity?
   // TODO: Make dividends distributed by time, not quantity
   // TODO: Add forced dividend distribution
   function distDividends()
     internal
+    pure
   {
-    exBalances.closedBalance = 0;
+    return;
   }
 
   // Move balance from open to closed
-  // Eliminate minerPayment from either balance
-  function clearBalance(uint minerPayment, uint ethVol)
+  function clearBalance(uint ethVol)
     private
   {
-    exBalances.openBalance = (exBalances.openBalance -
-                                  (params.closureFee * ethVol / PRECISION));
-    exBalances.closedBalance = (exBalances.closedBalance -
-                                  minerPayment +
-                                  (params.closureFee * ethVol / PRECISION));
-    if (exBalances.closedBalance >= params.distBalance) {
+    openBalance -= (params.closureFee * ethVol / PRECISION);
+    if (this.balance - openBalance >= params.distBalance) {
       distDividends();
     }
   }
@@ -343,6 +343,17 @@ contract Exchange is ExchangeStructs {
     return true;
   }
 
+  // Function to pay the miner what's due
+  function payMiner(address depositAddress, uint ethVol)
+    private
+  {
+    // Calculate the miner's payment
+    uint minerPayment = ((params.minerShare * params.closureFee * ethVol) /
+                          PRECISION);
+    // Pay the miner
+    depositAddress.transfer(minerPayment);
+  }
+
   // Miners suggest matches with this function
   // Wrapper for calcRateAndVol and isValidPOW, performs other required functions
   function giveMatch(address depositAddress, uint chapter,
@@ -351,21 +362,13 @@ contract Exchange is ExchangeStructs {
     payable
     returns(bool isValid)
   {
-    // Validate that nonce is equivalent
-    // postImage adds entropy if trade volume is small
+    // Validate nonce
     // Helper for giveMatch
-    if (! isValidPOW(depositAddress, chapter, index1, index2, nonce)) {
-      return false;
-    }
+    require(isValidPOW(depositAddress, chapter, index1, index2, nonce));
     var (mimRate, ethVol) = calcRateAndVol(chapter, index1, index2);
-    if (ethVol == 0) {
-      return false;
-    }
-    // calculate the miner's payment
-    uint minerPayment = ((params.minerShare * params.closureFee * ethVol) /
-                          PRECISION);
-    depositAddress.transfer(minerPayment);
-    clearBalance(minerPayment, ethVol);
+    require(ethVol > 0);
+    payMiner(depositAddress, ethVol);
+    clearBalance(ethVol);
     alertTraders(chapter, index1, index2, mimRate, ethVol);
     clearTrade(chapter, index1, index2, mimRate, ethVol);
     cleanChapter(chapter);
@@ -392,6 +395,8 @@ contract Exchange is ExchangeStructs {
       require(msg.value >= volume * params.closureFee / PRECISION);
     }
     require(buyBook[chapter].length > 0);
+
+    openBalance += msg.value;
 
     buyBook[chapter].push(buyETH);
     volBook[chapter].push(volume);

@@ -16,15 +16,6 @@ contract ExchangeStructs{
     bytes32 difficulty;
   }
 
-  // stores active exBalances
-  struct Balances {
-    // separate out the open balance (includes unclosed fees, gas fees),
-    // which will be distributed between miners, the exchange, and traders,
-    // from closed balance, which belongs to the exchange
-    uint openBalance;
-    uint closedBalance;
-  }
-
   // stores order info (public information)
   struct Order {
     // false for buy ETH, true for sell ETH

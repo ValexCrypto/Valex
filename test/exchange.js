@@ -54,20 +54,15 @@ contract("Exchange", function(accounts) {
                   true, "difficulty should equal expected difficulty");
   });
 
-  // Test exBalances initial values
-  it("should have correct initial open and closed balances", async function() {
+  // Test openBalance initial value
+  it("should have correct initial open balance", async function() {
     let exchange = await Exchange.deployed();
-    let exBalances = await exchange.exBalances();
-
-    let openBalance = exBalances[0];
-    let closedBalance = exBalances[1];
+    let openBalance = await exchange.openBalance();
 
     let bigZero = new web3.BigNumber("0");
 
     assert.equal(openBalance.toString(10) === bigZero.toString(10),
                   true, "open balance should be equal to 0");
-    assert.equal(closedBalance.toString(10) === bigZero.toString(10),
-                  true, "closed balance should be equal to 0");
   });
 
   // Test order book initial values
@@ -154,9 +149,9 @@ contract("Exchange", function(accounts) {
                   true, "address chapter 0 should contain new order second address");
   });
 
-  // TODO: SUBGOAL: Test exBalances
+  // TODO: SUBGOAL: Test balances
   // TODO: Test making matches
-  // TODO: SUBGOAL: Test exBalances
+  // TODO: SUBGOAL: Test balances
   // TODO: Test trade logging
 
 })
