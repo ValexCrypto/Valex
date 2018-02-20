@@ -157,7 +157,7 @@ contract Exchange is ExchangeStructs {
 
   // verifies that match is valid
   function calcRateAndVol(uint chapter, uint index1, uint index2)
-    private
+    public
     view
     returns (uint mimRate, uint ethVol)
   {
@@ -337,7 +337,7 @@ contract Exchange is ExchangeStructs {
     view
     returns(bool isValid)
   {
-    if (params.difficulty > keccak256(depositAddress, chapter, index1, index2, nonce)) {
+    if (params.difficulty < keccak256(depositAddress, chapter, index1, index2, nonce)) {
       return false;
     }
     return true;
@@ -349,7 +349,7 @@ contract Exchange is ExchangeStructs {
   {
     // Calculate the miner's payment
     uint minerPayment = ((params.minerShare * params.closureFee * ethVol) /
-                          PRECISION);
+                          (PRECISION * PRECISION));
     // Pay the miner
     depositAddress.transfer(minerPayment);
   }
@@ -362,7 +362,6 @@ contract Exchange is ExchangeStructs {
     returns(bool isValid)
   {
     // Validate nonce
-    // Helper for giveMatch
     require(isValidPOW(depositAddress, chapter, index1, index2, nonce));
     var (mimRate, ethVol) = calcRateAndVol(chapter, index1, index2);
     require(ethVol > 0);

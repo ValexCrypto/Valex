@@ -1,6 +1,6 @@
 /*
 * Based on these initial values (found in 2_deploy_contracts.js):
-* var difficulty = String("0x341f85f5eca6304166fcfb6f591d49f6019f23fa39be0615e6417da06bf747ce");
+* var difficulty = String("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 * deployer.deploy(Exchange, new web3.BigNumber("5e17"), new web3.BigNumber("5e16"),
 *                 100, 100, 100, difficulty.valueOf());
 */
@@ -38,7 +38,7 @@ contract("Exchange", function(accounts) {
     let expectedCleanSize = new web3.BigNumber("100");
     let expectedMinerShare = new web3.BigNumber("100");
     let expectedDistBalance = new web3.BigNumber("100");
-    let expectedDifficulty = "0x341f85f5eca6304166fcfb6f591d49f6019f23fa39be0615e6417da06bf747ce";
+    let expectedDifficulty = "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
 
     assert.equal(closureFee.toString(10) === expectedClosureFee.toString(10),
                   true, "closure fee should equal expected closure fee");
@@ -151,7 +151,7 @@ contract("Exchange", function(accounts) {
 
   // Test placing orders
   // SUBGOAL: Test balances
-  it("should update balances properly", async function() {
+  it("should update balances after ordering", async function() {
     let exchange = await Exchange.deployed();
 
     let openBalance = await exchange.openBalance();
@@ -164,7 +164,38 @@ contract("Exchange", function(accounts) {
   });
 
   // TODO: Test making matches
+  it("should make matches properly", async function() {
+    let exchange = await Exchange.deployed();
+    // Orders need to be padded.
+    let postOrder = await exchange.placeOrder(false, "1e18", "9e17",
+                                              "1e18", 11,
+                                              ["0x" + "0".repeat(61) + "100",
+                                                "0x" + "0".repeat(62) + "30"],
+                                              ["0x" + "0".repeat(61) + "100",
+                                                "0x" + "0".repeat(62) + "50"], 0,
+                                              {value: "3e18", from: accounts[0]});
+
+    let postMatch = await exchange.giveMatch(accounts[1], 0, 1, 2, 0);
+
+    let orderChapter0 = await exchange.getOrderChapter(0);
+
+    // Change this
+    let expectedOrderChapter0 = [[false, true, false],
+                                  [new web3.BigNumber("0"), new web3.BigNumber("0"),
+                                    new web3.BigNumber("0")],
+                                  [new web3.BigNumber("0"), new web3.BigNumber("0"),
+                                    new web3.BigNumber("0")],
+                                  [new web3.BigNumber("0"), new web3.BigNumber("1e18"),
+                                    new web3.BigNumber("1e18")]];
+
+    assert.equal(JSON.stringify(orderChapter0) === JSON.stringify(expectedOrderChapter0),
+                  true, "order chapter 0 should contain genesis order and empty orders");
+  });
+
   // TODO: SUBGOAL: Test balances
+  // TODO: SUBGOAL: Test chapter cleaning when necessary
+  // TODO: More rigorous order-placing testing
+  // TODO: More rigorous match-proposing testing
   // TODO: Test trade logging
 
 })
