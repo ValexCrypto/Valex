@@ -157,10 +157,21 @@ contract("Exchange", function(accounts) {
     let openBalance = await exchange.openBalance();
     let totalBalance = await web3.eth.getBalance(exchange.address);
 
-    assert.equal(new web3.BigNumber("3e18").toString(10) === openBalance.toString(10),
-                  true, "open balance should equal message value of order placed");
-    assert.equal(totalBalance.toString(10) === openBalance.toString(10),
-                  true, "total balance should equal open balance");
+    let orderPayment = new web3.BigNumber("3e18");
+    let orderVal = new web3.BigNumber("1e18");
+
+    let params = await exchange.params();
+    let closureFee = params[0];
+    let precision = await exchange.PRECISION();
+    let orderLimit = new web3.BigNumber("1e18");
+
+    //openBalance += volume * params.closureFee * limit / PRECISION;
+    let expectedOpenBalance = orderVal.times(closureFee).times(orderLimit).div(precision.times(precision));
+
+    assert.equal(openBalance.toString(10) === expectedOpenBalance.toString(10),
+                  true, "open balance should equal required value of order placed");
+    assert.equal(totalBalance.toString(10) === new web3.BigNumber("3e18").toString(10),
+                  true, "total balance should equal message value of order placed");
   });
 
   // TODO: Test making matches
@@ -179,7 +190,6 @@ contract("Exchange", function(accounts) {
 
     let orderChapter0 = await exchange.getOrderChapter(0);
 
-    // Change this
     let expectedOrderChapter0 = [[false, true, false],
                                   [new web3.BigNumber("0"), new web3.BigNumber("0"),
                                     new web3.BigNumber("0")],
@@ -192,10 +202,38 @@ contract("Exchange", function(accounts) {
                   true, "order chapter 0 should contain genesis order and empty orders");
   });
 
-  // TODO: SUBGOAL: Test balances
+  // SUBGOAL: Test that balances updated after matching
+  it("should update balances after matching", async function() {
+    let exchange = await Exchange.deployed();
+
+    let openBalance = await exchange.openBalance();
+    let totalBalance = await web3.eth.getBalance(exchange.address);
+
+    let params = await exchange.params();
+    let closureFee = params[0];
+    let minerShare = params[3];
+    let precision = await exchange.PRECISION();
+
+
+    let orderPayment = new web3.BigNumber("3e18");
+    let orderVal = new web3.BigNumber("1e18");
+
+    //uint minerPayment = ((params.minerShare * params.closureFee * ethVol) /
+    //                      (PRECISION * PRECISION));
+    let expectedPayment = (minerShare.times(orderVal).times(closureFee)).div(precision.times(precision));
+    let expectedTotal = orderPayment.plus(orderPayment).minus(expectedPayment)
+
+    let bigZero = new web3.BigNumber("0");
+
+    assert.equal(openBalance.toString(10) === bigZero.toString(10),
+                  true, "open balance should be equal to 0");
+    assert.equal(expectedTotal.toString(10) === totalBalance.toString(10),
+                  true, "Total balance should be updated");
+  });
+
+  // TODO: Test trade logging
   // TODO: SUBGOAL: Test chapter cleaning when necessary
   // TODO: More rigorous order-placing testing
   // TODO: More rigorous match-proposing testing
-  // TODO: Test trade logging
 
 })

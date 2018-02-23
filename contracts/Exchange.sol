@@ -271,10 +271,11 @@ contract Exchange is ExchangeStructs {
   }
 
   // Move balance from open to closed
-  function clearBalance(uint ethVol)
+  function clearBalance(uint ethVol, uint buyLimit)
     private
   {
-    openBalance -= (params.closureFee * ethVol / PRECISION);
+    openBalance -= (params.closureFee * ethVol) / PRECISION;
+    openBalance -= (params.closureFee * ethVol * buyLimit) / (PRECISION * PRECISION);
     if (this.balance - openBalance >= params.distBalance) {
       distDividends();
     }
@@ -365,8 +366,19 @@ contract Exchange is ExchangeStructs {
     require(isValidPOW(depositAddress, chapter, index1, index2, nonce));
     var (mimRate, ethVol) = calcRateAndVol(chapter, index1, index2);
     require(ethVol > 0);
+    // which order is buying and selling ETH?
+    // buy-sell copy1
+    uint buyIndex;
+    uint sellIndex;
+    if (buyBook[chapter][index1]) {
+      buyIndex = index1;
+      sellIndex = index2;
+    } else{
+      buyIndex = index2;
+      sellIndex = index1;
+    }
     payMiner(depositAddress, ethVol);
-    clearBalance(ethVol);
+    clearBalance(ethVol, limitBook[chapter][buyIndex]);
     alertTraders(chapter, index1, index2, mimRate, ethVol);
     clearTrade(chapter, index1, index2, mimRate, ethVol);
     cleanChapter(chapter);
@@ -387,14 +399,17 @@ contract Exchange is ExchangeStructs {
     require(limit > 0);
     // TODO: NEXT VERSION: Charge according to transaction vol for generic currencies
     // Use market rate
+    // TODO: Instant refunds (prototype code below)
     if (buyETH) {
-      require(limit * msg.value >= volume * params.closureFee / PRECISION);
+      require(limit * msg.value >= volume * params.closureFee);
+      openBalance += volume * params.closureFee * limit / (PRECISION * PRECISION);
+      //msg.sender.transfer((limit * msg.value) - (volume * params.closureFee));
     } else{
       require(msg.value >= volume * params.closureFee / PRECISION);
+      openBalance += volume * params.closureFee / PRECISION;
+      //msg.sender.transfer(msg.value - (volume * params.closureFee / PRECISION));
     }
     require(buyBook[chapter].length > 0);
-
-    openBalance += msg.value;
 
     buyBook[chapter].push(buyETH);
     volBook[chapter].push(volume);

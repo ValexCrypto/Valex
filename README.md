@@ -35,3 +35,17 @@ Open another window. Run:
 ```
 truffle migrate --network rinkeby --reset
 ```
+
+## Instructions for testing locally:
+
+Open a terminal window in the Valex folder. Run:
+
+```
+ganache-cli
+```
+
+Open another window. Run:
+
+```
+truffle test
+```
