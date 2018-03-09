@@ -174,7 +174,7 @@ contract("Exchange", function(accounts) {
                   true, "total balance should equal message value of order placed");
   });
 
-  // TODO: Test making matches
+  // Test making matches
   it("should make matches properly", async function() {
     let exchange = await Exchange.deployed();
     // Orders need to be padded.
@@ -231,8 +231,8 @@ contract("Exchange", function(accounts) {
                   true, "Total balance should be updated");
   });
 
-  // TODO: Test trade logging
   // TODO: SUBGOAL: Test chapter cleaning when necessary
+  // TODO: Test trade logging
   // TODO: More rigorous order-placing testing
   // TODO: More rigorous match-proposing testing
 
