@@ -3,7 +3,6 @@ from enum import Enum
 from web3 import Web3, HTTPProvider, TestRPCProvider
 
 w3 =  Web3(Web3.HTTPProvider("http://127.0.0.1:8545"))
-print(w3)
 
 class TradingPair(Enum):
     NONE = 0

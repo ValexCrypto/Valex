@@ -39,10 +39,8 @@ contract ValexToken is Exchange, StandardToken {
     mapping (uint => uint) minerShareFreqs;
     mapping (uint => uint) distBalanceFreqs;
 
-    // Thresholds to be met for each parameter adjustment
-    // TODO: add initialization for thresholds
-    // TODO: add meta-voting for thresholds (will always require 51%)
-    Parameters public thresholds;
+    // Threshold to be met for each parameter adjustment
+    uint256 public threshold = (initialSupply / 100) * 51;
 
     // TODO: reset votes when tokens are transferred
 
@@ -84,7 +82,7 @@ contract ValexToken is Exchange, StandardToken {
       }
       voteBook[msg.sender].closureFee = desiredParam;
       closureFeeFreqs[desiredParam] += balances[msg.sender];
-      if (closureFeeFreqs[desiredParam] > thresholds.closureFee){
+      if (closureFeeFreqs[desiredParam] > threshold){
         params.closureFee = desiredParam;
       }
     }
@@ -100,7 +98,7 @@ contract ValexToken is Exchange, StandardToken {
       }
       voteBook[msg.sender].cancelFee = desiredParam;
       cancelFeeFreqs[desiredParam] += balances[msg.sender];
-      if (cancelFeeFreqs[desiredParam] > thresholds.cancelFee){
+      if (cancelFeeFreqs[desiredParam] > threshold){
         params.cancelFee = desiredParam;
       }
     }
@@ -116,7 +114,7 @@ contract ValexToken is Exchange, StandardToken {
       }
       voteBook[msg.sender].cleanSize = desiredParam;
       cleanSizeFreqs[desiredParam] += balances[msg.sender];
-      if (cleanSizeFreqs[desiredParam] > thresholds.cleanSize){
+      if (cleanSizeFreqs[desiredParam] > threshold){
         params.cleanSize = desiredParam;
       }
     }
@@ -132,7 +130,7 @@ contract ValexToken is Exchange, StandardToken {
       }
       voteBook[msg.sender].minerShare = desiredParam;
       minerShareFreqs[desiredParam] += balances[msg.sender];
-      if (minerShareFreqs[desiredParam] > thresholds.minerShare){
+      if (minerShareFreqs[desiredParam] > threshold){
         params.minerShare = desiredParam;
       }
     }
@@ -148,7 +146,7 @@ contract ValexToken is Exchange, StandardToken {
       }
       voteBook[msg.sender].distBalance = desiredParam;
       distBalanceFreqs[desiredParam] += balances[msg.sender];
-      if (distBalanceFreqs[desiredParam] > thresholds.distBalance){
+      if (distBalanceFreqs[desiredParam] > threshold){
         params.distBalance = desiredParam;
       }
     }

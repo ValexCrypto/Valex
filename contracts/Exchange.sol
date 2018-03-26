@@ -265,7 +265,6 @@ contract Exchange is ExchangeStructs {
   // TODO: Add forced dividend distribution
   function distDividends()
     internal
-    pure
   {
     return;
   }
