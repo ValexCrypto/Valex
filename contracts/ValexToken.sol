@@ -89,7 +89,7 @@ contract ValexToken is Exchange, StandardToken {
     function distDividends()
       internal
     {
-      //TODO: Implement distribution
+      // TODO: Implement distribution
       Exchange.distDividends();
     }
 
