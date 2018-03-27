@@ -39,7 +39,18 @@ contract ValexToken is Exchange, StandardToken {
     mapping (uint => uint) minerShareFreqs;
 
     // Threshold to be met for each parameter adjustment
-    uint256 public threshold = (initialSupply / 100) * 51;
+    uint public threshold = (initialSupply / 100) * 51;
+
+    // How often are you allowed to collect dividends?
+    uint public DISTTIME = 26 weeks;
+    // When were dividends last collected?
+    uint public lastDist = now;
+    // What distribution cycle are we in?
+    uint public distCycle = 0;
+    // How much does one token entitle you to in this cycle?
+    uint public distPerToken = 0;
+    // When did addresses last collect their dividends?
+    mapping (address => uint) lastCollected;
 
     /**
     * @dev transfer token for a specified address
@@ -52,6 +63,18 @@ contract ValexToken is Exchange, StandardToken {
       cancelFeeFreqs[voteBook[msg.sender].cancelFee] -= _value;
       cleanSizeFreqs[voteBook[msg.sender].cleanSize] -= _value;
       minerShareFreqs[voteBook[msg.sender].minerShare] -= _value;
+      if (lastCollected[msg.sender] != distCycle){
+        collectDividends(msg.sender);
+      }
+      if (lastCollected[_to] != 0 && lastCollected[_to] != distCycle){
+        collectDividends(_to);
+      }
+      if (lastCollected[_to] == 0){
+        lastCollected[_to] = lastCollected[msg.sender];
+      }
+      if (balances[msg.sender] == 0){
+        lastCollected[msg.sender] = 0;
+      }
       return true;
     }
 
@@ -67,6 +90,18 @@ contract ValexToken is Exchange, StandardToken {
       cancelFeeFreqs[voteBook[_from].cancelFee] -= _value;
       cleanSizeFreqs[voteBook[_from].cleanSize] -= _value;
       minerShareFreqs[voteBook[_from].minerShare] -= _value;
+      if (lastCollected[_from] != distCycle){
+        collectDividends(_from);
+      }
+      if (lastCollected[_to] != 0 && lastCollected[_to] != distCycle){
+        collectDividends(_to);
+      }
+      if (lastCollected[_to] == 0){
+        lastCollected[_to] = lastCollected[_from];
+      }
+      if (balances[_from] == 0){
+        lastCollected[_from] = 0;
+      }
       return true;
     }
 
@@ -85,12 +120,20 @@ contract ValexToken is Exchange, StandardToken {
       balances[msg.sender] = initialSupply;
     }
 
-    // Distributes dividends when balance is of sufficient size
-    function distDividends()
-      internal
+    // Users can collect their dividends on specified time intervals
+    function collectDividends(address _collector)
+      public
     {
-      // TODO: Implement distribution
-      Exchange.distDividends();
+      require(balances[_collector] > 0);
+      if (lastDist + DISTTIME <= now){
+        lastDist = now;
+        distCycle += 1;
+        distPerToken = (this.balance - openBalance) / initialSupply;
+      }
+      require(lastCollected[_collector] <= distCycle);
+      _collector.transfer(distPerToken * balances[_collector]);
+      lastCollected[_collector] = distCycle;
+      return;
     }
 
     // Voting functions for various parameters

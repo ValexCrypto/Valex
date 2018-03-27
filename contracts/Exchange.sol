@@ -13,14 +13,10 @@ contract Exchange is ExchangeStructs {
   // SECTION: Declaring/initializing variables
   uint public PRECISION = 10 ** 18;
 
-  uint public DISTTIME = 8 weeks;
-
   // separate out the open balance (includes unclosed fees, gas fees),
   // which will be distributed between miners, the exchange, and traders,
   // from closed balance, which belongs to the exchange
   uint public openBalance = 0;
-
-  uint public lastDist = now;
 
   Parameters public params;
 
@@ -262,24 +258,12 @@ contract Exchange is ExchangeStructs {
       );
   }
 
-  // ValexToken override distributes dividends when balance is of sufficient size
-  // TODO: Add forced dividend distribution
-  function distDividends()
-    internal
-  {
-    lastDist = now;
-    return;
-  }
-
   // Move balance from open to closed
   function clearBalance(uint ethVol, uint buyLimit)
     private
   {
     openBalance -= (params.closureFee * ethVol) / PRECISION;
     openBalance -= (params.closureFee * ethVol * buyLimit) / (PRECISION * PRECISION);
-    if (lastDist + DISTTIME <= now) {
-      distDividends();
-    }
   }
 
   // Clean chapter (called when size reaches size to clean)
