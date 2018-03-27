@@ -42,6 +42,23 @@ contract Exchange is ExchangeStructs {
   // Numbers of orders that have been closed are kept here
   uint[] numsCleared;
 
+  address public owner = msg.sender;
+
+  // SECTION: Permissions
+  // Modified: http://solidity.readthedocs.io/en/v0.3.1/common-patterns.html
+  modifier onlyBy(address _account)
+  {
+    require(msg.sender == _account);
+    _;
+  }
+
+  function changeOwner(address _newOwner)
+    public
+    onlyBy(owner)
+  {
+    owner = _newOwner;
+  }
+
   // SECTION: Constructor and helpers
   // Constructor for contract
   function Exchange(uint closureFee, uint cancelFee,
@@ -53,28 +70,30 @@ contract Exchange is ExchangeStructs {
     setParams(closureFee, cancelFee,
               cleanSize, minerShare, difficulty);
     // Initialize order books
-    setBooks();
-    // Initialize numsCleared[0] as zero
-    numsCleared.push(0);
+    addChapter(0);
     return;
   }
 
   /*
-  * Initializes order book and address book
+  * Initializes order book and address book for chapter
   * Only used in constructor
-  * Pushes "genesis order"
+  * Pushes "genesis order" to chapter
+  * ONLY USE FOR MOST RECENT CHAPTER + 1
   */
-  function setBooks()
-    private
+  function addChapter(uint chapter)
+    public
+    onlyBy(owner)
   {
-    buyBook[0].push(false);
-    volBook[0].push(0);
-    minVolBook[0].push(0);
-    limitBook[0].push(0);
+    buyBook[chapter].push(false);
+    volBook[chapter].push(0);
+    minVolBook[chapter].push(0);
+    limitBook[chapter].push(0);
 
-    ethAddressBook[0].push(address(0));
-    firstAddressBook[0].push([bytes32(0), bytes32(0)]);
-    secondAddressBook[0].push([bytes32(0), bytes32(0)]);
+    ethAddressBook[chapter].push(address(0));
+    firstAddressBook[chapter].push([bytes32(0), bytes32(0)]);
+    secondAddressBook[chapter].push([bytes32(0), bytes32(0)]);
+    // Initialize numsCleared[chapter] as zero
+    numsCleared.push(0);
   }
 
   // Init the params struct, which contains the bulk of exchange's parameters
@@ -384,7 +403,7 @@ contract Exchange is ExchangeStructs {
     require(limit > 0);
     // TODO: NEXT VERSION: Charge according to transaction vol for generic currencies
     // Use market rate
-    // TODO: Instant refunds (prototype code below)
+    // TODO: NEXT VERSION: Instant refunds (prototype code below)
     if (buyETH) {
       require(limit * msg.value >= volume * params.closureFee);
       openBalance += volume * params.closureFee * limit / (PRECISION * PRECISION);

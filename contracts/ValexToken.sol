@@ -204,7 +204,7 @@ contract ValexToken is Exchange, StandardToken {
       }
     }
 
-    // TODO: Implement adding/removing chapters
+    // TODO: NEXT VERSION: Implement adding/removing chapters by consensus
 
     // TODO: NEXT VERSION: Add vote transferring
 
