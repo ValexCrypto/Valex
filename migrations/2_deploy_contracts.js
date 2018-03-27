@@ -9,5 +9,5 @@ module.exports = function(deployer) {
   deployer.link(SafeMath, Exchange);
   deployer.link(ExchangeStructs, Exchange);
   deployer.deploy(Exchange, new web3.BigNumber("5e17"), new web3.BigNumber("5e16"),
-                  100, 100, 100, difficulty.valueOf());
+                  100, 100, difficulty.valueOf());
 };

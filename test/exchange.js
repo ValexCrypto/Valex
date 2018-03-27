@@ -2,7 +2,7 @@
 * Based on these initial values (found in 2_deploy_contracts.js):
 * var difficulty = String("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 * deployer.deploy(Exchange, new web3.BigNumber("5e17"), new web3.BigNumber("5e16"),
-*                 100, 100, 100, difficulty.valueOf());
+*                 100, 100, difficulty.valueOf());
 */
 
 var SafeMath = artifacts.require("SafeMath.sol");
@@ -30,14 +30,12 @@ contract("Exchange", function(accounts) {
     let cancelFee = params[1];
     let cleanSize = params[2];
     let minerShare = params[3];
-    let distBalance = params[4];
-    let difficulty = params[5];
+    let difficulty = params[4];
 
     let expectedClosureFee = new web3.BigNumber("5e17");
     let expectedCancelFee = new web3.BigNumber("5e16");
     let expectedCleanSize = new web3.BigNumber("100");
     let expectedMinerShare = new web3.BigNumber("100");
-    let expectedDistBalance = new web3.BigNumber("100");
     let expectedDifficulty = "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
 
     assert.equal(closureFee.toString(10) === expectedClosureFee.toString(10),
@@ -48,8 +46,6 @@ contract("Exchange", function(accounts) {
                   true, "clean size should equal expected clean size");
     assert.equal(minerShare.toString(10) === expectedMinerShare.toString(10),
                   true, "miner share should equal expected miner share");
-    assert.equal(distBalance.toString(10) === expectedDistBalance.toString(10),
-                  true, "distribution balance should equal expected distribution balance");
     assert.equal(difficulty === expectedDifficulty,
                   true, "difficulty should equal expected difficulty");
   });

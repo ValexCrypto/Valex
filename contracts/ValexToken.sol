@@ -37,7 +37,6 @@ contract ValexToken is Exchange, StandardToken {
     mapping (uint => uint) cancelFeeFreqs;
     mapping (uint => uint) cleanSizeFreqs;
     mapping (uint => uint) minerShareFreqs;
-    mapping (uint => uint) distBalanceFreqs;
 
     // Threshold to be met for each parameter adjustment
     uint256 public threshold = (initialSupply / 100) * 51;
@@ -49,10 +48,10 @@ contract ValexToken is Exchange, StandardToken {
      * @dev Initializes token to have same parameters as exchange
      */
     function ValexToken(uint closureFee, uint cancelFee,
-                      uint cleanSize, uint minershare, uint distBalance,
+                      uint cleanSize, uint minershare,
                       bytes32 difficulty)
       Exchange(closureFee, cancelFee,
-              cleanSize, minershare, distBalance, difficulty)
+              cleanSize, minershare, difficulty)
       public
     {
       totalSupply_ = initialSupply;
@@ -132,22 +131,6 @@ contract ValexToken is Exchange, StandardToken {
       minerShareFreqs[desiredParam] += balances[msg.sender];
       if (minerShareFreqs[desiredParam] > threshold){
         params.minerShare = desiredParam;
-      }
-    }
-
-    // voting copy3
-    function voteDistBalance(uint desiredParam)
-      public
-    {
-      require(balances[msg.sender] > 0);
-      require(desiredParam > 0);
-      if (voteBook[msg.sender].distBalance > 0){
-        distBalanceFreqs[voteBook[msg.sender].distBalance] -= balances[msg.sender];
-      }
-      voteBook[msg.sender].distBalance = desiredParam;
-      distBalanceFreqs[desiredParam] += balances[msg.sender];
-      if (distBalanceFreqs[desiredParam] > threshold){
-        params.distBalance = desiredParam;
       }
     }
 

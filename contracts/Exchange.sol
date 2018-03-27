@@ -13,10 +13,14 @@ contract Exchange is ExchangeStructs {
   // SECTION: Declaring/initializing variables
   uint public PRECISION = 10 ** 18;
 
+  uint public DISTTIME = 8 weeks;
+
   // separate out the open balance (includes unclosed fees, gas fees),
   // which will be distributed between miners, the exchange, and traders,
   // from closed balance, which belongs to the exchange
   uint public openBalance = 0;
+
+  uint public lastDist = now;
 
   Parameters public params;
 
@@ -45,13 +49,13 @@ contract Exchange is ExchangeStructs {
   // SECTION: Constructor and helpers
   // Constructor for contract
   function Exchange(uint closureFee, uint cancelFee,
-                    uint cleanSize, uint minerShare, uint distBalance,
+                    uint cleanSize, uint minerShare,
                     bytes32 difficulty)
     public
   {
     // Initialize parameters books
     setParams(closureFee, cancelFee,
-              cleanSize, minerShare, distBalance, difficulty);
+              cleanSize, minerShare, difficulty);
     // Initialize order books
     setBooks();
     // Initialize numsCleared[0] as zero
@@ -80,7 +84,7 @@ contract Exchange is ExchangeStructs {
   // Init the params struct, which contains the bulk of exchange's parameters
   // Only used in constructor
   function setParams(uint closureFee, uint cancelFee,
-                    uint cleanSize, uint minerShare, uint distBalance,
+                    uint cleanSize, uint minerShare,
                     bytes32 difficulty)
     internal
   {
@@ -88,7 +92,6 @@ contract Exchange is ExchangeStructs {
     params.cancelFee = cancelFee;
     params.cleanSize = cleanSize;
     params.minerShare = minerShare;
-    params.distBalance = distBalance;
     params.difficulty = difficulty;
   }
 
@@ -266,6 +269,7 @@ contract Exchange is ExchangeStructs {
   function distDividends()
     internal
   {
+    lastDist = now;
     return;
   }
 
@@ -275,7 +279,7 @@ contract Exchange is ExchangeStructs {
   {
     openBalance -= (params.closureFee * ethVol) / PRECISION;
     openBalance -= (params.closureFee * ethVol * buyLimit) / (PRECISION * PRECISION);
-    if (this.balance - openBalance >= params.distBalance) {
+    if (lastDist + DISTTIME <= now) {
       distDividends();
     }
   }

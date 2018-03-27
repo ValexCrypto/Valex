@@ -10,8 +10,6 @@ contract ExchangeStructs{
     uint cleanSize;
     // Proportion of fees that miners get (divided by precision)
     uint minerShare;
-    // closedBalance at which we distribute dividends
-    uint distBalance;
     // For nonce-finding
     bytes32 difficulty;
   }
