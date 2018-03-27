@@ -41,7 +41,34 @@ contract ValexToken is Exchange, StandardToken {
     // Threshold to be met for each parameter adjustment
     uint256 public threshold = (initialSupply / 100) * 51;
 
-    // TODO: reset votes when tokens are transferred
+    /**
+    * @dev transfer token for a specified address
+    * @param _to The address to transfer to.
+    * @param _value The amount to be transferred.
+    */
+    function transfer(address _to, uint256 _value) public returns (bool) {
+      BasicToken.transfer(_to, _value);
+      closureFeeFreqs[voteBook[msg.sender].closureFee] -= _value;
+      cancelFeeFreqs[voteBook[msg.sender].cancelFee] -= _value;
+      cleanSizeFreqs[voteBook[msg.sender].cleanSize] -= _value;
+      minerShareFreqs[voteBook[msg.sender].minerShare] -= _value;
+      return true;
+    }
+
+    /**
+     * @dev Transfer tokens from one address to another
+     * @param _from address The address which you want to send tokens from
+     * @param _to address The address which you want to transfer to
+     * @param _value uint256 the amount of tokens to be transferred
+     */
+    function transferFrom(address _from, address _to, uint256 _value) public returns (bool) {
+      StandardToken.transferFrom(_from, _to, _value);
+      closureFeeFreqs[voteBook[_from].closureFee] -= _value;
+      cancelFeeFreqs[voteBook[_from].cancelFee] -= _value;
+      cleanSizeFreqs[voteBook[_from].cleanSize] -= _value;
+      minerShareFreqs[voteBook[_from].minerShare] -= _value;
+      return true;
+    }
 
     /**
      * @dev Constructor that gives msg.sender all of existing tokens.

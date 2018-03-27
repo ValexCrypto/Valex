@@ -264,7 +264,6 @@ contract Exchange is ExchangeStructs {
 
   // ValexToken override distributes dividends when balance is of sufficient size
   // What to do about purity?
-  // TODO: Make dividends distributed by time, not quantity
   // TODO: Add forced dividend distribution
   function distDividends()
     internal
