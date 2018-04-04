@@ -6,6 +6,8 @@ contract ExchangeStructs{
     // closure fee paid up front, refunded - cancel fee if cancelled
     uint closureFee;
     uint cancelFee;
+    mapping (uint => mapping (bool => uint)) closureFees;
+    mapping (uint => mapping (bool => uint)) cancelFees;
     // Size of numsCleared at which we should clean an order book
     uint cleanSize;
     // Proportion of fees that miners get (divided by precision)
