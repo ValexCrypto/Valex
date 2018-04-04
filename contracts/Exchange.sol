@@ -401,7 +401,7 @@ contract Exchange is ExchangeStructs {
     require(minVolume > 0);
     require(volume >= minVolume);
     require(limit > 0);
-    // TODO: NEXT VERSION: Charge according to transaction vol and fixed fees for generic currencies
+    // TODO: NEXT VERSION: Charge according to transaction vol with fixed fees for generic currencies
     // TODO: NEXT VERSION: Instant refunds (prototype code below)
     if (buyETH) {
       require(limit * msg.value >= volume * params.closureFee);
@@ -462,4 +462,6 @@ contract Exchange is ExchangeStructs {
   // Different fees for buy/sell
   // can be done with mapping (uint => mapping (bool => uint))
   // Allows us to use multiple currencies (not just Ether trading pairs)
+
+  // TODO: NEXT VERSION: Add KYC whitelist
 }
