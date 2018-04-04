@@ -459,4 +459,9 @@ contract Exchange is ExchangeStructs {
     cleanChapter(chapter);
     return true;
   }
+
+  // TODO: Fixed fees per unit, rather than using dynamic exchange rate
+  // Different fees for buy/sell
+  // can be done with mapping (uint => mapping (bool => uint))
+  // Allows us to use multiple currencies (not just Ether trading pairs)
 }
