@@ -39,6 +39,9 @@ contract Exchange is ExchangeStructs {
   mapping (uint => bytes32[2][]) public firstAddressBook;
   mapping (uint => bytes32[2][]) public secondAddressBook;
 
+  mapping (uint => mapping (bool => uint)) closureFees;
+  mapping (uint => mapping (bool => uint)) cancelFees;
+
   // Numbers of orders that have been closed are kept here
   uint[] numsCleared;
 
@@ -61,16 +64,17 @@ contract Exchange is ExchangeStructs {
 
   // SECTION: Constructor and helpers
   // Constructor for contract
-  function Exchange(uint closureFee, uint cancelFee,
+  function Exchange(uint closureFeeBuy0, uint closureFeeSell0,
+                    uint cancelFeeBuy0, uint cancelFeeSell0,
                     uint cleanSize, uint minerShare,
                     bytes32 difficulty)
     public
   {
     // Initialize parameters books
-    setParams(closureFee, cancelFee,
-              cleanSize, minerShare, difficulty);
+    setParams(cleanSize, minerShare, difficulty);
     // Initialize order books
-    addChapter(0);
+    addChapter(0, closureFeeBuy0, closureFeeSell0,
+                cancelFeeBuy0, cancelFeeSell0);
     return;
   }
 
@@ -80,7 +84,8 @@ contract Exchange is ExchangeStructs {
   * Pushes "genesis order" to chapter
   * ONLY USE FOR MOST RECENT CHAPTER + 1
   */
-  function addChapter(uint chapter)
+  function addChapter(uint chapter, uint closureFeeBuy, uint closureFeeSell,
+                      uint cancelFeeBuy, uint cancelFeeSell)
     public
     onlyBy(owner)
   {
@@ -94,17 +99,19 @@ contract Exchange is ExchangeStructs {
     secondAddressBook[chapter].push([bytes32(0), bytes32(0)]);
     // Initialize numsCleared[chapter] as zero
     numsCleared.push(0);
+
+    closureFees[chapter][true] = closureFeeBuy;
+    closureFees[chapter][false] = closureFeeSell;
+    cancelFees[chapter][true] = cancelFeeBuy;
+    cancelFees[chapter][false] = cancelFeeSell;
   }
 
   // Init the params struct, which contains the bulk of exchange's parameters
   // Only used in constructor
-  function setParams(uint closureFee, uint cancelFee,
-                    uint cleanSize, uint minerShare,
+  function setParams(uint cleanSize, uint minerShare,
                     bytes32 difficulty)
     internal
   {
-    params.closureFee = closureFee;
-    params.cancelFee = cancelFee;
     params.cleanSize = cleanSize;
     params.minerShare = minerShare;
     params.difficulty = difficulty;
@@ -278,11 +285,11 @@ contract Exchange is ExchangeStructs {
   }
 
   // Move balance from open to closed
-  function clearBalance(uint ethVol, uint buyLimit)
+  function clearBalance(uint chapter, uint ethVol, uint buyLimit)
     private
   {
-    openBalance -= (params.closureFee * ethVol) / PRECISION;
-    openBalance -= (params.closureFee * ethVol * buyLimit) / (PRECISION * PRECISION);
+    openBalance -= (closureFees[chapter][false] * ethVol) / PRECISION;
+    openBalance -= (closureFees[chapter][true] * ethVol * buyLimit) / (PRECISION * PRECISION);
   }
 
   // Clean chapter (called when size reaches size to clean)
@@ -349,11 +356,11 @@ contract Exchange is ExchangeStructs {
   }
 
   // Function to pay the miner what's due
-  function payMiner(address depositAddress, uint ethVol)
+  function payMiner(uint chapter, address depositAddress, uint ethVol)
     private
   {
     // Calculate the miner's payment
-    uint minerPayment = ((params.minerShare * params.closureFee * ethVol) /
+    uint minerPayment = ((params.minerShare * closureFees[chapter][true] * ethVol * 2) /
                           (PRECISION * PRECISION));
     // Pay the miner
     depositAddress.transfer(minerPayment);
@@ -381,8 +388,8 @@ contract Exchange is ExchangeStructs {
       buyIndex = index2;
       sellIndex = index1;
     }
-    payMiner(depositAddress, ethVol);
-    clearBalance(ethVol, limitBook[chapter][buyIndex]);
+    payMiner(chapter, depositAddress, ethVol);
+    clearBalance(ethVol, limitBook[chapter][buyIndex], limitBook[chapter][sellIndex]);
     alertTraders(chapter, index1, index2, mimRate, ethVol);
     clearTrade(chapter, index1, index2, mimRate, ethVol);
     cleanChapter(chapter);
@@ -404,12 +411,12 @@ contract Exchange is ExchangeStructs {
     // TODO: NEXT VERSION: Charge according to transaction vol with fixed fees for generic currencies
     // TODO: NEXT VERSION: Instant refunds (prototype code below)
     if (buyETH) {
-      require(limit * msg.value >= volume * params.closureFee);
-      openBalance += volume * params.closureFee * limit / (PRECISION * PRECISION);
+      require(limit * msg.value >= volume * closureFees[chapter][buyETH]);
+      openBalance += volume * closureFees[chapter][buyETH] * limit / (PRECISION * PRECISION);
       //msg.sender.transfer((limit * msg.value) - (volume * params.closureFee));
     } else{
-      require(msg.value >= volume * params.closureFee / PRECISION);
-      openBalance += volume * params.closureFee / PRECISION;
+      require(msg.value >= volume * closureFees[chapter][buyETH] / PRECISION);
+      openBalance += volume * closureFees[chapter][buyETH] / PRECISION;
       //msg.sender.transfer(msg.value - (volume * params.closureFee / PRECISION));
     }
     require(buyBook[chapter].length > 0);
@@ -436,13 +443,14 @@ contract Exchange is ExchangeStructs {
 
     uint limit = limitBook[chapter][index];
     uint volume = volBook[chapter][index];
+    bool buyETH = buyBook[chapter][index];
 
     // TODO: NEXT VERSION: Refund according to fixed fees for generic currencies
     // Refund according to ether transaction volume
     if (buyBook[chapter][index]) {
-      msg.sender.transfer(volume * (params.closureFee - params.cancelFee) / limit);
+      msg.sender.transfer(volume * (closureFees[chapter][buyETH] - cancelFees[chapter][buyETH]) / limit);
     } else{
-      msg.sender.transfer(volume * (params.closureFee - params.cancelFee) / limit);
+      msg.sender.transfer(volume * (closureFees[chapter][buyETH] - cancelFees[chapter][buyETH]) / limit);
     }
     delete buyBook[chapter][index];
     delete volBook[chapter][index];

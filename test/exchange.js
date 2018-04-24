@@ -1,8 +1,10 @@
 /*
 * Based on these initial values (found in 2_deploy_contracts.js):
 * var difficulty = String("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-* deployer.deploy(Exchange, new web3.BigNumber("5e17"), new web3.BigNumber("5e16"),
-*                 100, 100, difficulty.valueOf());
+* deployer.deploy(Exchange, new web3.BigNumber("5e17"),
+*                new web3.BigNumber("5e17"), new web3.BigNumber("5e16"),
+*                new web3.BigNumber("5e16"),
+*                100, 100, difficulty.valueOf());
 */
 
 var SafeMath = artifacts.require("SafeMath.sol");
@@ -26,11 +28,9 @@ contract("Exchange", function(accounts) {
     let exchange = await Exchange.deployed();
     let params = await exchange.params();
 
-    let closureFee = params[0];
-    let cancelFee = params[1];
-    let cleanSize = params[2];
-    let minerShare = params[3];
-    let difficulty = params[4];
+    let cleanSize = params[0];
+    let minerShare = params[1];
+    let difficulty = params[2];
 
     let expectedClosureFee = new web3.BigNumber("5e17");
     let expectedCancelFee = new web3.BigNumber("5e16");
@@ -38,10 +38,6 @@ contract("Exchange", function(accounts) {
     let expectedMinerShare = new web3.BigNumber("100");
     let expectedDifficulty = "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
 
-    assert.equal(closureFee.toString(10) === expectedClosureFee.toString(10),
-                  true, "closure fee should equal expected closure fee");
-    assert.equal(cancelFee.toString(10) === expectedCancelFee.toString(10),
-                  true, "cancel fee should equal expected cancel fee");
     assert.equal(cleanSize.toString(10) === expectedCleanSize.toString(10),
                   true, "clean size should equal expected clean size");
     assert.equal(minerShare.toString(10) === expectedMinerShare.toString(10),
@@ -157,9 +153,10 @@ contract("Exchange", function(accounts) {
     let orderVal = new web3.BigNumber("1e18");
 
     let params = await exchange.params();
-    let closureFee = params[0];
     let precision = await exchange.PRECISION();
     let orderLimit = new web3.BigNumber("1e18");
+
+    let closureFee = new web3.BigNumber("5e17");
 
     //openBalance += volume * params.closureFee * limit / PRECISION;
     let expectedOpenBalance = orderVal.times(closureFee).times(orderLimit).div(precision.times(precision));
@@ -206,13 +203,13 @@ contract("Exchange", function(accounts) {
     let totalBalance = await web3.eth.getBalance(exchange.address);
 
     let params = await exchange.params();
-    let closureFee = params[0];
-    let minerShare = params[3];
+    let minerShare = params[1];
     let precision = await exchange.PRECISION();
-
 
     let orderPayment = new web3.BigNumber("3e18");
     let orderVal = new web3.BigNumber("1e18");
+
+    let closureFee = new web3.BigNumber("5e17");
 
     //uint minerPayment = ((params.minerShare * params.closureFee * ethVol) /
     //                      (PRECISION * PRECISION));
