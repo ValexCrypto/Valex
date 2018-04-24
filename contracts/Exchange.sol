@@ -408,7 +408,6 @@ contract Exchange is ExchangeStructs {
     require(minVolume > 0);
     require(volume >= minVolume);
     require(limit > 0);
-    // TODO: NEXT VERSION: Charge according to transaction vol with fixed fees for generic currencies
     // TODO: NEXT VERSION: Instant refunds (prototype code below)
     if (buyETH) {
       require(limit * msg.value >= volume * closureFees[chapter][buyETH]);
@@ -445,7 +444,6 @@ contract Exchange is ExchangeStructs {
     uint volume = volBook[chapter][index];
     bool buyETH = buyBook[chapter][index];
 
-    // TODO: NEXT VERSION: Refund according to fixed fees for generic currencies
     // Refund according to ether transaction volume
     if (buyBook[chapter][index]) {
       msg.sender.transfer(volume * (closureFees[chapter][buyETH] - cancelFees[chapter][buyETH]) / limit);
