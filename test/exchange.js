@@ -4,7 +4,8 @@
 * deployer.deploy(Exchange, new web3.BigNumber("5e17"),
 *                new web3.BigNumber("5e17"), new web3.BigNumber("5e16"),
 *                new web3.BigNumber("5e16"),
-*                100, 100, difficulty.valueOf());
+*                100, 100, difficulty.valueOf(),
+*                false, false);
 */
 
 var SafeMath = artifacts.require("SafeMath.sol");

@@ -11,6 +11,7 @@ contract Exchange is ExchangeStructs {
   using SafeMath for uint;
 
   // SECTION: Declaring/initializing variables
+  address public owner = msg.sender;
   uint public PRECISION = 10 ** 18;
 
   // separate out the open balance (includes unclosed fees, gas fees),
@@ -39,19 +40,54 @@ contract Exchange is ExchangeStructs {
   mapping (uint => bytes32[2][]) public firstAddressBook;
   mapping (uint => bytes32[2][]) public secondAddressBook;
 
+  // Fixed fees per unit, rather than using dynamic exchange rate
+  // Different fees for buy/sell
+  // can be done with mapping (uint => mapping (bool => uint))
+  // Allows us to use multiple currencies (not just Ether trading pairs)
+
   mapping (uint => mapping (bool => uint)) closureFees;
   mapping (uint => mapping (bool => uint)) cancelFees;
+
+  // KYC whitelists
+  mapping (address => bool) minerWhitelist;
+  mapping (address => bool) traderWhitelist;
 
   // Numbers of orders that have been closed are kept here
   uint[] numsCleared;
 
-  address public owner = msg.sender;
+  // SECTION: Constructor and helpers
+  // Constructor for contract
+  function Exchange(uint closureFeeBuy0, uint closureFeeSell0,
+                    uint cancelFeeBuy0, uint cancelFeeSell0,
+                    uint cleanSize, uint minerShare,
+                    bytes32 difficulty, bool minerKYC, bool traderKYC)
+    public
+  {
+    // Initialize parameters books
+    setParams(cleanSize, minerShare, difficulty, minerKYC, traderKYC);
+    // Initialize order books
+    addChapter(0, closureFeeBuy0, closureFeeSell0,
+                cancelFeeBuy0, cancelFeeSell0);
+    return;
+  }
 
   // SECTION: Permissions
   // Modified: http://solidity.readthedocs.io/en/v0.3.1/common-patterns.html
   modifier onlyBy(address _account)
   {
     require(msg.sender == _account);
+    _;
+  }
+
+  modifier minerWhitelisted(address _account)
+  {
+    require(minerWhitelist[msg.sender] || ! params.minerKYC);
+    _;
+  }
+
+  modifier traderWhitelisted(address _account)
+  {
+    require(traderWhitelist[msg.sender] || ! params.traderKYC);
     _;
   }
 
@@ -62,20 +98,18 @@ contract Exchange is ExchangeStructs {
     owner = _newOwner;
   }
 
-  // SECTION: Constructor and helpers
-  // Constructor for contract
-  function Exchange(uint closureFeeBuy0, uint closureFeeSell0,
-                    uint cancelFeeBuy0, uint cancelFeeSell0,
-                    uint cleanSize, uint minerShare,
-                    bytes32 difficulty)
+  function addToMinerWhitelist(address newAddress)
     public
+    onlyBy(owner)
   {
-    // Initialize parameters books
-    setParams(cleanSize, minerShare, difficulty);
-    // Initialize order books
-    addChapter(0, closureFeeBuy0, closureFeeSell0,
-                cancelFeeBuy0, cancelFeeSell0);
-    return;
+    minerWhitelist[newAddress] = true;
+  }
+
+  function addToTraderWhitelist(address newAddress)
+    public
+    onlyBy(owner)
+  {
+    traderWhitelist[newAddress] = true;
   }
 
   /*
@@ -109,12 +143,14 @@ contract Exchange is ExchangeStructs {
   // Init the params struct, which contains the bulk of exchange's parameters
   // Only used in constructor
   function setParams(uint cleanSize, uint minerShare,
-                    bytes32 difficulty)
+                    bytes32 difficulty, bool minerKYC, bool traderKYC)
     internal
   {
     params.cleanSize = cleanSize;
     params.minerShare = minerShare;
     params.difficulty = difficulty;
+    params.minerKYC = minerKYC;
+    params.traderKYC = traderKYC;
   }
 
   // SECTION: Getters
@@ -184,7 +220,7 @@ contract Exchange is ExchangeStructs {
   function calcRateAndVol(uint chapter, uint index1, uint index2)
     public
     view
-    returns (uint mimRate, uint ethVol)
+    returns (uint mimRate, uint alphaVol)
   {
     // check edge cases
     if (! checkMatchEdges(chapter, index1, index2)) {
@@ -233,7 +269,7 @@ contract Exchange is ExchangeStructs {
 
   // Clears closed trade, reenters into order book if incomplete
   function clearTrade(uint chapter, uint index1, uint index2,
-                      uint mimRate, uint ethVol)
+                      uint mimRate, uint alphaVol)
     private
   {
     // which order is buying and selling ETH?
@@ -247,29 +283,29 @@ contract Exchange is ExchangeStructs {
       buyIndex = index2;
       sellIndex = index1;
     }
-    if (volBook[chapter][buyIndex] == ethVol) {
+    if (volBook[chapter][buyIndex] == alphaVol) {
       numsCleared[chapter] += 1;
     }
-    if (minVolBook[chapter][buyIndex] < ethVol) {
+    if (minVolBook[chapter][buyIndex] < alphaVol) {
       minVolBook[chapter][buyIndex] = 0;
     } else{
-      minVolBook[chapter][buyIndex] -= ethVol;
+      minVolBook[chapter][buyIndex] -= alphaVol;
     }
-    volBook[chapter][buyIndex] -= ethVol;
-    if (volBook[chapter][sellIndex] == (ethVol * mimRate / PRECISION)) {
+    volBook[chapter][buyIndex] -= alphaVol;
+    if (volBook[chapter][sellIndex] == (alphaVol * mimRate / PRECISION)) {
       numsCleared[chapter] += 1;
     }
-    if (minVolBook[chapter][sellIndex] < (ethVol * mimRate / PRECISION)) {
+    if (minVolBook[chapter][sellIndex] < (alphaVol * mimRate / PRECISION)) {
       minVolBook[chapter][sellIndex] = 0;
     } else{
-      minVolBook[chapter][sellIndex] -= (ethVol * mimRate / PRECISION);
+      minVolBook[chapter][sellIndex] -= (alphaVol * mimRate / PRECISION);
     }
-    volBook[chapter][sellIndex] -= ethVol * mimRate / PRECISION;
+    volBook[chapter][sellIndex] -= alphaVol * mimRate / PRECISION;
   }
 
   // Adds trade to log, for traders to note
   // http://solidity.readthedocs.io/en/latest/contracts.html?highlight=events#events
-  function alertTraders(uint chapter, uint index1, uint index2, uint mimRate, uint ethVol)
+  function alertTraders(uint chapter, uint index1, uint index2, uint mimRate, uint alphaVol)
     private
   {
     TradeInfo(
@@ -280,16 +316,16 @@ contract Exchange is ExchangeStructs {
       secondAddressBook[chapter][index1], //otherAddress1,
       secondAddressBook[chapter][index2], // otherAddress2,
       mimRate,
-      ethVol
+      alphaVol
       );
   }
 
   // Move balance from open to closed
-  function clearBalance(uint chapter, uint ethVol, uint buyLimit)
+  function clearBalance(uint chapter, uint alphaVol, uint buyLimit)
     private
   {
-    openBalance -= (closureFees[chapter][false] * ethVol) / PRECISION;
-    openBalance -= (closureFees[chapter][true] * ethVol * buyLimit) / (PRECISION * PRECISION);
+    openBalance -= (closureFees[chapter][false] * alphaVol) / PRECISION;
+    openBalance -= (closureFees[chapter][true] * alphaVol * buyLimit) / (PRECISION * PRECISION);
   }
 
   // Clean chapter (called when size reaches size to clean)
@@ -356,11 +392,11 @@ contract Exchange is ExchangeStructs {
   }
 
   // Function to pay the miner what's due
-  function payMiner(uint chapter, address depositAddress, uint ethVol)
+  function payMiner(uint chapter, address depositAddress, uint alphaVol)
     private
   {
     // Calculate the miner's payment
-    uint minerPayment = ((params.minerShare * closureFees[chapter][true] * ethVol * 2) /
+    uint minerPayment = ((params.minerShare * closureFees[chapter][true] * alphaVol) /
                           (PRECISION * PRECISION));
     // Pay the miner
     depositAddress.transfer(minerPayment);
@@ -371,12 +407,13 @@ contract Exchange is ExchangeStructs {
   function giveMatch(address depositAddress, uint chapter,
                     uint index1, uint index2, uint nonce)
     public
+    minerWhitelisted(msg.sender)
     returns(bool isValid)
   {
     // Validate nonce
     require(isValidPOW(depositAddress, chapter, index1, index2, nonce));
-    var (mimRate, ethVol) = calcRateAndVol(chapter, index1, index2);
-    require(ethVol > 0);
+    var (mimRate, alphaVol) = calcRateAndVol(chapter, index1, index2);
+    require(alphaVol > 0);
     // which order is buying and selling ETH?
     // buy-sell copy1
     uint buyIndex;
@@ -388,10 +425,10 @@ contract Exchange is ExchangeStructs {
       buyIndex = index2;
       sellIndex = index1;
     }
-    payMiner(chapter, depositAddress, ethVol);
-    clearBalance(ethVol, limitBook[chapter][buyIndex], limitBook[chapter][sellIndex]);
-    alertTraders(chapter, index1, index2, mimRate, ethVol);
-    clearTrade(chapter, index1, index2, mimRate, ethVol);
+    payMiner(chapter, depositAddress, alphaVol);
+    clearBalance(alphaVol, limitBook[chapter][buyIndex], limitBook[chapter][sellIndex]);
+    alertTraders(chapter, index1, index2, mimRate, alphaVol);
+    clearTrade(chapter, index1, index2, mimRate, alphaVol);
     cleanChapter(chapter);
     return true;
   }
@@ -402,6 +439,7 @@ contract Exchange is ExchangeStructs {
                       bytes32[2] otherAddress, uint chapter)
     public
     payable
+    traderWhitelisted(msg.sender)
     returns(bool accepted)
   {
     require(volume > 0);
@@ -444,7 +482,7 @@ contract Exchange is ExchangeStructs {
     uint volume = volBook[chapter][index];
     bool buyETH = buyBook[chapter][index];
 
-    // Refund according to ether transaction volume
+    // Refund according to alpha transaction volume
     if (buyBook[chapter][index]) {
       msg.sender.transfer(volume * (closureFees[chapter][buyETH] - cancelFees[chapter][buyETH]) / limit);
     } else{
@@ -463,11 +501,4 @@ contract Exchange is ExchangeStructs {
     cleanChapter(chapter);
     return true;
   }
-
-  // TODO: Fixed fees per unit, rather than using dynamic exchange rate
-  // Different fees for buy/sell
-  // can be done with mapping (uint => mapping (bool => uint))
-  // Allows us to use multiple currencies (not just Ether trading pairs)
-
-  // TODO: NEXT VERSION: Add KYC whitelist
 }

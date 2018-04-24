@@ -10,6 +10,6 @@ module.exports = function(deployer) {
   deployer.link(ExchangeStructs, Exchange);
   deployer.deploy(Exchange, new web3.BigNumber("5e17"),
                   new web3.BigNumber("5e17"), new web3.BigNumber("5e16"),
-                  new web3.BigNumber("5e16"),
-                  100, 100, difficulty.valueOf());
+                  new web3.BigNumber("5e16"), 100, 100, difficulty.valueOf(),
+                  false, false);
 };

@@ -9,6 +9,8 @@ contract ExchangeStructs{
     uint minerShare;
     // For nonce-finding
     bytes32 difficulty;
+    bool traderKYC;
+    bool minerKYC;
   }
 
   // stores order info (public information)
