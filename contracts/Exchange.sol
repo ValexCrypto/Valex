@@ -433,8 +433,21 @@ contract Exchange is ExchangeStructs {
     return true;
   }
 
+  // TODO: place market taker orders: choose an index and match with it
+  function placeTakeOrder(bool buyAlpha, uint volume, uint minVolume,
+                          uint limit, address ethAddress,
+                          bytes32[2] firstAddress, bytes32[2] otherAddress,
+                          uint chapter, uint makeIndex)
+    public
+    payable
+    traderWhitelisted(msg.sender)
+    returns(bool accepted)
+  {
+    return true;
+  }
+
   // Allows traders to place orders
-  function placeOrder(bool buyETH, uint volume, uint minVolume, uint limit,
+  function placeOrder(bool buyAlpha, uint volume, uint minVolume, uint limit,
                       address ethAddress, bytes32[2] firstAddress,
                       bytes32[2] otherAddress, uint chapter)
     public
@@ -447,18 +460,18 @@ contract Exchange is ExchangeStructs {
     require(volume >= minVolume);
     require(limit > 0);
     // TODO: NEXT VERSION: Instant refunds (prototype code below)
-    if (buyETH) {
-      require(limit * msg.value >= volume * closureFees[chapter][buyETH]);
-      openBalance += volume * closureFees[chapter][buyETH] * limit / (PRECISION * PRECISION);
+    if (buyAlpha) {
+      require(limit * msg.value >= volume * closureFees[chapter][buyAlpha]);
+      openBalance += volume * closureFees[chapter][buyAlpha] * limit / (PRECISION * PRECISION);
       //msg.sender.transfer((limit * msg.value) - (volume * params.closureFee));
     } else{
-      require(msg.value >= volume * closureFees[chapter][buyETH] / PRECISION);
-      openBalance += volume * closureFees[chapter][buyETH] / PRECISION;
+      require(msg.value >= volume * closureFees[chapter][buyAlpha] / PRECISION);
+      openBalance += volume * closureFees[chapter][buyAlpha] / PRECISION;
       //msg.sender.transfer(msg.value - (volume * params.closureFee / PRECISION));
     }
     require(buyBook[chapter].length > 0);
 
-    buyBook[chapter].push(buyETH);
+    buyBook[chapter].push(buyAlpha);
     volBook[chapter].push(volume);
     minVolBook[chapter].push(minVolume);
     limitBook[chapter].push(limit);
@@ -480,13 +493,13 @@ contract Exchange is ExchangeStructs {
 
     uint limit = limitBook[chapter][index];
     uint volume = volBook[chapter][index];
-    bool buyETH = buyBook[chapter][index];
+    bool buyAlpha = buyBook[chapter][index];
 
     // Refund according to alpha transaction volume
     if (buyBook[chapter][index]) {
-      msg.sender.transfer(volume * (closureFees[chapter][buyETH] - cancelFees[chapter][buyETH]) / limit);
+      msg.sender.transfer(volume * (closureFees[chapter][buyAlpha] - cancelFees[chapter][buyAlpha]) / limit);
     } else{
-      msg.sender.transfer(volume * (closureFees[chapter][buyETH] - cancelFees[chapter][buyETH]) / limit);
+      msg.sender.transfer(volume * (closureFees[chapter][buyAlpha] - cancelFees[chapter][buyAlpha]) / limit);
     }
     delete buyBook[chapter][index];
     delete volBook[chapter][index];
