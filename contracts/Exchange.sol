@@ -283,24 +283,35 @@ contract Exchange is ExchangeStructs {
       buyIndex = index2;
       sellIndex = index1;
     }
-    if (volBook[chapter][buyIndex] == alphaVol) {
-      numsCleared[chapter] += 1;
-    }
-    if (minVolBook[chapter][buyIndex] < alphaVol) {
-      minVolBook[chapter][buyIndex] = 0;
+    clearOrder(chapter, buyIndex, mimRate, alphaVol, true);
+    clearOrder(chapter, sellIndex, mimRate, alphaVol, false);
+  }
+
+  function clearOrder(uint chapter, uint index,
+                      uint mimRate, uint alphaVol, bool buyAlpha)
+    private
+  {
+    if (buyAlpha) {
+      if (volBook[chapter][index] == alphaVol) {
+        numsCleared[chapter] += 1;
+      }
+      if (minVolBook[chapter][index] < alphaVol) {
+        minVolBook[chapter][index] = 0;
+      } else{
+        minVolBook[chapter][index] -= alphaVol;
+      }
+      volBook[chapter][index] -= alphaVol;
     } else{
-      minVolBook[chapter][buyIndex] -= alphaVol;
+      if (volBook[chapter][index] == (alphaVol * mimRate / PRECISION)) {
+        numsCleared[chapter] += 1;
+      }
+      if (minVolBook[chapter][index] < (alphaVol * mimRate / PRECISION)) {
+        minVolBook[chapter][index] = 0;
+      } else{
+        minVolBook[chapter][index] -= (alphaVol * mimRate / PRECISION);
+      }
+      volBook[chapter][index] -= alphaVol * mimRate / PRECISION;
     }
-    volBook[chapter][buyIndex] -= alphaVol;
-    if (volBook[chapter][sellIndex] == (alphaVol * mimRate / PRECISION)) {
-      numsCleared[chapter] += 1;
-    }
-    if (minVolBook[chapter][sellIndex] < (alphaVol * mimRate / PRECISION)) {
-      minVolBook[chapter][sellIndex] = 0;
-    } else{
-      minVolBook[chapter][sellIndex] -= (alphaVol * mimRate / PRECISION);
-    }
-    volBook[chapter][sellIndex] -= alphaVol * mimRate / PRECISION;
   }
 
   // Adds trade to log, for traders to note
@@ -317,7 +328,7 @@ contract Exchange is ExchangeStructs {
       secondAddressBook[chapter][index2], // otherAddress2,
       mimRate,
       alphaVol
-      );
+    );
   }
 
   // Move balance from open to closed
@@ -426,27 +437,89 @@ contract Exchange is ExchangeStructs {
       sellIndex = index1;
     }
     payMiner(chapter, depositAddress, alphaVol);
-    clearBalance(alphaVol, limitBook[chapter][buyIndex], limitBook[chapter][sellIndex]);
-    alertTraders(chapter, index1, index2, mimRate, alphaVol);
+    clearBalance(chapter, alphaVol, limitBook[chapter][buyIndex]);
+    alertTraders(chapter, buyIndex, sellIndex, mimRate, alphaVol);
     clearTrade(chapter, index1, index2, mimRate, alphaVol);
     cleanChapter(chapter);
     return true;
   }
 
-  // TODO: place market taker orders: choose an index and match with it
-  function placeTakeOrder(bool buyAlpha, uint volume, uint minVolume,
-                          uint limit, address ethAddress,
-                          bytes32[2] firstAddress, bytes32[2] otherAddress,
-                          uint chapter, uint makeIndex)
+  function paidEnough(bool buyAlpha, uint value, uint volume, uint limit, uint chapter)
+    private
+    returns(bool accepted)
+  {
+    // TODO: NEXT VERSION: Instant refunds (prototype code below)
+    if (buyAlpha) {
+      require(limit * msg.value >= volume * closureFees[chapter][buyAlpha]);
+      openBalance += volume * closureFees[chapter][buyAlpha] * limit / (PRECISION * PRECISION);
+      //msg.sender.transfer((limit * msg.value) - (volume * params.closureFee));
+    } else{
+      require(msg.value >= volume * closureFees[chapter][buyAlpha] / PRECISION);
+      openBalance += volume * closureFees[chapter][buyAlpha] / PRECISION;
+      //msg.sender.transfer(msg.value - (volume * params.closureFee / PRECISION));
+    }
+    return true;
+  }
+
+  // Place market taker orders: choose an index and match with it
+  function placeTakeOrder(bool buyAlpha, uint volume,
+                          address ethAddress, bytes32[2] firstAddress,
+                          bytes32[2] otherAddress,
+                          uint chapter, uint index1, uint nonce)
     public
     payable
     traderWhitelisted(msg.sender)
     returns(bool accepted)
   {
+    require(index1 < buyBook[chapter].length);
+    //One buy order and one sell order
+    require(buyAlpha != buyBook[chapter][index1]);
+    //Non-empty order
+    require(volBook[chapter][index1] != 0);
+    require(volume > 0);
+    require(isValidPOW(ethAddress, chapter, 0, index1, nonce));
+    require(paidEnough(buyAlpha, msg.value, volume, limitBook[chapter][index1], chapter));
+
+    uint alphaVol;
+    if (buyAlpha) {
+      require(volume >= minVolBook[chapter][index1] *
+              limitBook[chapter][index1] /  PRECISION);
+      require(volume <= volBook[chapter][index1] *
+              limitBook[chapter][index1] / PRECISION);
+      alphaVol = volume;
+      TradeInfo(
+        ethAddress, //ethAddress1,
+        ethAddressBook[chapter][index1], //ethAddress2,
+        firstAddress, //firstAddress1,
+        firstAddressBook[chapter][index1], //firstAddress2,
+        otherAddress, //otherAddress1,
+        secondAddressBook[chapter][index1], // otherAddress2,
+        limitBook[chapter][index1],
+        alphaVol
+      );
+    } else {
+      alphaVol = volume * limitBook[chapter][index1] /  PRECISION;
+      require(alphaVol >= minVolBook[chapter][index1]);
+      require(alphaVol <= volBook[chapter][index1]);
+      TradeInfo(
+        ethAddressBook[chapter][index1], //ethAddress1,
+        ethAddress, //ethAddress2,
+        firstAddressBook[chapter][index1], //firstAddress1,
+        firstAddress, //firstAddress2,
+        secondAddressBook[chapter][index1], //otherAddress1,
+        otherAddress, // otherAddress2,
+        limitBook[chapter][index1],
+        alphaVol
+      );
+    }
+
+    clearBalance(alphaVol, limitBook[chapter][index1], limitBook[chapter][index1]);
+    clearOrder(chapter, index1, limitBook[chapter][index1], alphaVol, ! buyAlpha);
+    cleanChapter(chapter);
     return true;
   }
 
-  // Allows traders to place orders
+  // Allows traders to place (limit) orders
   function placeOrder(bool buyAlpha, uint volume, uint minVolume, uint limit,
                       address ethAddress, bytes32[2] firstAddress,
                       bytes32[2] otherAddress, uint chapter)
@@ -459,16 +532,7 @@ contract Exchange is ExchangeStructs {
     require(minVolume > 0);
     require(volume >= minVolume);
     require(limit > 0);
-    // TODO: NEXT VERSION: Instant refunds (prototype code below)
-    if (buyAlpha) {
-      require(limit * msg.value >= volume * closureFees[chapter][buyAlpha]);
-      openBalance += volume * closureFees[chapter][buyAlpha] * limit / (PRECISION * PRECISION);
-      //msg.sender.transfer((limit * msg.value) - (volume * params.closureFee));
-    } else{
-      require(msg.value >= volume * closureFees[chapter][buyAlpha] / PRECISION);
-      openBalance += volume * closureFees[chapter][buyAlpha] / PRECISION;
-      //msg.sender.transfer(msg.value - (volume * params.closureFee / PRECISION));
-    }
+    require(paidEnough(buyAlpha, msg.value, volume, limit, chapter));
     require(buyBook[chapter].length > 0);
 
     buyBook[chapter].push(buyAlpha);
