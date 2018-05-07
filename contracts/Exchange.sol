@@ -444,19 +444,20 @@ contract Exchange is ExchangeStructs {
     return true;
   }
 
+  // Checks whether user has paid enough with the order that was placed
   function paidEnough(bool buyAlpha, uint value, uint volume, uint limit, uint chapter)
     private
     returns(bool accepted)
   {
-    // TODO: NEXT VERSION: Instant refunds (prototype code below)
     if (buyAlpha) {
-      require(limit * msg.value >= volume * closureFees[chapter][buyAlpha]);
+      require(limit * value >= volume * closureFees[chapter][buyAlpha]);
       openBalance += volume * closureFees[chapter][buyAlpha] * limit / (PRECISION * PRECISION);
-      //msg.sender.transfer((limit * msg.value) - (volume * params.closureFee));
+      msg.sender.transfer(value - (volume * closureFees[chapter][buyAlpha] *
+                          limit / (PRECISION * PRECISION)));
     } else{
-      require(msg.value >= volume * closureFees[chapter][buyAlpha] / PRECISION);
+      require(value >= volume * closureFees[chapter][buyAlpha] / PRECISION);
       openBalance += volume * closureFees[chapter][buyAlpha] / PRECISION;
-      //msg.sender.transfer(msg.value - (volume * params.closureFee / PRECISION));
+      msg.sender.transfer(value - (volume * closureFees[chapter][buyAlpha] / PRECISION));
     }
     return true;
   }
