@@ -79,13 +79,9 @@ contract("Exchange", function(accounts) {
 
     assert.equal(web3.toDecimal(ethAddressChapter0[0]) == 0,
                   true, "address chapter 0 should contain genesis order ETH address");
-    assert.equal(web3.toDecimal(firstAddressChapter0[0][0]) == 0,
+    assert.equal(web3.toDecimal(firstAddressChapter0[0]) == 0,
                   true, "address chapter 0 should contain genesis order first address");
-    assert.equal(web3.toDecimal(firstAddressChapter0[0][1]) == 0,
-                  true, "address chapter 0 should contain genesis order first address");
-    assert.equal(web3.toDecimal(secondAddressChapter0[0][0]) == 0,
-                  true, "address chapter 0 should contain genesis order second address");
-    assert.equal(web3.toDecimal(secondAddressChapter0[0][1]) == 0,
+    assert.equal(web3.toDecimal(secondAddressChapter0[0]) == 0,
                   true, "address chapter 0 should contain genesis order second address");
   });
 
@@ -96,10 +92,8 @@ contract("Exchange", function(accounts) {
     // Orders need to be padded.
     let postOrder = await exchange.placeOrder(true, "1e18", "9e17",
                                               "1e18", 11,
-                                              ["0x" + "0".repeat(61) + "100",
-                                                "0x" + "0".repeat(62) + "30"],
-                                              ["0x" + "0".repeat(61) + "100",
-                                                "0x" + "0".repeat(62) + "50"], 0,
+                                              "0x" + "0".repeat(61) + "100",
+                                              "0x" + "0".repeat(61) + "100", 0,
                                               {value: "3e18", from: accounts[0]});
 
     let ethAddressChapter0 = await exchange.getETHAddressChapter(0);
@@ -120,25 +114,17 @@ contract("Exchange", function(accounts) {
     // Run previous tests to make sure genesis order wasn't messed up
     assert.equal(web3.toDecimal(ethAddressChapter0[0]) == 0,
                   true, "address chapter 0 should contain genesis order ETH address");
-    assert.equal(web3.toDecimal(firstAddressChapter0[0][0]) == 0,
+    assert.equal(web3.toDecimal(firstAddressChapter0[0]) == 0,
                   true, "address chapter 0 should contain genesis order first address");
-    assert.equal(web3.toDecimal(firstAddressChapter0[0][1]) == 0,
-                  true, "address chapter 0 should contain genesis order first address");
-    assert.equal(web3.toDecimal(secondAddressChapter0[0][0]) == 0,
-                  true, "address chapter 0 should contain genesis order second address");
-    assert.equal(web3.toDecimal(secondAddressChapter0[0][1]) == 0,
+    assert.equal(web3.toDecimal(secondAddressChapter0[0]) == 0,
                   true, "address chapter 0 should contain genesis order second address");
 
     // All address information on new order correct?
     assert.equal(web3.toDecimal(ethAddressChapter0[1]) == 11,
                   true, "address chapter 0 should contain new order ETH address");
-    assert.equal(firstAddressChapter0[1][0] === "0x" + "0".repeat(61) + "100",
+    assert.equal(firstAddressChapter0[1] === "0x" + "0".repeat(61) + "100",
                   true, "address chapter 0 should contain new order first address");
-    assert.equal(firstAddressChapter0[1][1] == "0x" + "0".repeat(62) + "30",
-                  true, "address chapter 0 should contain new order first address");
-    assert.equal(secondAddressChapter0[1][0] === "0x" + "0".repeat(61) + "100",
-                  true, "address chapter 0 should contain new order second address");
-    assert.equal(secondAddressChapter0[1][1] == "0x" + "0".repeat(62) + "50",
+    assert.equal(secondAddressChapter0[1] === "0x" + "0".repeat(61) + "100",
                   true, "address chapter 0 should contain new order second address");
   });
 
@@ -174,10 +160,8 @@ contract("Exchange", function(accounts) {
     // Orders need to be padded.
     let postOrder = await exchange.placeOrder(false, "1e18", "9e17",
                                               "1e18", 11,
-                                              ["0x" + "0".repeat(61) + "100",
-                                                "0x" + "0".repeat(62) + "30"],
-                                              ["0x" + "0".repeat(61) + "100",
-                                                "0x" + "0".repeat(62) + "50"], 0,
+                                              "0x" + "0".repeat(61) + "100",
+                                              "0x" + "0".repeat(61) + "100", 0,
                                               {value: "3e18", from: accounts[0]});
 
     let postMatch = await exchange.giveMatch(accounts[1], 0, 1, 2, 0);

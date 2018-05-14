@@ -37,8 +37,8 @@ contract Exchange is ExchangeStructs {
   mapping (uint => uint[]) public limitBook;
 
   mapping (uint => address[]) public ethAddressBook;
-  mapping (uint => bytes32[2][]) public firstAddressBook;
-  mapping (uint => bytes32[2][]) public secondAddressBook;
+  mapping (uint => bytes32[]) public firstAddressBook;
+  mapping (uint => bytes32[]) public secondAddressBook;
 
   // Fixed fees per unit, rather than using dynamic exchange rate
   // Different fees for buy/sell
@@ -129,8 +129,8 @@ contract Exchange is ExchangeStructs {
     limitBook[chapter].push(0);
 
     ethAddressBook[chapter].push(address(0));
-    firstAddressBook[chapter].push([bytes32(0), bytes32(0)]);
-    secondAddressBook[chapter].push([bytes32(0), bytes32(0)]);
+    firstAddressBook[chapter].push(bytes32(0));
+    secondAddressBook[chapter].push(bytes32(0));
     // Initialize numsCleared[chapter] as zero
     numsCleared.push(0);
 
@@ -183,7 +183,7 @@ contract Exchange is ExchangeStructs {
   function getFirstAddressChapter(uint chapter)
     external
     view
-    returns(bytes32[2][] firstAddressChapter)
+    returns(bytes32[] firstAddressChapter)
   {
     return(firstAddressBook[chapter]);
   }
@@ -192,7 +192,7 @@ contract Exchange is ExchangeStructs {
   function getSecondAddressChapter(uint chapter)
     external
     view
-    returns(bytes32[2][] secondAddressChapter)
+    returns(bytes32[] secondAddressChapter)
   {
     return(secondAddressBook[chapter]);
   }
@@ -464,8 +464,8 @@ contract Exchange is ExchangeStructs {
 
   // Place market taker orders: choose an index and match with it
   function placeTakeOrder(bool buyAlpha, uint volume,
-                          address ethAddress, bytes32[2] firstAddress,
-                          bytes32[2] otherAddress,
+                          address ethAddress, bytes32 firstAddress,
+                          bytes32 otherAddress,
                           uint chapter, uint index1, uint nonce)
     public
     payable
@@ -522,8 +522,8 @@ contract Exchange is ExchangeStructs {
 
   // Allows traders to place (limit) orders
   function placeOrder(bool buyAlpha, uint volume, uint minVolume, uint limit,
-                      address ethAddress, bytes32[2] firstAddress,
-                      bytes32[2] otherAddress, uint chapter)
+                      address ethAddress, bytes32 firstAddress,
+                      bytes32 otherAddress, uint chapter)
     public
     payable
     traderWhitelisted(msg.sender)
