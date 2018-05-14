@@ -1,5 +1,8 @@
+from test_hash import minerHash
 
 #testing nterface for miners
+
+TEST_DIFFICULTY = 2 ** 254
 
 from enum import Enum
 class TradingPair(Enum):
@@ -33,16 +36,26 @@ def giveMatch(deposit_address, trading_pair, buy_index, sell_index, nonce):
     global order_book
     if(buy_index == sell_index):
         print("Buy and sell index the same")
+        return
     if(buy_index < 0 or 6 < buy_index):
         print("Buy index out of bounds")
+        return
     if(sell_index < 0 or 6 < sell_index):
         print("Buy index out of bounds")
+        return
     if(not order_book[buy_index][0]):
         print("Buy index not a buy")
+        return
     if(order_book[sell_index][0]):
         print("Sell index not a sell")
+        return
     if(order_book[sell_index][3] > order_book[buy_index][3]):
         print("Orders not compatable")
+        return
+    if(minerHash(deposit_address, trading_pair, buy_index, sell_index, nonce) < TEST_DIFFICULTY):
+        print("Nonce does not meet difficulty")
+        return
+
     print("Order made")
     if(order_book[sell_index][1] == order_book[buy_index][1]):
         print("order amount " + str(order_book[sell_index][1]))
