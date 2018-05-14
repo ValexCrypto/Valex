@@ -1,19 +1,4 @@
-### Miner API for local use
-from enum import Enum
-from web3 import Web3, HTTPProvider, TestRPCProvider
-
-w3 =  Web3(Web3.HTTPProvider("http://127.0.0.1:8545"))
-
-class TradingPair(Enum):
-    NONE = 0
-    ETH_BTC = 1
-
-# exchangeAddress is the address of the exchange
-def connectToExchange(exchangeAddress):
-    # Connects to exchange contract
-    return
-
-
+### Interface for miners
 # trading_pair is the TradingPair to get the order book of
 def getOrderBook(trading_pair):
     # returns a list (ordered by time)

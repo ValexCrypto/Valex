@@ -1,8 +1,8 @@
-# Valex Miner API
+# Valex API
 
 ## Dependencies
 
-At this time, the only dependency is web3.py (https://github.com/ethereum/web3.py. web3.py only works on Python 3.
+At this time, the only dependency is web3.py (https://github.com/ethereum/web3.py. web3.py only works with Python 3.
 
 ## Setup
 
