@@ -19,6 +19,7 @@ ORD_LIMIT = 3
 def findNonce(addr, pair, buyInd, sellInd):
     for i in range(MAX_NONCE):
         if(minerHash(addr, pair, buyInd, sellInd, i) < DIFFICULTY):
+            print("nonce found, i, difficulty: " + str(DIFFICULTY))
             return i
 
 

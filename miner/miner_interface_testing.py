@@ -52,7 +52,7 @@ def giveMatch(deposit_address, trading_pair, buy_index, sell_index, nonce):
     if(order_book[sell_index][3] > order_book[buy_index][3]):
         print("Orders not compatable")
         return
-    if(minerHash(deposit_address, trading_pair, buy_index, sell_index, nonce) < TEST_DIFFICULTY):
+    if(minerHash(deposit_address, trading_pair, buy_index, sell_index, nonce) > TEST_DIFFICULTY):
         print("Nonce does not meet difficulty")
         return
 
