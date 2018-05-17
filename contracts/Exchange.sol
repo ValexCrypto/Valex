@@ -2,6 +2,7 @@ pragma solidity ^0.4.18;
 
 import 'zeppelin-solidity/contracts/math/SafeMath.sol';
 import './ExchangeStructs.sol';
+import './Broadcast.sol';
 /// @title Exchange
 /// @author Karim Helmy
 
@@ -319,6 +320,8 @@ contract Exchange is ExchangeStructs {
   function alertTraders(uint chapter, uint index1, uint index2, uint mimRate, uint alphaVol)
     private
   {
+    address broadcastAddress = new Broadcast(ethAddressBook[chapter][index1],
+                                              ethAddressBook[chapter][index2]);
     TradeInfo(
       ethAddressBook[chapter][index1], //ethAddress1,
       ethAddressBook[chapter][index2], //ethAddress2,
@@ -327,7 +330,8 @@ contract Exchange is ExchangeStructs {
       secondAddressBook[chapter][index1], //otherAddress1,
       secondAddressBook[chapter][index2], // otherAddress2,
       mimRate,
-      alphaVol
+      alphaVol,
+      broadcastAddress
     );
   }
 
@@ -462,6 +466,56 @@ contract Exchange is ExchangeStructs {
     return true;
   }
 
+  function placeTakeBuy(uint volume, address ethAddress, bytes32 firstAddress,
+                        bytes32 otherAddress, uint chapter, uint index1)
+    internal
+    returns(uint alphaVol)
+  {
+    require(volume >= minVolBook[chapter][index1] *
+            limitBook[chapter][index1] /  PRECISION);
+    require(volume <= volBook[chapter][index1] *
+            limitBook[chapter][index1] / PRECISION);
+    alphaVol = volume;
+    address broadcastAddress = new Broadcast(ethAddress,
+                                              ethAddressBook[chapter][index1]);
+    TradeInfo(
+      ethAddress, //ethAddress1,
+      ethAddressBook[chapter][index1], //ethAddress2,
+      firstAddress, //firstAddress1,
+      firstAddressBook[chapter][index1], //firstAddress2,
+      otherAddress, //otherAddress1,
+      secondAddressBook[chapter][index1], // otherAddress2,
+      limitBook[chapter][index1],
+      alphaVol,
+      broadcastAddress
+    );
+    return(alphaVol);
+  }
+
+  function placeTakeSell(uint volume, address ethAddress, bytes32 firstAddress,
+                          bytes32 otherAddress, uint chapter, uint index1)
+    internal
+    returns(uint alphaVol)
+  {
+    alphaVol = volume * limitBook[chapter][index1] /  PRECISION;
+    require(alphaVol >= minVolBook[chapter][index1]);
+    require(alphaVol <= volBook[chapter][index1]);
+    address broadcastAddress = new Broadcast(ethAddressBook[chapter][index1],
+                                              ethAddress);
+    TradeInfo(
+      ethAddressBook[chapter][index1], //ethAddress1,
+      ethAddress, //ethAddress2,
+      firstAddressBook[chapter][index1], //firstAddress1,
+      firstAddress, //firstAddress2,
+      secondAddressBook[chapter][index1], //otherAddress1,
+      otherAddress, // otherAddress2,
+      limitBook[chapter][index1],
+      alphaVol,
+      broadcastAddress
+    );
+    return(alphaVol);
+  }
+
   // Place market taker orders: choose an index and match with it
   function placeTakeOrder(bool buyAlpha, uint volume,
                           address ethAddress, bytes32 firstAddress,
@@ -480,38 +534,13 @@ contract Exchange is ExchangeStructs {
     require(volume > 0);
     require(isValidPOW(ethAddress, chapter, 0, index1, nonce));
     require(paidEnough(buyAlpha, msg.value, volume, limitBook[chapter][index1], chapter));
-
     uint alphaVol;
     if (buyAlpha) {
-      require(volume >= minVolBook[chapter][index1] *
-              limitBook[chapter][index1] /  PRECISION);
-      require(volume <= volBook[chapter][index1] *
-              limitBook[chapter][index1] / PRECISION);
-      alphaVol = volume;
-      TradeInfo(
-        ethAddress, //ethAddress1,
-        ethAddressBook[chapter][index1], //ethAddress2,
-        firstAddress, //firstAddress1,
-        firstAddressBook[chapter][index1], //firstAddress2,
-        otherAddress, //otherAddress1,
-        secondAddressBook[chapter][index1], // otherAddress2,
-        limitBook[chapter][index1],
-        alphaVol
-      );
+      alphaVol = placeTakeBuy(volume, ethAddress, firstAddress,
+                              otherAddress, chapter, index1);
     } else {
-      alphaVol = volume * limitBook[chapter][index1] /  PRECISION;
-      require(alphaVol >= minVolBook[chapter][index1]);
-      require(alphaVol <= volBook[chapter][index1]);
-      TradeInfo(
-        ethAddressBook[chapter][index1], //ethAddress1,
-        ethAddress, //ethAddress2,
-        firstAddressBook[chapter][index1], //firstAddress1,
-        firstAddress, //firstAddress2,
-        secondAddressBook[chapter][index1], //otherAddress1,
-        otherAddress, // otherAddress2,
-        limitBook[chapter][index1],
-        alphaVol
-      );
+      alphaVol = placeTakeSell(volume, ethAddress, firstAddress,
+                                otherAddress, chapter, index1);
     }
 
     clearBalance(alphaVol, limitBook[chapter][index1], limitBook[chapter][index1]);

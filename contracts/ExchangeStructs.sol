@@ -40,8 +40,9 @@ contract ExchangeStructs{
     bytes32 firstAddress2,
     bytes32 otherAddress1,
     bytes32 otherAddress2,
-    // ether / other volumes
+    // alpha volume and rate of exchange
     uint mimRate,
-    uint ethVol
+    uint alphaVol,
+    address broadcastAddress
   );
 }
