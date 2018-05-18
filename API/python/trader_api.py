@@ -1,4 +1,4 @@
-### Trader API for local use
+### Trader API
 from shared import *
 
 # buyAlpha is if the order is buying the alpha currency in the pair
@@ -9,9 +9,8 @@ from shared import *
 # firstAddress is your address on alpha chain
 # otherAddress is your address on beta chain
 # trading_pair is the trading pair
-def placeOrder(buyAlpha, volume, minVolume, limit,
-                  ethAddress, firstAddress,
-                  otherAddress, trading_pair):
+def placeOrder(exchange, buyAlpha, volume, minVolume, limit,
+                  ethAddress, firstAddress, otherAddress, trading_pair):
     # returns true if order successful, otherwise false
     return
 
@@ -23,7 +22,7 @@ def placeOrder(buyAlpha, volume, minVolume, limit,
 # trading_pair is the trading pair
 # index is the index of the order you would like to match with
 # nonce is the cryptographic nonce used for difficulty
-def placeTakeOrder(buyAlpha, volume, ethAddress, firstAddress, otherAddress,
-                    trading_pair, index, nonce):
+def placeTakeOrder(exchange, buyAlpha, volume, ethAddress, firstAddress,
+                    otherAddress, trading_pair, index, nonce):
     # returns true if order successful, otherwise false
     return
