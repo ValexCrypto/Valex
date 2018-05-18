@@ -37,9 +37,3 @@ def getOrderBook(exchange, trading_pair):
     #    min_volume (integer) is the minimum volume in alpha (times 10^18)
     #    limit is the limit price for the sale in (alpha / beta times 10^18)
     return exchange.getOrderChapter(trading_pair)
-
-# For local setup (with ganache-cli -m)
-w3 = setUpW3(Network.LOCAL)
-Exchange = setUpExchange(w3)
-exchangeAddress = "0x56f7dc1cc938d6d6575b68d70d381f9c28c8c7b7"
-exchange = connectToExchange(Exchange, exchangeAddress)
