@@ -322,16 +322,25 @@ contract Exchange is ExchangeStructs {
   {
     address broadcastAddress = new Broadcast(ethAddressBook[chapter][index1],
                                               ethAddressBook[chapter][index2]);
-    TradeInfo(
-      ethAddressBook[chapter][index1], //ethAddress1,
-      ethAddressBook[chapter][index2], //ethAddress2,
-      firstAddressBook[chapter][index1], //firstAddress1,
-      firstAddressBook[chapter][index2], //firstAddress2,
-      secondAddressBook[chapter][index1], //otherAddress1,
-      secondAddressBook[chapter][index2], // otherAddress2,
-      mimRate,
-      alphaVol,
-      broadcastAddress
+    ethAddressBook[chapter][index1].call.gas(0).value(0)(
+      TradeInfo(
+        ethAddressBook[chapter][index2], // counterEthAddress,
+        firstAddressBook[chapter][index2], // counterFirstAddress,
+        secondAddressBook[chapter][index2], // counterSecondAddress,
+        mimRate,
+        alphaVol,
+        broadcastAddress
+      )
+    );
+    ethAddressBook[chapter][index2].call.gas(0).value(0)(
+      TradeInfo(
+        ethAddressBook[chapter][index1], // counterEthAddress,
+        firstAddressBook[chapter][index1], // counterFirstAddress,
+        secondAddressBook[chapter][index1], // counterSecondAddress,
+        mimRate,
+        alphaVol,
+        broadcastAddress
+      )
     );
   }
 
@@ -478,16 +487,25 @@ contract Exchange is ExchangeStructs {
     alphaVol = volume;
     address broadcastAddress = new Broadcast(ethAddress,
                                               ethAddressBook[chapter][index1]);
-    TradeInfo(
-      ethAddress, //ethAddress1,
-      ethAddressBook[chapter][index1], //ethAddress2,
-      firstAddress, //firstAddress1,
-      firstAddressBook[chapter][index1], //firstAddress2,
-      otherAddress, //otherAddress1,
-      secondAddressBook[chapter][index1], // otherAddress2,
-      limitBook[chapter][index1],
-      alphaVol,
-      broadcastAddress
+    ethAddress.call.gas(0).value(0)(
+      TradeInfo(
+        ethAddressBook[chapter][index1], // counterEthAddress,
+        firstAddressBook[chapter][index1], // counterFirstAddress,
+        secondAddressBook[chapter][index1], // counterSecondAddress,
+        limitBook[chapter][index1],
+        alphaVol,
+        broadcastAddress
+      )
+    );
+    ethAddressBook[chapter][index1].call.gas(0).value(0)(
+      TradeInfo(
+        ethAddress, // counterEthAddress,
+        firstAddress, // counterFirstAddress,
+        otherAddress, // counterSecondAddress,
+        limitBook[chapter][index1],
+        alphaVol,
+        broadcastAddress
+      )
     );
     return(alphaVol);
   }
@@ -502,16 +520,25 @@ contract Exchange is ExchangeStructs {
     require(alphaVol <= volBook[chapter][index1]);
     address broadcastAddress = new Broadcast(ethAddressBook[chapter][index1],
                                               ethAddress);
-    TradeInfo(
-      ethAddressBook[chapter][index1], //ethAddress1,
-      ethAddress, //ethAddress2,
-      firstAddressBook[chapter][index1], //firstAddress1,
-      firstAddress, //firstAddress2,
-      secondAddressBook[chapter][index1], //otherAddress1,
-      otherAddress, // otherAddress2,
-      limitBook[chapter][index1],
-      alphaVol,
-      broadcastAddress
+    ethAddressBook[chapter][index1].call.gas(0).value(0)(
+      TradeInfo(
+        ethAddress, // counterEthAddress,
+        firstAddress, // counterFirstAddress,
+        otherAddress, // counterSecondAddress,
+        limitBook[chapter][index1],
+        alphaVol,
+        broadcastAddress
+      )
+    );
+    ethAddress.call.gas(0).value(0)(
+      TradeInfo(
+        ethAddressBook[chapter][index1], // counterEthAddress,
+        firstAddressBook[chapter][index1], // counterFirstAddress,
+        secondAddressBook[chapter][index1], // counterSecondAddress,
+        limitBook[chapter][index1],
+        alphaVol,
+        broadcastAddress
+      )
     );
     return(alphaVol);
   }

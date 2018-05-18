@@ -26,23 +26,13 @@ contract ExchangeStructs{
     uint limit;
   }
 
-  // stores address info on people placing orders (private information)
-  struct AddressInfo {
-    address ethAddress;
-    bytes32 firstAddress;
-    bytes32 otherAddress;
-  }
-
-  event TradeInfo(
-    address ethAddress1,
-    address ethAddress2,
-    bytes32 firstAddress1,
-    bytes32 firstAddress2,
-    bytes32 otherAddress1,
-    bytes32 otherAddress2,
+  struct TradeInfo {
+    address counterEthAddress;
+    bytes32 counterFirstAddress;
+    bytes32 counterSecondAddress;
     // alpha volume and rate of exchange
-    uint mimRate,
-    uint alphaVol,
-    address broadcastAddress
-  );
+    uint mimRate;
+    uint alphaVol;
+    address broadcastAddress;
+  }
 }

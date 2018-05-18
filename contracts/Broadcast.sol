@@ -22,12 +22,11 @@ contract Broadcast{
     participant = _participant;
   }
 
-  event SwapInfo(
-    address _participant,
-    bytes32 _encSecretHash,
-    bytes32 _contractCode,
-    bytes32 _contractTransaction
-  );
+  struct SwapInfo {
+    bytes32 _encSecretHash;
+    bytes32 _contractCode;
+    bytes32 _contractTransaction;
+  }
 
   function pushSwapInfo(bytes32 _encSecretHash, bytes32 _contractCode,
                         bytes32 _contractTransaction)
@@ -37,6 +36,8 @@ contract Broadcast{
     encSecretHash = _encSecretHash;
     contractCode = _contractCode;
     contractTransaction = _contractTransaction;
-    SwapInfo(participant, encSecretHash, contractCode, contractTransaction);
+    participant.call.gas(0).value(0)(
+      SwapInfo(encSecretHash, contractCode, contractTransaction)
+    );
   }
 }
