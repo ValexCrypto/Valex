@@ -285,7 +285,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 105,
+                              "referencedDeclaration": 2584,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -326,7 +326,7 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 102,
+                                      "referencedDeclaration": 2581,
                                       "type": "msg",
                                       "value": "msg"
                                     },
@@ -1269,5 +1269,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2018-05-18T19:36:04.619Z"
+  "updatedAt": "2018-05-18T23:41:00.230Z"
 }

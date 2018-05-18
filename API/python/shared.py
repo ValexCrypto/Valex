@@ -3,8 +3,7 @@ from enum import Enum
 from web3 import Web3, HTTPProvider, TestRPCProvider
 
 class TradingPair(Enum):
-    NONE = 0
-    ETH_BTC = 1
+    ETH_BTC = 0
 
 class Network(Enum):
     LOCAL = 0
@@ -39,7 +38,8 @@ def getOrderBook(exchange, trading_pair):
     #    limit is the limit price for the sale in (alpha / beta times 10^18)
     return exchange.getOrderChapter(trading_pair)
 
+# For local setup (with ganache-cli -m)
 w3 = setUpW3(Network.LOCAL)
 Exchange = setUpExchange(w3)
-exchangeAddress = None
+exchangeAddress = "0x56f7dc1cc938d6d6575b68d70d381f9c28c8c7b7"
 exchange = connectToExchange(Exchange, exchangeAddress)

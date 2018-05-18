@@ -10,7 +10,7 @@ Current version of Exchange contract can be found on Rinkeby at: `0x609780719a27
 Open a terminal window in the Valex folder. Run:
 
 ```
-ganache-cli
+ganache-cli -m
 ```
 
 Open another window. Run:
@@ -41,7 +41,7 @@ truffle migrate --network rinkeby --reset
 Open a terminal window in the Valex folder. Run:
 
 ```
-ganache-cli
+ganache-cli -m
 ```
 
 Open another window. Run:
