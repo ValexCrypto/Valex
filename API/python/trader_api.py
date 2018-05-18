@@ -11,7 +11,8 @@ from shared import *
 # trading_pair is the trading pair
 def placeOrder(exchange, buyAlpha, volume, minVolume, limit,
                   ethAddress, firstAddress, otherAddress, trading_pair):
-    # returns true if order successful, otherwise false
+    exchange.placeOrder(buyAlpha, volume, minVolume, limit, ethAddress,
+                        firstAddress, otherAddress, trading_pair)
     return
 
 # buyAlpha is if the order is buying the alpha currency in the pair
@@ -24,5 +25,6 @@ def placeOrder(exchange, buyAlpha, volume, minVolume, limit,
 # nonce is the cryptographic nonce used for difficulty
 def placeTakeOrder(exchange, buyAlpha, volume, ethAddress, firstAddress,
                     otherAddress, trading_pair, index, nonce):
-    # returns true if order successful, otherwise false
+    exchange.placeTakeOrder(buyAlpha, volume, ethAddress, firstAddress,
+                            otherAddress, trading_pair, index, nonce)
     return

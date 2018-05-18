@@ -16,4 +16,6 @@ def getAddressEntry(exchange, trading_pair, order_number):
 # nonce is the cryptographic nonce used for difficulty
 def giveMatch(exchange, deposit_address, trading_pair, buy_index,
                 sell_index, nonce):
+    exchange.giveMatch(deposit_address, trading_pair, buy_index,
+                        sell_index, nonce)
     return
