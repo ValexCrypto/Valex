@@ -4,7 +4,7 @@ contract Broadcast{
   address initiator;
   address participant;
   // Secret hash encrypted with participant's pubkey
-  bytes32 encSecretHash;
+  bytes32 secretHash;
   // Contract and contract transaction
   bytes32 contractCode;
   bytes32 contractTransaction;
@@ -23,21 +23,21 @@ contract Broadcast{
   }
 
   struct SwapInfo {
-    bytes32 _encSecretHash;
+    bytes32 _secretHash;
     bytes32 _contractCode;
     bytes32 _contractTransaction;
   }
 
-  function pushSwapInfo(bytes32 _encSecretHash, bytes32 _contractCode,
+  function pushSwapInfo(bytes32 _secretHash, bytes32 _contractCode,
                         bytes32 _contractTransaction)
     public
     onlyBy(initiator)
   {
-    encSecretHash = _encSecretHash;
+    secretHash = _secretHash;
     contractCode = _contractCode;
     contractTransaction = _contractTransaction;
     participant.call.gas(0).value(0)(
-      SwapInfo(encSecretHash, contractCode, contractTransaction)
+      SwapInfo(secretHash, contractCode, contractTransaction)
     );
   }
 }
