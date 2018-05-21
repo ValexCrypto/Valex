@@ -2,7 +2,7 @@
 
 ## Dependencies
 
-At this time, the only dependency is web3.py (https://github.com/ethereum/web3.py. web3.py only works with Python 3.
+At this time, the only dependency is web3.py. This system requires Python 3.4+.
 
 ## Setup
 
