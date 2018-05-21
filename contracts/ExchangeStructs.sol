@@ -33,6 +33,5 @@ contract ExchangeStructs{
     // alpha volume and rate of exchange
     uint mimRate;
     uint alphaVol;
-    address broadcastAddress;
   }
 }

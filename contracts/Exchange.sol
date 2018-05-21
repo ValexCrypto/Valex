@@ -2,7 +2,6 @@ pragma solidity ^0.4.18;
 
 import 'zeppelin-solidity/contracts/math/SafeMath.sol';
 import './ExchangeStructs.sol';
-import './Broadcast.sol';
 /// @title Exchange
 /// @author Karim Helmy
 
@@ -320,16 +319,13 @@ contract Exchange is ExchangeStructs {
   function alertTraders(uint chapter, uint index1, uint index2, uint mimRate, uint alphaVol)
     private
   {
-    address broadcastAddress = new Broadcast(ethAddressBook[chapter][index1],
-                                              ethAddressBook[chapter][index2]);
     ethAddressBook[chapter][index1].call.gas(0).value(0)(
       TradeInfo(
         ethAddressBook[chapter][index2], // counterEthAddress,
         firstAddressBook[chapter][index2], // counterFirstAddress,
         secondAddressBook[chapter][index2], // counterSecondAddress,
         mimRate,
-        alphaVol,
-        broadcastAddress
+        alphaVol
       )
     );
     ethAddressBook[chapter][index2].call.gas(0).value(0)(
@@ -338,8 +334,7 @@ contract Exchange is ExchangeStructs {
         firstAddressBook[chapter][index1], // counterFirstAddress,
         secondAddressBook[chapter][index1], // counterSecondAddress,
         mimRate,
-        alphaVol,
-        broadcastAddress
+        alphaVol
       )
     );
   }
@@ -485,16 +480,13 @@ contract Exchange is ExchangeStructs {
     require(volume <= volBook[chapter][index1] *
             limitBook[chapter][index1] / PRECISION);
     alphaVol = volume;
-    address broadcastAddress = new Broadcast(ethAddress,
-                                              ethAddressBook[chapter][index1]);
     ethAddress.call.gas(0).value(0)(
       TradeInfo(
         ethAddressBook[chapter][index1], // counterEthAddress,
         firstAddressBook[chapter][index1], // counterFirstAddress,
         secondAddressBook[chapter][index1], // counterSecondAddress,
         limitBook[chapter][index1],
-        alphaVol,
-        broadcastAddress
+        alphaVol
       )
     );
     ethAddressBook[chapter][index1].call.gas(0).value(0)(
@@ -503,8 +495,7 @@ contract Exchange is ExchangeStructs {
         firstAddress, // counterFirstAddress,
         otherAddress, // counterSecondAddress,
         limitBook[chapter][index1],
-        alphaVol,
-        broadcastAddress
+        alphaVol
       )
     );
     return(alphaVol);
@@ -518,16 +509,13 @@ contract Exchange is ExchangeStructs {
     alphaVol = volume * limitBook[chapter][index1] /  PRECISION;
     require(alphaVol >= minVolBook[chapter][index1]);
     require(alphaVol <= volBook[chapter][index1]);
-    address broadcastAddress = new Broadcast(ethAddressBook[chapter][index1],
-                                              ethAddress);
     ethAddressBook[chapter][index1].call.gas(0).value(0)(
       TradeInfo(
         ethAddress, // counterEthAddress,
         firstAddress, // counterFirstAddress,
         otherAddress, // counterSecondAddress,
         limitBook[chapter][index1],
-        alphaVol,
-        broadcastAddress
+        alphaVol
       )
     );
     ethAddress.call.gas(0).value(0)(
@@ -536,8 +524,7 @@ contract Exchange is ExchangeStructs {
         firstAddressBook[chapter][index1], // counterFirstAddress,
         secondAddressBook[chapter][index1], // counterSecondAddress,
         limitBook[chapter][index1],
-        alphaVol,
-        broadcastAddress
+        alphaVol
       )
     );
     return(alphaVol);
