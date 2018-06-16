@@ -20,7 +20,7 @@ from decimal import *
 
 def placeOrder(buyAlpha, volume, minVolume, limit, ethAddress, firstAddress,
                 otherAddress, trading_pair,
-                alpha_addr, alpha_pass, beta_addr, beta_pass):
+                alpha_acc, alpha_pass, beta_acc, beta_pass):
     placeOrder_back(exchange, buyAlpha, volume, minVolume, limit,
                     ethAddress, firstAddress, otherAddress, trading_pair)
     filled = False
@@ -29,40 +29,40 @@ def placeOrder(buyAlpha, volume, minVolume, limit, ethAddress, firstAddress,
         filled, tradeInfoRaw = checkMessage(exchangeAddress, ethAddress)
     tradeInfo = processInfo(tradeInfoRaw)
     if buyAlpha: return initiatorSequence(ethAddress, tradeInfo,
-                                            alpha_addr, alpha_pass, beta_addr,
+                                            alpha_acc, alpha_pass, beta_acc,
                                             beta_pass)
     else: return participantSequence(ethAddress, tradeInfo,
-                                        alpha_addr, alpha_pass, beta_addr,
+                                        alpha_acc, alpha_pass, beta_acc,
                                         beta_pass)
     return
 
-def initiatorSequence(ethAddress, tradeInfo, alpha_addr, alpha_pass,
-                        beta_addr, beta_pass):
+def initiatorSequence(ethAddress, tradeInfo, alpha_acc, alpha_pass,
+                        beta_acc, beta_pass):
     sec_key = hex(secrets.randbelow(rand_cap))
     sec_hash = hashlib.sha256(bytes(sec_key, "utf8"))
     counterEthAddress = tradeInfo[0]
     initInfo = initiateAlpha(ethAddress, trading_pair, tradeInfo, sec_hash,
-                                alpha_addr, alpha_pass)
+                                alpha_acc, alpha_pass)
     contInfoRaw = awaitMessage(counterEthAddress, ethAddress)
-    contInfo = processInfo(messageInfoRaw)
+    contInfo = processInfo(contInfoRaw)
     # TODO: message the participant with secretHash, alphaContractCode, alphaContractTX
-    initiateBeta(ethAddress, trading_pair, tradeInfo, initInfo, contInfo,
-                    beta_addr, beta_pass)
+    initiateBeta(ethAddress, trading_pair, tradeInfo, sec_key, contInfo,
+                    beta_acc, beta_pass)
     # TODO: message the participant with secret
     return
 
-def participantSequence(ethAddress, tradeInfo, alpha_addr, alpha_pass,
-                        beta_addr, beta_pass):
+def participantSequence(ethAddress, tradeInfo, alpha_acc, alpha_pass,
+                        beta_acc, beta_pass):
     counterEthAddress = tradeInfo[0]
     initInfoRaw = awaitMessage(counterEthAddress, ethAddress)
     initInfo = processInfo(messageInfoRaw)
     contInfo = participateBeta(ethAddress, trading_pair, tradeInfo, messageInfo,
-                                beta_addr, beta_pass)
+                                beta_acc, beta_pass)
     # TODO: message the initiator with betaContractCode, betaContractTX
-    secretRaw = awaitMessage(counterEthAddress, ethAddress)
-    secret = processInfo(messageInfoRaw)[0]
-    participateAlpha(ethAddress, trading_pair, tradeInfo, messageInfo, secret,
-                        alpha_addr, alpha_pass)
+    sec_key_raw = awaitMessage(counterEthAddress, ethAddress)
+    sec_key = processInfo(sec_key_raw)[0]
+    participateAlpha(ethAddress, trading_pair, tradeInfo, messageInfo, sec_key,
+                        alpha_acc, alpha_pass)
     return
 
 def checkMessage(fromAddress, toAddress):
@@ -97,43 +97,54 @@ def calcSwapVol(tradeInfo, currency, alpha):
 
 # TODO: Post transaction with the required atomic info to alpha blockchain
 def initiateAlpha(ethAddress, trading_pair, tradeInfo, sec_hash,
-                    alpha_addr, alpha_pass):
+                    alpha_acc, alpha_pass):
     alpha_currency = tp_mappings[trading_pair][0]
-    messageInfo = None
     cmd = []
     # Default refundTime is 48 hours (60 * 60 * 48)
     refundTime = 60 * 60 * 48
     vol = calcSwapVol(tradeInfo, alpha_currency, True)
     if alpha_currency = Currencies.ETH:
         cmd = ["ethatomicswap initiate " + refundTime + " " + sec_hash +
-                " " + tradeInfo[1], alpha_pass, "y"]
+                " " + tradeInfo[1], "y"]
     else:
         return False
-    messageInfo_raw = subprocess.check_output(cmd)
-    # TODO: Extract relevant message info, return
-    return messageInfo
+    initInfo_raw = subprocess.check_output(cmd)
+    # TODO: Extract relevant init info, return
+    initInfo = None
+    return initInfo
+
+# TODO: Run audit sequence
+def passesAudit():
+    return
 
 # TODO: Redeem transaction on beta blockchain
-def initiateBeta(ethAddress, trading_pair, tradeInfo, messageInfo,
-                    beta_addr, beta_pass):
+def initiateBeta(ethAddress, trading_pair, tradeInfo, sec_key, contInfo,
+                    beta_acc, beta_pass):
     beta_currency = tp_mappings[trading_pair][1]
-    # messageInfo = None
+    # TODO: include arguments to passesAudit
+    if not passesAudit():
+        return False
     cmd = []
     if beta_currency = Currencies.BTC:
-        #cmd =
-        pass
+        cmd = ["btcatomicswap redeem --rpcuser=" + beta_acc + " rpcpass=" +
+                beta_pass + " " + contInfo[0] + " " + contInfo[1] + " " +
+                sec_key, "y"]
     elif beta_currency = Currencies.BCH:
-        pass
+        cmd = ["bchatomicswap redeem --rpcuser=" + beta_acc + " rpcpass=" +
+                beta_pass + " " + contInfo[0] + " " + contInfo[1] + " " +
+                sec_key, "y"]
     elif beta_currency = Currencies.LTC:
-        pass
+        cmd = ["ltcatomicswap redeem --rpcuser=" + beta_acc + " rpcpass=" +
+                beta_pass + " " + contInfo[0] + " " + contInfo[1] + " " +
+                sec_key, "y"]
     else:
         return False
     subprocess.check_output(cmd)
     return True
 
 # TODO: Redeem transaction on alpha blockchain
-def participateAlpha(ethAddress, trading_pair, tradeInfo, messageInfo,
-                        alpha_addr, alpha_pass):
+def participateAlpha(ethAddress, trading_pair, tradeInfo, initInfo,
+                        alpha_acc, alpha_pass):
     alpha_currency = tp_mappings[trading_pair][0]
     if alpha_currency = Currencies.ETH:
         #cmd =
@@ -143,16 +154,28 @@ def participateAlpha(ethAddress, trading_pair, tradeInfo, messageInfo,
     return True
 
 # TODO: Post transaction with the required atomic info to beta blockchain
-def participateBeta(ethAddress, trading_pair, tradeInfo, messageInfo,
-                    beta_addr, beta_pass):
+def participateBeta(ethAddress, trading_pair, tradeInfo, initInfo,
+                    beta_acc, beta_pass):
     beta_currency = tp_mappings[trading_pair][1]
+    vol = calcSwapVol(tradeInfo, beta_currency, False)
+    # TODO: include arguments to passesAudit
+    if not passesAudit():
+        return False
     if beta_currency = Currencies.BTC:
-        #cmd =
-        pass
+        cmd = ["btcatomicswap participate --rpcuser=" + beta_acc +
+                " --rpcpass=" + beta_pass + " " + tradeInfo[2] + " " + vol +
+                " " + sec_hash, "y"]
     elif beta_currency = Currencies.BCH:
-        pass
+        cmd = ["btcatomicswap participate --rpcuser=" + beta_acc +
+                " --rpcpass=" + beta_pass + " " + tradeInfo[2] + " " + vol +
+                " " + sec_hash, "y"]
     elif beta_currency = Currencies.LTC:
-        pass
+        cmd = ["ltcatomicswap participate --rpcuser=" + beta_acc +
+                " --rpcpass=" + beta_pass + " " + tradeInfo[2] + " " + vol +
+                " " + sec_hash, "y"]
     else:
         return False
-    return True
+    contInfo_raw = subprocess.check_output(cmd)
+    # TODO: Extract relevant cont info, return
+    contInfo = None
+    return contInfo
