@@ -46,24 +46,26 @@ def initiatorSequence(ethAddress, tradeInfo, alpha_acc, alpha_pass,
     contInfoRaw = awaitMessage(counterEthAddress, ethAddress)
     contInfo = processInfo(contInfoRaw)
     # TODO: message the participant with secretHash, alphaContractCode, alphaContractTX
-    initiateBeta(ethAddress, trading_pair, tradeInfo, sec_key, contInfo,
-                    beta_acc, beta_pass)
+    if not initiateBeta(ethAddress, trading_pair, tradeInfo, sec_key, contInfo,
+                    beta_acc, beta_pass):
+        return False
     # TODO: message the participant with secret
-    return
+    return True
 
 def participantSequence(ethAddress, tradeInfo, alpha_acc, alpha_pass,
                         beta_acc, beta_pass):
     counterEthAddress = tradeInfo[0]
     initInfoRaw = awaitMessage(counterEthAddress, ethAddress)
-    initInfo = processInfo(messageInfoRaw)
-    contInfo = participateBeta(ethAddress, trading_pair, tradeInfo, messageInfo,
+    initInfo = processInfo(initInfoRaw)
+    contInfo = participateBeta(ethAddress, trading_pair, tradeInfo, initInfo,
                                 beta_acc, beta_pass)
+    if not contInfo:
+        return False
     # TODO: message the initiator with betaContractCode, betaContractTX
     sec_key_raw = awaitMessage(counterEthAddress, ethAddress)
     sec_key = processInfo(sec_key_raw)[0]
-    participateAlpha(ethAddress, trading_pair, tradeInfo, messageInfo, sec_key,
-                        alpha_acc, alpha_pass)
-    return
+    return participateAlpha(ethAddress, trading_pair, tradeInfo, initInfo,
+                            sec_key, alpha_acc, alpha_pass)
 
 def checkMessage(fromAddress, toAddress):
     block = eth.getBlock("latest")
@@ -143,12 +145,11 @@ def initiateBeta(ethAddress, trading_pair, tradeInfo, sec_key, contInfo,
     return True
 
 # TODO: Redeem transaction on alpha blockchain
-def participateAlpha(ethAddress, trading_pair, tradeInfo, initInfo,
+def participateAlpha(ethAddress, trading_pair, tradeInfo, initInfo, sec_key,
                         alpha_acc, alpha_pass):
     alpha_currency = tp_mappings[trading_pair][0]
     if alpha_currency = Currencies.ETH:
-        #cmd =
-        pass
+        cmd = ["ethatomicswap redeem " + sec_key + " " + initInfo[0], "y"]
     else:
         return False
     return True
