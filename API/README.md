@@ -2,7 +2,7 @@
 
 ## Dependencies
 
-At this time, the only dependency is web3.py. This system requires Python 3.4+.
+This system requires Python 3.4+. [web3.py](https://github.com/ethereum/web3.py), [atomicswap](https://github.com/ValexCrypto/atomicswap) is a dependency for both the miner and trader APIs, and [ethatomicswap](https://github.com/ValexCrypto/ethatomicswap) are dependencies for the trader API.
 
 ## Setup
 

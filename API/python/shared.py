@@ -2,8 +2,30 @@
 from enum import Enum
 from web3 import Web3, HTTPProvider, TestRPCProvider
 
+EXCHANGE_PRECISION = 10e18
+
 class TradingPair(Enum):
     ETH_BTC = 0
+    ETH_BCH = 1
+    ETH_LTC = 2
+
+class Currencies(Enum):
+    ETH = 0
+    BTC = 1
+    BCH = 2
+    LTC = 3
+
+tp_mappings = {
+    TradingPair.ETH_BTC : (Currencies.ETH, Currencies.BTC),
+    TradingPair.ETH_BCH : (Currencies.ETH, Currencies.BCH),
+    TradingPair.ETH_ETC : (Currencies.ETH, Currencies.ETC)
+}
+
+precisions = {
+    Currencies.ETH : 1e18,
+    Currencies.BCH : 1e8,
+    Currencies.LTC : 1e8,
+}
 
 class Network(Enum):
     LOCAL = 0
